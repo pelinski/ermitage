@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { withAuthentication } from "./lib/protectRoute.hoc"
+import { withAuthentication } from "./lib/withAuthentication"
 
 import './App.css';
 
