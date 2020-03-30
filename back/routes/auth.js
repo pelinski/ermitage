@@ -49,15 +49,15 @@ router.post("/signup", async (req, res, next) => {
         });
 
         try {
-            return req.logIn(newUser, err => {
+            req.logIn(newUser, err => {
                 res.status(200).json({ success: true, message: `Created user '${username}'` });
             });
         } catch  {
-            return res.status(400).json(errorMsg);
+            res.status(400).json(errorMsg);
         };
 
     } else {
-        return res.status(401).json({ success: false, message: "Password is not secure enough" });
+        res.status(401).json({ success: false, message: "Password is not secure enough" });
     }
 });
 
@@ -65,7 +65,7 @@ router.post("/signup", async (req, res, next) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err) {
-            return next(err); // will generate a 500 error
+            next(err); // will generate a 500 error
         }
         if (!user) {
             return res.status(401).json({ success: false, message: 'Authentication failed' });
@@ -73,7 +73,7 @@ router.post('/login', (req, res, next) => {
 
         req.login(user, loginErr => {
             if (loginErr) {
-                return next(loginErr);
+                next(loginErr);
             }
             return res.status(200).json({ success: true, message: 'Authentication succeeded' });
         });
@@ -85,9 +85,9 @@ router.post('/login', (req, res, next) => {
 router.post("/logout", (req, res) => {
     if (req.user) {
         req.logout();
-        return res.status(200).json({ success: true, message: "Logged out" })
+        res.status(200).json({ success: true, message: "Logged out" })
     } else {
-        return res.status(401).json({ success: false, message: "You have to be logged in to logout" })
+        res.status(401).json({ success: false, message: "You have to be logged in to logout" })
     }
 });
 
@@ -112,10 +112,10 @@ router.post("/update", async (req, res) => {
         loggedUser.displayName = displayName;
         loggedUser.password = hashPassword(password);
         await loggedUser.save();
-        return res.status(200).json(({ success: true, message: 'User updated' }))
+        res.status(200).json(({ success: true, message: 'User updated' }))
     }
     catch {
-        return res.status(400).json(errorMsg)
+        res.status(400).json(errorMsg)
     }
 })
 
@@ -123,13 +123,13 @@ router.post("/update", async (req, res) => {
 router.get("/loggedin", (req, res) => {
     try {
         if (req.user) {
-            return res.status(200).json({ success: true, message: `${req.user.username} is logged in` })
+            res.status(200).json({ success: true, message: `${req.user.username} is logged in` })
         }
         else {
-            return res.status(200).json({ succes: true, message: "No user logged in." })
+            res.status(200).json({ succes: true, message: "No user logged in." })
         }
     } catch {
-        return res.status(400).json(errorMsg)
+        res.status(400).json(errorMsg)
     }
 })
 
