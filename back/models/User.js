@@ -11,6 +11,7 @@ const userSchema = new Schema({
   timestamps: true
 });
 
+/*
 const defaultPicture =
   "https://ugc.kn3.net/i/760x/http://hotbeans.files.wordpress.com/2008/04/mustache-_0006_ned-flanders.jpg";
 userSchema.virtual("profilepic").get(function () {
@@ -37,6 +38,6 @@ userSchema.virtual("profilepic").get(function () {
   // Place the root bar if we are serving the file from our express server
   return pic.startsWith("http") ? pic : `/${pic}`;
 });
-
+*/
 const User = mongoose.model("User", userSchema);
 module.exports = User;
