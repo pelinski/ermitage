@@ -8,3 +8,7 @@ npm-debug.log
 .env
 
 yarn-error.log
+
+.cache
+.dist
+.DS_store
