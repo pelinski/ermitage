@@ -10,5 +10,5 @@ npm-debug.log
 yarn-error.log
 
 .cache
-.dist
+dist
 .DS_store
