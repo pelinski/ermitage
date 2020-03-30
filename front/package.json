@@ -1,0 +1,19 @@
+{
+  "name": "ermitage-front",
+  "version": "1.0.0",
+  "description": "The place to collect what inspires you.",
+  "main": "index.js",
+  "repository": "https://github.com/pelinski/ermitage",
+  "author": "Teresa Pelinski",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "parcel": "^1.12.4",
+    "react": ">=15",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2"
+  },
+  "scripts": {
+    "start": "parcel index.html"
+  }
+}
