@@ -5,7 +5,7 @@ const passport = require("passport");
 const { hashPassword } = require("../lib/hashing");
 const User = require("../models/User");
 
-const errorMsg = { success: false, message: "Something went wrong" };
+const errorMsg = { message: "Something went wrong" };
 
 
 // SIGN UP
@@ -16,7 +16,7 @@ router.post("/signup", async (req, res, next) => {
     // All fields required
     if (!username || !password || !email) {
         return res.status(406).json({
-            success: false,
+
             message: "All fields are required"
         });
     };
@@ -31,7 +31,7 @@ router.post("/signup", async (req, res, next) => {
     // No duplicated emails
     const existingEmail = await User.findOne({ email });
     if (existingEmail !== null) {
-        return res.status(406).json({ success: false, message: "There is already an account linked to this email" });
+        return res.status(406).json({ message: "There is already an account linked to this email" });
     }
 
     // Secure passwords
@@ -50,14 +50,14 @@ router.post("/signup", async (req, res, next) => {
 
         try {
             req.logIn(newUser, err => {
-                res.status(200).json({ success: true, message: `Created user '${username}'` });
+                res.status(200).json({ message: `Created user '${username}'` });
             });
         } catch  {
             res.status(500).json(errorMsg);
         };
 
     } else {
-        res.status(406).json({ success: false, message: "Password is not secure enough" });
+        res.status(406).json({ message: "Password is not secure enough" });
     }
 });
 
@@ -68,14 +68,14 @@ router.post('/login', (req, res, next) => {
             next(err); // will generate a 500 error
         }
         if (!user) {
-            return res.status(401).json({ success: false, message: 'Authentication failed' });
+            return res.status(401).json({ message: 'Authentication failed' });
         }
 
         req.login(user, loginErr => {
             if (loginErr) {
                 next(loginErr);
             }
-            return res.status(200).json({ success: true, message: 'Authentication succeeded' });
+            return res.status(200).json({ message: 'Authentication succeeded' });
         });
     })(req, res, next);
 });
@@ -85,9 +85,9 @@ router.post('/login', (req, res, next) => {
 router.post("/logout", (req, res) => {
     if (req.user) {
         req.logout();
-        res.status(200).json({ success: true, message: "Logged out" })
+        res.status(200).json({ message: "Logged out" })
     } else {
-        res.status(401).json({ success: false, message: "You have to be logged in to logout" })
+        res.status(401).json({ message: "You have to be logged in to logout" })
     }
 });
 
@@ -112,7 +112,7 @@ router.post("/update", async (req, res) => {
         loggedUser.displayName = displayName;
         loggedUser.password = hashPassword(password);
         await loggedUser.save();
-        res.status(200).json(({ success: true, message: 'User updated' }))
+        res.status(200).json(({ message: 'User updated' }))
     }
     catch {
         res.status(400).json(errorMsg)
@@ -123,10 +123,10 @@ router.post("/update", async (req, res) => {
 router.get("/loggedin", (req, res) => {
     try {
         if (req.user) {
-            res.status(200).json({ success: true, message: `${req.user.username} is logged in` })
+            res.status(200).json({ message: `${req.user.username} is logged in` })
         }
         else {
-            res.status(200).json({ succes: true, message: "No user logged in." })
+            res.status(200).json({ message: "No user logged in." })
         }
     } catch {
         res.status(400).json(errorMsg)
