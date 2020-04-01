@@ -15,7 +15,7 @@ router.post("/signup", async (req, res, next) => {
 
     // All fields required
     if (!username || !password || !email) {
-        return res.status(400).json({
+        return res.status(406).json({
             success: false,
             message: "All fields are required"
         });
@@ -25,13 +25,13 @@ router.post("/signup", async (req, res, next) => {
     const user = await User.findOne({ username })
     if (user !== null) {
         console.log("username already exists")
-        return res.status(500).json({ message: "Sorry, this username already exists" });
+        return res.status(406).json({ message: "Sorry, this username already exists" });
     }
 
     // No duplicated emails
     const existingEmail = await User.findOne({ email });
     if (existingEmail !== null) {
-        return res.status(401).json({ success: false, message: "There is already an account linked to this email" });
+        return res.status(406).json({ success: false, message: "There is already an account linked to this email" });
     }
 
     // Secure passwords
@@ -53,11 +53,11 @@ router.post("/signup", async (req, res, next) => {
                 res.status(200).json({ success: true, message: `Created user '${username}'` });
             });
         } catch  {
-            res.status(400).json(errorMsg);
+            res.status(500).json(errorMsg);
         };
 
     } else {
-        res.status(401).json({ success: false, message: "Password is not secure enough" });
+        res.status(406).json({ success: false, message: "Password is not secure enough" });
     }
 });
 
