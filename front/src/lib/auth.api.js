@@ -36,38 +36,39 @@ const api = axios.create({
   withCredentials: true
 });
 
-export const doSignup = async (username, password) => {
+export const doSignup = async ({ username, password, email }) => {
   // Axios post a ruta /auth/signup en servidor
   // para crear un usuario en mongodb
   console.log(`Registrando usuario...`);
-  console.log(username, password);
-  const res = await api.post("/auth/signup", {
-    username,
-    password
-  });
-  console.log("Created User");
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await api.post("/auth/signup", {
+      username,
+      password,
+      email
+    });
+    return res;
+  }
+  catch (e) {
+    return e.response
+  }
+  //return res.data;
 };
 
-export const doLogin = async (username, password) => {
+export const doLogin = async ({ username, password }) => {
   console.log("Do Login");
   const res = await api.post("/auth/login", {
     username,
     password
   });
-  console.log(res.data);
-  return res.data;
+  return res;
 };
 
 export const doLogout = async () => {
   const res = await api.get("/auth/logout");
-  console.log(res.data);
-  return res.data;
+  return res;
 };
 
 export const whoami = async () => {
   const res = await api.get("/auth/whoami");
-  console.log(res.data);
-  return res.data;
+  return res;
 };

@@ -11,10 +11,10 @@ const errorMsg = { success: false, message: "Something went wrong" };
 // SIGN UP
 router.post("/signup", async (req, res, next) => {
 
-    const { username, password, email, displayName } = req.body;
+    const { username, password, email } = req.body;
 
     // All fields required
-    if (!username || !password || !email || !displayName) {
+    if (!username || !password || !email) {
         return res.status(400).json({
             success: false,
             message: "All fields are required"
@@ -24,7 +24,8 @@ router.post("/signup", async (req, res, next) => {
     // No duplicated usernames
     const user = await User.findOne({ username })
     if (user !== null) {
-        return res.status(401).json({ success: false, message: "Sorry, this username already exists" });
+        console.log("username already exists")
+        return res.status(500).json({ message: "Sorry, this username already exists" });
     }
 
     // No duplicated emails
@@ -45,7 +46,6 @@ router.post("/signup", async (req, res, next) => {
             username,
             password: hashPass,
             email,
-            displayName
         });
 
         try {
