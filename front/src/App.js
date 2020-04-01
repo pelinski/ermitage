@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { withAuthentication } from "./lib/withAuthentication"
 
-import './App.css';
+import './App.scss';
 
 import { Layout } from "./layouts/Layout"
 

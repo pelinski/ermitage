@@ -1,10 +1,10 @@
 import React from "react"
-import {Button} from "../components/Buttons"
+import {LinkButton} from "../components/Buttons"
 
 export const HomePage = () => (
 <>
 <h1>Эрмитаж</h1>
-<Button to="/signup">Sign up</Button>
-<Button to="/login">Login</Button>
+<LinkButton to="/signup">Sign up</LinkButton>
+<LinkButton to="/login">Login</LinkButton>
 
 </>);

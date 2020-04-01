@@ -1,1 +1,0 @@
-export const border = "2px solid black";

@@ -1,0 +1,18 @@
+$border: 2px solid black;
+
+* {
+    margin:0;
+    padding:0;
+    overflow:auto;
+}
+
+.content-box{
+    margin:0 50px 50px 50px;
+    height: 78%;
+    border: $border;
+    padding: 20px;
+  }
+
+input{
+    border: $border;
+}
