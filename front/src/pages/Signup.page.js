@@ -10,6 +10,7 @@ export const SignupPage = withRouter(({ history }) => {
     email: "",
     password: ""
   });
+
   const [error, setError] = useState("");
 
   const handleInputChange = e => {
@@ -32,6 +33,7 @@ export const SignupPage = withRouter(({ history }) => {
         setError(res.data.message)
       }
       else {
+        console.log(res.data.message);
         history.push("/")
       }
     })

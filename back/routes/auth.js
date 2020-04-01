@@ -43,13 +43,14 @@ router.post("/signup", async (req, res, next) => {
         const hashPass = hashPassword(password)
 
         const newUser = await User.create({
-            username,
+            username: username.toLowerCase(),
             password: hashPass,
             email,
         });
 
         try {
             req.logIn(newUser, err => {
+
                 res.status(200).json({ message: `Created user '${username}'` });
             });
         } catch  {
@@ -132,5 +133,12 @@ router.get("/loggedin", (req, res) => {
         res.status(400).json(errorMsg)
     }
 })
+
+// WHOAMI
+router.get("/whoami", (req, res, next) => {
+    if (req.user) return res.json(req.user);
+    else return res.status(401).json({ status: "No user session present" });
+});
+
 
 module.exports = router;

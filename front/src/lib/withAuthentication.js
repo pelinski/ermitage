@@ -14,11 +14,11 @@ export const withAuthentication = Component => () => {
     // Try to get the current logged in user from our backend
     whoami()
       .then(user => {
-        console.error(`Welcome again user ${user.username}`);
+        console.log(`Welcome again user ${user.data.username}`);
         setUser(user);
       })
       .catch(e => {
-        console.error("No user logged in ");
+        console.log("No user logged in ");
       })
       .finally(() => setLoading(false));
   }, []);
