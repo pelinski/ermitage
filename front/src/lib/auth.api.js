@@ -51,7 +51,6 @@ export const doSignup = async ({ username, password, email }) => {
   catch (e) {
     return e.response
   }
-  //return res.data;
 };
 
 export const doLogin = async ({ username, password }) => {
