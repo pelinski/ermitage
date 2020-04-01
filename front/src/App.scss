@@ -1,18 +1,43 @@
 $border: 2px solid black;
+$padding: 20px;
+$margin-content: 50px;
+$button-padding:5px 5px;
 
 * {
-    margin:0;
-    padding:0;
-    overflow:auto;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
 }
 
-.content-box{
-    margin:0 50px 50px 50px;
+.content-box {
+    margin: $margin-content;
+    margin-top:0;
     height: 78%;
     border: $border;
-    padding: 20px;
-  }
+    padding: $padding;
+}
 
-input{
+input {
+    border: $border;
+}
+
+header {
+    margin:0 $margin-content;
+    height: 3 * $padding;
+}
+
+nav {
+    border: $border;
+    border-bottom: 0;
+    align-self: flex-end;
+    padding:$button-padding;
+}
+
+button {
+    width: 100px;
+    padding: $button-padding;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
     border: $border;
 }

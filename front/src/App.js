@@ -11,7 +11,9 @@ import { SignupPage } from "./pages/Signup.page"
 import { LoginPage } from './pages/Login.page';
 
 
+
 export const App = withAuthentication(() => (
+
   <Router>
     <Layout>
       <Switch>
