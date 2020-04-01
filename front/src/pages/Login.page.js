@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { FormButton } from "../components/Buttons"
 import { Field } from "../components/Form"
 import { withRouter } from "react-router-dom";
-import { doLogin, whoami, UserContext } from "../lib/auth.api"
+import { doLogin, useUserSetter } from "../lib/auth.api"
 
 
 export const LoginPage = withRouter(({ history }) => {
@@ -10,6 +10,7 @@ export const LoginPage = withRouter(({ history }) => {
         username: "",
         password: ""
     });
+    const setUser = useUserSetter();
 
     const handleInputChange = e => {
         const value = e.target.value;
@@ -31,6 +32,7 @@ export const LoginPage = withRouter(({ history }) => {
                 setError(res.data.message)
             }
             else {
+                setUser(user);
                 console.log(res.data.message);
                 history.push("/");
             }

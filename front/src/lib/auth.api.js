@@ -20,10 +20,8 @@ export const useUserIsLoading = () => {
 
 export const useUserLogout = () => {
   const userState = useContext(UserContext);
-
-  // NOTE: This returned function is "handleLogout"
   return async () => {
-    console.log("log out!");
+    console.log("User is now logged out");
     // Remove user from React User State context
     userState.setUser(null);
     // Remove cookie from backend and frontend
@@ -63,7 +61,7 @@ export const doLogin = async ({ username, password }) => {
 };
 
 export const doLogout = async () => {
-  const res = await api.get("/auth/logout");
+  const res = await api.post("/auth/logout");
   return res;
 };
 

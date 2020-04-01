@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { FormButton } from "../components/Buttons"
 import { Field } from "../components/Form";
-import { doSignup } from "../lib/auth.api"
+import { doSignup, useUserSetter } from "../lib/auth.api"
 import { withRouter } from "react-router-dom";
 
 export const SignupPage = withRouter(({ history }) => {
@@ -18,6 +18,7 @@ export const SignupPage = withRouter(({ history }) => {
     const name = e.target.name;
     setData({ ...data, [name]: value });
   };
+  const setUser = useUserSetter();
 
   const example = {
     username: "kunderart",
@@ -33,6 +34,7 @@ export const SignupPage = withRouter(({ history }) => {
         setError(res.data.message)
       }
       else {
+        setUser(user)
         console.log(res.data.message);
         history.push("/")
       }

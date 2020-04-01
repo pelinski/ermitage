@@ -1,7 +1,7 @@
 $border: 2px solid black;
 $padding: 20px;
 $margin-content: 50px;
-$button-padding:5px 5px;
+$button-padding: 5px 5px;
 
 * {
     margin: 0;
@@ -11,7 +11,7 @@ $button-padding:5px 5px;
 
 .content-box {
     margin: $margin-content;
-    margin-top:0;
+    margin-top: 0;
     height: 78%;
     border: $border;
     padding: $padding;
@@ -22,15 +22,25 @@ input {
 }
 
 header {
-    margin:0 $margin-content;
+    margin: 0 $margin-content;
     height: 3 * $padding;
+    display: flex;
+    justify-content: space-between;
 }
 
 nav {
-    border: $border;
-    border-bottom: 0;
     align-self: flex-end;
-    padding:$button-padding;
+    display: flex;
+
+    span {
+        border: $border;
+        border-bottom: 0;
+        border-right: 0;
+        padding: $button-padding;
+    }
+    span:last-of-type {
+        border-right: $border;
+    }
 }
 
 button {
