@@ -13,9 +13,9 @@ export const withAuthentication = Component => () => {
 
     // Try to get the current logged in user from our backend
     whoami()
-      .then(user => {
-        console.log(`Welcome again user ${user.data.username}`);
-        setUser(user);
+      .then(res => {
+        console.log(`Welcome again user ${res.data.username}`);
+        setUser(res.data);
       })
       .catch(e => {
         console.log("No user logged in ");
