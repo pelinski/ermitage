@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { ObjectId } = Schema.Types;
 
-const userSchema = new Schema({
+const schema = new Schema({
   username: { type: String, required: true, lowercase: true },
   password: { type: String, required: true, lowercase: true },
   email: { type: String, required: true },
+  elements: [{ type: ObjectId, ref: 'Element' }],
   displayName: String,
   image: { type: Object }
 }, {
@@ -14,7 +16,7 @@ const userSchema = new Schema({
 /*
 const defaultPicture =
   "https://ugc.kn3.net/i/760x/http://hotbeans.files.wordpress.com/2008/04/mustache-_0006_ned-flanders.jpg";
-userSchema.virtual("profilepic").get(function () {
+schema.virtual("profilepic").get(function () {
   // Try to get as local path
   let pic = _.get(this, "picture.path");
   if (!pic) {
@@ -39,5 +41,4 @@ userSchema.virtual("profilepic").get(function () {
   return pic.startsWith("http") ? pic : `/${pic}`;
 });
 */
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+module.exports = mongoose.model("User", schema);
