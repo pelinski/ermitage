@@ -13,7 +13,7 @@ const Grid = ({folder}) => {
   const [layout, setLayout] = useState([]);
   const [changes,setChanges] = useState(true);
   useEffect(() => {
-    retrieveText().then(e => { 
+    retrieveText({folder}).then(e => { 
       setElements(e.data);
       setLayout(e.data.map(
         (e, i) => ({ i: i.toString(), x: i%gridProps.cols, y: 0, w: 1, h: 6, minH: 6 }))
@@ -47,6 +47,8 @@ const Grid = ({folder}) => {
   const handleEdit = (e) => {
     console.log("edit", e)
   }
+
+  //must store layout
   const onLayoutChange=(e) => {
     console.log("layoutchange",e)
     setLayout(e)

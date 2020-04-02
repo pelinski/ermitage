@@ -7,17 +7,16 @@ const api = axios.create({
 
 
 //must upload only to folder
-export const uploadText = async ({text}) => {
+export const uploadText = async ({text, folder}) => {
   console.log("UploadText");
-  const res = await api.post("/dashboard/upload/text", {text});
+  const res = await api.post("/dashboard/upload/text", {text,folder});
   return res;
 };
 
 
 //must retrieve only from folder
-export const retrieveText = async () => {
-  console.log("retrieve text");
-  const res =  await api.get("/dashboard");
+export const retrieveText = async ({folder}) => {
+  const res =  await api.get(`/dashboard/${folder}`);
   return res;
 }
 

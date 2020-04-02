@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
+
 const Element = require("../models/Element");
 const User = require("../models/User");
-const Folder = require("../models/Folder");
-
-
+const Folder = require("../models/Folder"); 
 
 
 // ELEMENTS 
@@ -13,11 +12,14 @@ const Folder = require("../models/Folder");
 //for now just text
 router.post("/upload/text", async (req, res, next) => {
   if (req.user) {
-    const { text } = req.body;
+    const { text,folder } = req.body;
+    
     if (typeof text == 'string') {
+      const folderForElement = await Folder.find({$and: [{user:req.user._id}, {folder}]})
       const newElement = await Element.create({
         type: "text",
         text: text,
+        folder: folderForElement[0]._id,
         user: req.user._id
       })
       await User.updateOne({ _id: req.user._id }, { $push: { elements: newElement._id } })
@@ -36,7 +38,9 @@ router.post("/upload/text", async (req, res, next) => {
 // Retrieve WITH PAGINATION
 router.get("/", async (req, res, next) => {
   //await Element.find().populate("user");
-  const obj = await Element.find({ user: req.user._id });
+  const {folder} = req.body;
+  const folderRef =  await Folder.find({$and: [{user:req.user._id}, {folder}]});
+  const obj = await Element.find({$and: [{user: req.user._id}, {folder:folderRef._id} ]});
   const arr = obj.map(e => _.pick(e, ["type", "text"]));
   return res.json(arr);
 
@@ -49,11 +53,11 @@ router.post("/create/folder", async (req, res, next) => {
   if (req.user) {
     const { layout, folder } = req.body;
     try {
-     const newFolder= await Folder.create({
+      const newFolder = await Folder.create({
         folder,
         user: req.user._id,
         layout,
-        path:`/${req.user.username}/${folder}`
+        path: `/${req.user.username}/${folder}`
       })
       await User.updateOne({ _id: req.user._id }, { $push: { folders: newFolder._id } });
       res.status(200).json({ message: `${folder} folder created` });
@@ -84,19 +88,36 @@ router.post("update/folder", async (req, res, next) => {
 
 })
 
-router.get("/folders", async(req,res,next) => {
-if (req.user) {
+router.get("/folders", async (req, res, next) => {
+  if (req.user) {
 
-  const folders = await Folder.find({user:req.user._id});
-  res.status(200).json(folders)
+    const folders = await Folder.find({ user: req.user._id });
+    res.status(200).json(folders)
 
-} else {
-  res.status(401).json({ message: "You must be logged in" })
-}
-
-
+  } else {
+    res.status(401).json({ message: "You must be logged in" })
+  }
 })
 
+
+
+
+//RETRIEVE CONTENT from A FOLDER
+router.get("/:folder", async (req, res, next) => {
+  
+  const {folder} =req.params;
+
+  if (req.user) {
+    const folderRef = await Folder.find({$and: [ { user: req.user._id}, {folder} ] });
+    
+    const elements = await Element.find({$and: [ {user: req.user._id}, {folder: folderRef[0]._id} ] });
+
+    res.status(200).json(elements)
+  } else {
+    res.status(401).json({ message: "You must be logged in" })
+  }
+}
+)
 
 
 

@@ -12,7 +12,7 @@ export const withProtected = (
 ) => props => {
   const user = useUser();
   const isUserLoading = useUserIsLoading();
-console.log("protect",{...{...props}})
+
   if (user) {
     // If we have a user, then render the component
     return <Component {...{...props}}/>;
