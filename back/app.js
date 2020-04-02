@@ -9,6 +9,7 @@ const MongoStore = require("connect-mongo")(session);
 const logger = require('morgan');
 const cors = require("cors");
 const path = require('path');
+const passport= require("passport")
 
 
 mongoose
@@ -57,6 +58,11 @@ app.use(
   })
 );
 require("./passport")(app);
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 

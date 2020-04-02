@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000"
+  baseURL: "http://localhost:3000",
+  withCredentials: true
 });
 
 export const uploadText = async ({ element }) => {
@@ -12,6 +13,6 @@ export const uploadText = async ({ element }) => {
 
 export const retrieveText = async () => {
   console.log("retrieve text");
-  const res =  await api.get();
+  const res =  await api.get("/elements");
   return res;
 }

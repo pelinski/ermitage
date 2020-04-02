@@ -13,7 +13,7 @@ const Grid = () => {
 
 
   useEffect(() => {
-    retrieveText().then(e => {setElements(e); console.log(e)} ) 
+    retrieveText().then(e => {setElements(e); console.log(e.data)} ) 
   }, [])
 
 
@@ -33,6 +33,7 @@ const Grid = () => {
   )
 
   const handleAdd = () => {
+    //must add them to database
     const newElement = { i: layout.length.toString(), x: (layout[layout.length - 1].x + 1) % gridProps.cols, y: 0, w: 1, h: 2, minH: 4 };
     console.log([...layout, newElement])
     setLayout([...layout, newElement])

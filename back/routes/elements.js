@@ -30,10 +30,11 @@ router.post("/upload/text", async (req, res, next) => {
 
 // Retrieve WITH PAGINATION
 router.get("/", async (req, res, next) => {
-  await Element.find().populate("user");
+  //await Element.find().populate("user");
   const obj = await Element.find({ user: req.user._id });
-  console.log(obj)
+  console.log(_.pick(obj,"text"));
   return res.json({ obj });
+
 });
 
 module.exports = router;
