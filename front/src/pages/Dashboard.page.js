@@ -1,81 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { withProtected } from "../lib/protectRoute.hoc"
-import "/node_modules/react-grid-layout/css/styles.css"
-import "/node_modules/react-resizable/css/styles.css"
+import { getFolders } from "../lib/dashboard.api";
+import {Link} from "react-router-dom"
 
-import GridLayout from 'react-grid-layout';
+const Page = () =>{ 
+  const [folders,setFolders] = useState([]);
 
-import { uploadText, retrieveText } from "../lib/dashboard.api"
-
-
-const Grid = () => {
-  const [elements, setElements] = useState([]);
-  const [layout, setLayout] = useState([]);
-  const [changes,setChanges] = useState(true);
-
-
-  useEffect(() => {
-    retrieveText().then(e => { 
-      setElements(e.data);
-      setLayout(e.data.map(
-        (e, i) => ({ i: i.toString(), x: i%gridProps.cols, y: 0, w: 1, h: 6, minH: 6 }))
-        ) }).finally(() => setChanges(false))
-  }, [changes])
-
-  const gridProps = {
-    cols: 5,
-    width: 800,
-    rowHeight: 30,
-    className: "layout"
-  }
-
-  const exampleLayout = [
-    { i: 'a', x: 0, y: 0, w: 1, h: 8, minH: 8 },
-    { i: 'b', x: 1, y: 0, w: 2, h: 4, minH: 4 },
-    { i: 'c', x: 5, y: 0, w: 1, h: 4, minH: 4 }
-  ]
-
-
-  const handleAdd = () => {
-    uploadText({text:"hi"}).then(setChanges(true))
-  };
-
-  const handleRemove = (e) => {
-    //must remove also from database
-    setLayout([...layout].filter(item => item != e))
-  }
-
-  const handleEdit = (e) => {
-    console.log("edit", e)
-  }
-  const onLayoutChange=(e) => {
-    console.log("layoutchange",e)
-    setLayout(e)
-  }
-
-
-
-  return (<>
-    <button onClick={handleAdd}>+</button>
-
-    <GridLayout
-      onLayoutChange={onLayoutChange}
-      autoSize={true} layout={layout}
-      {...gridProps}>
-      {layout.map((e,i) =>
-        <div className="dashboard-element" key={e.i}>
-          <button onClick={() => handleRemove(e)}>x</button>
-          <button onClick={handleEdit}>Edit</button>
-          {e.i}{elements[i].text}
-        </div>)}
-    </GridLayout>
-  </>)
-}
-
-const Page = () => (
+  useEffect ( () => {getFolders().then(res => setFolders(res.data) ) } ,[] )
+  return (
   <div>
-    <h1> This is dashboard</h1>
-    <Grid />
+    <h1> These are your folders</h1>
+    {folders.map((e,i) => <Link to={e.path} key={i}>{e.folder} </Link>)}
   </div>
-);
+)};
 export const DashboardPage = withProtected(Page);

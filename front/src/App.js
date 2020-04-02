@@ -11,6 +11,8 @@ import { SignupPage } from "./pages/Signup.page"
 import { LoginPage } from './pages/Login.page';
 import { DashboardPage } from './pages/Dashboard.page';
 import { AboutusPage } from './pages/Aboutus.page';
+import { FolderPage } from './pages/Folder.page';
+
 
 
 
@@ -24,6 +26,7 @@ export const App = withAuthentication(() => (
         <Route path="/login" component={LoginPage} />
         <Route path="/aboutus" component={AboutusPage} />
         <Route path="/:user/dashboard" component={DashboardPage} />
+        <Route path="/:user/:folder" component={props => <FolderPage folder={props.match.params.folder}/>} />
       </Switch>
     </Layout>
   </Router>

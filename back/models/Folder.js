@@ -7,7 +7,8 @@ const schema = new Schema(
     folder:String,
     folderUrl:String,
     layout: Object,
-    user: { type: ObjectId, ref: 'User' }
+    user: { type: ObjectId, ref: 'User' },
+    path:String
   },
   {
     timestamps: true

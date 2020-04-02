@@ -46,29 +46,35 @@ router.get("/", async (req, res, next) => {
 
 //FOLDERS 
 router.post("/create/folder", async (req, res, next) => {
-  console.log("inroute")
-  const { layout, folder } = req.body;
-  try {
-    await Folder.create({
-      folder,
-      user: req.user._id,
-      layout
-    })
-    res.status(200).json({ message: `${folder} folder created` });
+  if (req.user) {
+    const { layout, folder } = req.body;
+    try {
+     const newFolder= await Folder.create({
+        folder,
+        user: req.user._id,
+        layout,
+        path:`/${req.user.username}/${folder}`
+      })
+      await User.updateOne({ _id: req.user._id }, { $push: { folders: newFolder._id } });
+      res.status(200).json({ message: `${folder} folder created` });
+    }
+    catch {
+      res.status(500).json({ message: "Something went wrong" })
+    }
+  } else {
+    res.status(401).json({ message: "You must be logged in to upload stuff" })
   }
-  catch {
-    res.status(500).json({ message: "Something went wrong" })
-  }
+
 })
 
 router.post("update/folder", async (req, res, next) => {
   const { layout, folder } = req.body;
   try {
-    const FolderToUpdate =  await Folder.find({
+    const FolderToUpdate = await Folder.find({
       folder,
       user: req.user._id,
     })
-    FolderToUpdate.updateOne({folder:folder, layout:layout});
+    FolderToUpdate.updateOne({ folder: folder, layout: layout });
     FolderToUpdate.save();
     res.status(200).json({ message: `${folder} folder update` });
   }
@@ -78,7 +84,18 @@ router.post("update/folder", async (req, res, next) => {
 
 })
 
+router.get("/folders", async(req,res,next) => {
+if (req.user) {
 
+  const folders = await Folder.find({user:req.user._id});
+  res.status(200).json(folders)
+
+} else {
+  res.status(401).json({ message: "You must be logged in" })
+}
+
+
+})
 
 
 
