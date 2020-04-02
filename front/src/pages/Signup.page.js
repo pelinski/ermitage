@@ -39,7 +39,7 @@ export const SignupPage = withRouter(({ history }) => {
         console.log(res.data.message);
         history.push("/")
       }
-    })
+    }).catch(e => console.log(e))
 
   };
 

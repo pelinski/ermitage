@@ -35,8 +35,6 @@ const api = axios.create({
 });
 
 export const doSignup = async ({ username, password, email }) => {
-  // Axios post a ruta /auth/signup en servidor
-  // para crear un usuario en mongodb
   console.log(`Registering user into database...`);
   try {
     const res = await api.post("/auth/signup", {
@@ -45,6 +43,7 @@ export const doSignup = async ({ username, password, email }) => {
       email
     });
     return res;
+
   }
   catch (e) {
     return e.response
@@ -54,11 +53,12 @@ export const doSignup = async ({ username, password, email }) => {
 export const doLogin = async ({ username, password }) => {
   console.log("Do Login");
   try {
-  const res = await api.post("/auth/login", {
-    username,
-    password
-  });
-  return res;}
+    const res = await api.post("/auth/login", {
+      username,
+      password
+    });
+    return res;
+  }
   catch (e) {
     return e.response;
   }
