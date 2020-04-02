@@ -6,18 +6,19 @@ const User = require("../models/User")
 
 //for now just text
 router.post("/upload/text", async (req, res, next) => {
+  console.log(req.body)
   if (req.user) {
-    const { element } = req.body;
-    if (typeof element == 'string') {
+    const {text}  = req.body;
+    if (typeof text == 'string') {
       const newElement = await Element.create({
         type: "text",
-        text: element,
+        text: text,
         user: req.user._id
       })
       await User.updateOne({ _id: req.user._id }, { $push: { elements: newElement._id } })
       res.status(200).json({ message: "Element created" })
 
-    } else if (typeof element != "string") {
+    } else if (typeof text != "string") {
       res.status(500).json({ message: "This route is for text" });
     }
   } else {
@@ -32,8 +33,8 @@ router.post("/upload/text", async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   //await Element.find().populate("user");
   const obj = await Element.find({ user: req.user._id });
-  console.log(_.pick(obj,"text"));
-  return res.json({ obj });
+  const arr = obj.map( e=> _.pick(e,["type","text"]));
+  return res.json( arr);
 
 });
 

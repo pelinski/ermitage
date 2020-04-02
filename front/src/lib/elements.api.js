@@ -5,9 +5,9 @@ const api = axios.create({
   withCredentials: true
 });
 
-export const uploadText = async ({ element }) => {
+export const uploadText = async ({text}) => {
   console.log("UploadText");
-  const res = await api.post("/elements/upload", element);
+  const res = await api.post("/elements/upload/text", {text});
   return res;
 };
 

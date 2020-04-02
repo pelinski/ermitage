@@ -10,12 +10,17 @@ import { uploadText, retrieveText } from "../lib/elements.api"
 
 const Grid = () => {
   const [elements, setElements] = useState([]);
+  const [layout, setLayout] = useState([]);
+  const [changes,setChanges] = useState(true);
 
 
   useEffect(() => {
-    retrieveText().then(e => {setElements(e); console.log(e.data)} ) 
-  }, [])
-
+    retrieveText().then(e => { 
+      setElements(e.data);
+      setLayout(e.data.map(
+        (e, i) => ({ i: i.toString(), x: i%gridProps.cols, y: 0, w: 1, h: 6, minH: 6 }))
+        ) }).finally(() => setChanges(false))
+  }, [changes])
 
   const gridProps = {
     cols: 5,
@@ -24,19 +29,20 @@ const Grid = () => {
     className: "layout"
   }
 
-
-  const [layout, setLayout] = useState([
+  const exampleLayout = [
     { i: 'a', x: 0, y: 0, w: 1, h: 8, minH: 8 },
     { i: 'b', x: 1, y: 0, w: 2, h: 4, minH: 4 },
     { i: 'c', x: 5, y: 0, w: 1, h: 4, minH: 4 }
   ]
-  )
+
 
   const handleAdd = () => {
+    uploadText({text:"hi"}).then(setChanges(true))
+/*
     //must add them to database
     const newElement = { i: layout.length.toString(), x: (layout[layout.length - 1].x + 1) % gridProps.cols, y: 0, w: 1, h: 2, minH: 4 };
     console.log([...layout, newElement])
-    setLayout([...layout, newElement])
+    setLayout([...layout, newElement])*/
   };
 
   const handleRemove = (e) => {
@@ -55,11 +61,11 @@ const Grid = () => {
     <GridLayout
       autoSize={true} layout={layout}
       {...gridProps}>
-      {layout.map((e) =>
+      {layout.map((e,i) =>
         <div className="dashboard-element" key={e.i}>
           <button onClick={() => handleRemove(e)}>x</button>
           <button onClick={handleEdit}>Edit</button>
-          {e.i}blablablablablablablablablablablablablablablablablablablabla
+          {e.i}{elements[i].text}
         </div>)}
     </GridLayout>
   </>)
