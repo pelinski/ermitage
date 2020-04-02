@@ -69,7 +69,7 @@ router.post('/login', (req, res, next) => {
             next(err); // will generate a 500 error
         }
         if (!user) {
-            return res.status(401).json({ message: 'Authentication failed' });
+            return res.status(401).json({ message: 'The credentials you entered are wrong' });
         }
 
         req.login(user, loginErr => {

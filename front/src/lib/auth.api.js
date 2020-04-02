@@ -53,11 +53,15 @@ export const doSignup = async ({ username, password, email }) => {
 
 export const doLogin = async ({ username, password }) => {
   console.log("Do Login");
+  try {
   const res = await api.post("/auth/login", {
     username,
     password
   });
-  return res;
+  return res;}
+  catch (e) {
+    return e.response;
+  }
 };
 
 export const doLogout = async () => {

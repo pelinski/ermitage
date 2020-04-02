@@ -30,6 +30,7 @@ export const SignupPage = withRouter(({ history }) => {
     const user = { ...data };
     doSignup(user).then((res) => {
       if (res.status != 200) {
+        console.log(res)
         console.log(res.data.message)
         setError(res.data.message)
       }

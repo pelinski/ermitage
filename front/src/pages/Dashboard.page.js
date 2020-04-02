@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withProtected } from "../lib/protectRoute.hoc"
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import GridLayout from 'react-grid-layout';
 
+import { uploadText, retrieveText } from "../lib/elements.api"
+
 
 const Grid = () => {
+  const [elements, setElements] = useState([]);
+
+
+  useEffect(() => {
+    retrieveText().then(e => {setElements(e); console.log(e)} ) 
+  }, [])
+
+
   const gridProps = {
     cols: 5,
     width: 800,
