@@ -7,12 +7,12 @@ const api = axios.create({
 
 export const uploadText = async ({text}) => {
   console.log("UploadText");
-  const res = await api.post("/elements/upload/text", {text});
+  const res = await api.post("/dashboard/upload/text", {text});
   return res;
 };
 
 export const retrieveText = async () => {
   console.log("retrieve text");
-  const res =  await api.get("/elements");
+  const res =  await api.get("/dashboard");
   return res;
 }

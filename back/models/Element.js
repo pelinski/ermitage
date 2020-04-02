@@ -6,6 +6,7 @@ const schema = new Schema(
   {
     type: { type: String, enum: ["text", "audio", "image", "url"] },
     user: { type: ObjectId, ref: 'User' },
+    folder: {type: ObjectId, ref:"Folder"},
     text: String
   },
   {

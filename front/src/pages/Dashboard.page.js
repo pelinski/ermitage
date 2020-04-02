@@ -5,7 +5,7 @@ import "/node_modules/react-resizable/css/styles.css"
 
 import GridLayout from 'react-grid-layout';
 
-import { uploadText, retrieveText } from "../lib/elements.api"
+import { uploadText, retrieveText } from "../lib/dashboard.api"
 
 
 const Grid = () => {
@@ -38,11 +38,6 @@ const Grid = () => {
 
   const handleAdd = () => {
     uploadText({text:"hi"}).then(setChanges(true))
-/*
-    //must add them to database
-    const newElement = { i: layout.length.toString(), x: (layout[layout.length - 1].x + 1) % gridProps.cols, y: 0, w: 1, h: 2, minH: 4 };
-    console.log([...layout, newElement])
-    setLayout([...layout, newElement])*/
   };
 
   const handleRemove = (e) => {
@@ -53,12 +48,18 @@ const Grid = () => {
   const handleEdit = (e) => {
     console.log("edit", e)
   }
+  const onLayoutChange=(e) => {
+    console.log("layoutchange",e)
+    setLayout(e)
+  }
+
 
 
   return (<>
     <button onClick={handleAdd}>+</button>
 
     <GridLayout
+      onLayoutChange={onLayoutChange}
       autoSize={true} layout={layout}
       {...gridProps}>
       {layout.map((e,i) =>

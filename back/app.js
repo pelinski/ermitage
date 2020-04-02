@@ -70,8 +70,8 @@ const index = require('./routes/index');
 app.use('/', index);
 const auth = require("./routes/auth");
 app.use("/auth", auth);
-const elements = require("./routes/elements");
-app.use("/elements", elements);
+const dashboard = require("./routes/dashboard");
+app.use("/dashboard", dashboard);
 
 
 module.exports = app;
