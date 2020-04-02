@@ -8,7 +8,6 @@ $button-padding: 5px 5px;
     padding: 0;
     overflow: auto;
 }
-
 .content-box {
     margin: $margin-content;
     margin-top: 0;
@@ -50,4 +49,9 @@ button {
     justify-content: center;
     margin: 10px;
     border: $border;
+}
+
+.dashboard-element {
+    border: $border;
+    overflow-wrap: break-word;
 }
