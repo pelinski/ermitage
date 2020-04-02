@@ -10,6 +10,8 @@ export const LoginPage = withRouter(({ history }) => {
         username: "",
         password: ""
     });
+
+
     const setUser = useUserSetter();
 
     const handleInputChange = e => {
@@ -40,6 +42,8 @@ export const LoginPage = withRouter(({ history }) => {
 
     };
 
+
+
     return (
         <>
             <h1>Эж</h1>
@@ -49,7 +53,6 @@ export const LoginPage = withRouter(({ history }) => {
             }}>
                 <Field field="username" {...{ example, data, handleInputChange }} />
                 <Field field="password" type="password" {...{ example, data, handleInputChange }} />
-
                 <FormButton type="submit" {...{ handleSubmit }}>
                     Login
                 </FormButton>

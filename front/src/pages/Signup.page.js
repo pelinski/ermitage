@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { FormButton } from "../components/Buttons"
 import { Field } from "../components/Form";
-import { doSignup, useUserSetter } from "../lib/auth.api"
+import { doSignup, useUserSetter, colorSecurityPassword } from "../lib/auth.api"
 import { withRouter } from "react-router-dom";
 
 export const SignupPage = withRouter(({ history }) => {
@@ -42,6 +42,8 @@ export const SignupPage = withRouter(({ history }) => {
 
   };
 
+
+
   return (
     <>
       <h1>Эж</h1>
@@ -50,7 +52,7 @@ export const SignupPage = withRouter(({ history }) => {
         handleSubmit(data);
       }}>
         <Field field="username" {...{ example, data, handleInputChange }} />
-        <Field field="password" type="password" {...{ example, data, handleInputChange }} />
+        <Field field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
         <Field field="email" type="email" {...{ example, data, handleInputChange }} />
         {error}
         <FormButton type="submit" {...{ handleSubmit }}>
@@ -61,3 +63,5 @@ export const SignupPage = withRouter(({ history }) => {
 
     </>)
 });
+
+
