@@ -55,7 +55,7 @@ export const LoginPage = withRouter(({ history }) => {
                 <Field field="username" {...{ example, data, handleInputChange }} />
                 <Field field="password" type="password" {...{ example, data, handleInputChange }} />
                 {error}
-                <FormButton type="submit" {...{ handleSubmit }}>
+                <FormButton type="submit">
                     Login
                 </FormButton>
 

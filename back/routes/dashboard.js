@@ -13,13 +13,12 @@ const Folder = require("../models/Folder");
 router.post("/upload/text", async (req, res, next) => {
   if (req.user) {
     const { text,folder } = req.body;
-    
     if (typeof text == 'string') {
-      const folderForElement = await Folder.find({$and: [{user:req.user._id}, {folder}]})
+      const folderForElement = await Folder.findOne({$and: [{user:req.user._id}, {folder}]});
       const newElement = await Element.create({
         type: "text",
         text: text,
-        folder: folderForElement[0]._id,
+        folder: folderForElement._id,
         user: req.user._id
       })
       await User.updateOne({ _id: req.user._id }, { $push: { elements: newElement._id } })
@@ -47,16 +46,15 @@ router.get("/", async (req, res, next) => {
 });
 
 
-
-//FOLDERS 
+/////////////
+//FOLDERS///
 router.post("/create/folder", async (req, res, next) => {
   if (req.user) {
-    const { layout, folder } = req.body;
+    const { folder } = req.body;
     try {
       const newFolder = await Folder.create({
         folder,
         user: req.user._id,
-        layout,
         path: `/${req.user.username}/${folder}`
       })
       await User.updateOne({ _id: req.user._id }, { $push: { folders: newFolder._id } });
@@ -73,12 +71,13 @@ router.post("/create/folder", async (req, res, next) => {
 
 router.post("update/folder", async (req, res, next) => {
   const { layout, folder } = req.body;
+  console.log(layout,folder)
   try {
-    const FolderToUpdate = await Folder.find({
+    const FolderToUpdate = await Folder.findOne({
       folder,
       user: req.user._id,
-    })
-    FolderToUpdate.updateOne({ folder: folder, layout: layout });
+    });
+    FolderToUpdate.updateOne({ folder, layout});
     FolderToUpdate.save();
     res.status(200).json({ message: `${folder} folder update` });
   }
@@ -97,7 +96,8 @@ router.get("/folders", async (req, res, next) => {
   } else {
     res.status(401).json({ message: "You must be logged in" })
   }
-})
+});
+
 
 
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withProtected } from "../lib/protectRoute.hoc"
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
+import { Field } from "../components/Form";
 
 import GridLayout from 'react-grid-layout';
 
@@ -9,9 +10,18 @@ import { uploadText, retrieveText } from "../lib/dashboard.api"
 
 
 const Grid = ({folder}) => {
+  //display elements
   const [elements, setElements] = useState([]);
+  // save layout in folder
   const [layout, setLayout] = useState([]);
+  // reload grid when element update
   const [changes,setChanges] = useState(true);
+  // form control for add element field
+  const [addField, setAddField] = useState({
+    text: ""
+  });
+
+  
   useEffect(() => {
     retrieveText({folder}).then(e => { 
       setElements(e.data);
@@ -27,16 +37,17 @@ const Grid = ({folder}) => {
     className: "layout"
   }
 
-
+/*
   const exampleLayout = [
     { i: 'a', x: 0, y: 0, w: 1, h: 8, minH: 8 },
     { i: 'b', x: 1, y: 0, w: 2, h: 4, minH: 4 },
     { i: 'c', x: 5, y: 0, w: 1, h: 4, minH: 4 }
-  ]
+  ]*/
 
 
   const handleAdd = () => {
-    uploadText({text:"hi"}).then(setChanges(true))
+    console.log({text:addField.text})
+    uploadText({text: addField.text,folder}).then(setChanges(true));
   };
 
   const handleRemove = (e) => {
@@ -54,11 +65,19 @@ const Grid = ({folder}) => {
     setLayout(e)
   }
 
-
+  const handleInputChange = e => {
+    const value = e.target.value;
+    const name = e.target.name;
+    setAddField({ ...addField, [name]: value });
+  };
 
   return (<>
+
+    Add item
+    
+    <Field field="text" {...{ example: "text input", data:addField, handleInputChange }} />
     <button onClick={handleAdd}>+</button>
-{folder}
+
     <GridLayout
       onLayoutChange={onLayoutChange}
       autoSize={true} layout={layout}

@@ -56,7 +56,7 @@ export const SignupPage = withRouter(({ history }) => {
         <Field field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
         <Field field="email" type="email" {...{ example, data, handleInputChange }} />
         {error}
-        <FormButton type="submit" {...{ handleSubmit }}>
+        <FormButton type="submit" >
           Sign up
          </FormButton>
 
