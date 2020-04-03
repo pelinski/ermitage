@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { withProtected } from "../lib/protectRoute.hoc"
-import "/node_modules/react-grid-layout/css/styles.css"
-import "/node_modules/react-resizable/css/styles.css"
-import { Field } from "../components/Form";
-
 import GridLayout from 'react-grid-layout';
 
+import "/node_modules/react-grid-layout/css/styles.css"
+import "/node_modules/react-resizable/css/styles.css"
+
+import { Field } from "../components/Form";
+
+import { withProtected } from "../lib/protectRoute.hoc"
 import { uploadText, retrieveText } from "../lib/dashboard.api"
 
 

@@ -56,10 +56,8 @@ button {
     overflow-wrap: break-word;
 }
 
+/*
 .folderWrapper {
-    display: flex;
-    flex-wrap: wrap;
-
     .folder {
         margin: 5px;
         border: $border;
@@ -81,5 +79,30 @@ button {
             padding-top:10px;
             text-align: center;
         }
+    }
+}
+*/
+
+.folder {
+    margin: 5px;
+    border: $border;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+
+    .folderDetail {
+        text-align: right;
+        padding-right: 4px;
+        align-self: flex-end;
+        width: 65%;
+        height: 20px;
+        border-bottom: $border;
+        border-left: $border;
+        margin-bottom: 10px;
+    }
+
+    .folderContent {
+        text-align: center;
     }
 }
