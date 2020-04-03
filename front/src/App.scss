@@ -42,7 +42,7 @@ nav {
     }
 }
 
-button {
+.auth-button {
     width: 100px;
     padding: $button-padding;
     display: flex;
@@ -55,33 +55,6 @@ button {
     border: $border;
     overflow-wrap: break-word;
 }
-
-/*
-.folderWrapper {
-    .folder {
-        margin: 5px;
-        border: $border;
-        height: 100px;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-
-        .folderDetail {
-            align-self: flex-end;
-            width: 65%;
-            height: 20px;
-            border-bottom: $border;
-            border-left: $border;
-            margin-bottom: 10px;
-        }
-
-        .folderContent {
-            padding-top:10px;
-            text-align: center;
-        }
-    }
-}
-*/
 
 .folder {
     margin: 5px;

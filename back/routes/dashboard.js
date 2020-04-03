@@ -48,9 +48,9 @@ router.get("/", async (req, res, next) => {
 
 /////////////
 //FOLDERS///
-router.post("/create/folder", async (req, res, next) => {
+router.post("/create/:folder", async (req, res, next) => {
   if (req.user) {
-    const { folder } = req.body;
+    const { folder } = req.params;
     try {
       const newFolder = await Folder.create({
         folder,
@@ -65,6 +65,26 @@ router.post("/create/folder", async (req, res, next) => {
     }
   } else {
     res.status(401).json({ message: "You must be logged in to upload stuff" })
+  }
+
+})
+
+router.post("/delete/:folder", async (req, res, next) => {
+  if (req.user) {
+    const { folder } = req.params;
+    try {
+       await Folder.findOneAndDelete({$and: [
+        {folder},
+        {user: req.user._id},
+        {path: `/${req.user.username}/${folder}`}]
+      })
+      res.status(200).json({ message: `${folder} folder deleted` });
+    }
+    catch {
+      res.status(500).json({ message: "Something went wrong" })
+    }
+  } else {
+    res.status(401).json({ message: "You must be logged in" })
   }
 
 })

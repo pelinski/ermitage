@@ -10,7 +10,6 @@ const api = axios.create({
 
 //must upload only to folder
 export const uploadText = async ({text, folder}) => {
-  console.log("UploadText");
   const res = await api.post("/upload/text", {text,folder});
   return res;
 };
@@ -23,17 +22,21 @@ export const retrieveText = async ({folder}) => {
 }
 
 //FOLDERS
-
-export const createFolder = async({folder}) => {
-  const res = await api.post("/create/folder",{folder});
-  return res;
-}
-
 export const getFolders = async () => {
   const res = await api.get("/folders");
   return res;
 }
+export const createFolder = async({folder}) => {
+  const res = await api.post(`/create/${folder}`);
+  return res;
+}
 
+export const deleteFolder = async({folder}) => {
+  const res = await api.post(`/delete/${folder}`);
+
+  console.log(`${folder} deleted`)
+  return res;
+}
 export const uploadLayout = async ({folder,layout}) => {
   const res = await api.post("/update/folder",{folder,layout});
   return res;

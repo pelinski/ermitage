@@ -7,7 +7,7 @@ export const  handleInputChange = (e,data,setData) => {
   };
 
 
-export const handleSubmit = ({fields,data,apiFunction,setError,setChanges}) => {
+export const handlePost = ({fields,data,apiFunction,setError,setChanges}) => {
   const postObj = _.pick({ ...data }, fields);
   apiFunction(postObj).then((res) => {
     if (res.status != 200) {
