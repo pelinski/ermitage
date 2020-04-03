@@ -33,11 +33,16 @@ export const createFolder = async({folder}) => {
 
 export const deleteFolder = async({folder}) => {
   const res = await api.post(`/delete/${folder}`);
-
-  console.log(`${folder} deleted`)
   return res;
 }
-export const uploadLayout = async ({folder,layout}) => {
-  const res = await api.post("/update/folder",{folder,layout});
+
+export const updateDashboardLayout  = async({layout}) => {
+  const res = await api.post(`/update/layout`, {layout});
+  return res;
+}
+
+
+export const updateFolderLayout = async ({folder,layout}) => {
+  const res = await api.post(`/update/folder/${folder}`,{layout});
   return res;
 }

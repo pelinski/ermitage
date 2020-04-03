@@ -9,12 +9,11 @@ import { Field } from "../components/Form";
 import { FormButton } from "../components/Buttons"
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { getFolders, createFolder, deleteFolder } from "../lib/dashboard.api";
+import { getFolders, createFolder, deleteFolder, updateDashboardLayout} from "../lib/dashboard.api";
 
 import { handleInputChange, handlePost } from "../lib/formHelpers";
 
 const Folder = ({ children, deleteFolder, setChanges }) => (<><button onClick={() => { deleteFolder(); setChanges(true) }} className="folderDetail"> x </button><div className="folderContent">{children}</div></>)
-
 
 
 const Page = () => {
@@ -33,7 +32,10 @@ const Page = () => {
       setFolders(res.data);
       setLayout(res.data.map((e, i) => ({ i: i.toString(), x: i % gridProps.cols, y: 0, w: 1, h: 3 })))
     }
-    ).finally(() => setChanges(false))
+    ).finally(() => {
+      //updateDashboardLayout({layout});
+      //console.log("layout updated")
+      setChanges(false)})
   }, [changes]);
 
   // Grid
@@ -45,7 +47,9 @@ const Page = () => {
   }
 
   const onLayoutChange = (e) => {
+    console.log(e)
     setLayout(e)
+    //setChanges(true)
   }
 
 
