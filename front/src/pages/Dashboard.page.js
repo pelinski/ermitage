@@ -48,7 +48,6 @@ const Page = () => {
   }
 
   const onLayoutChange = (e) => {
-    console.log(e)
     setLayout(e)
     //setChanges(true)
   }
@@ -63,7 +62,7 @@ const Page = () => {
           <div key={i} className="folder" >
             <Folder setChanges={setChanges} deleteFolder={() =>
               handlePost({ fields: ["folder"], data: folders[i], apiFunction: deleteFolder, setError, setChanges })}>
-              <Link to={folders[i].path}>{folders[i].folder}</Link>
+              <Link onClick={() =>console.log(folders[i].path)} style={{display:"inline-block",width:"80%"}} to={folders[i].path}>{folders[i].folder}</Link>
             </Folder>
           </div>)}
       </GridLayout>
