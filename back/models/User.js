@@ -7,7 +7,6 @@ const schema = new Schema({
   password: { type: String, required: true },
   email: { type: String, required: true },
   folders: [{ type: ObjectId, ref: 'Folder' }],
-  elements: [{ type: ObjectId, ref: 'Element' }],
   displayName: String,
   image: { type: Object }
 }, {

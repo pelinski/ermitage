@@ -8,6 +8,7 @@ const schema = new Schema(
     folderUrl:String,
     layout: Object,
     user: { type: ObjectId, ref: 'User' },
+    elements: [{type:ObjectId, ref:"Element"}],
     path:String
   },
   {
