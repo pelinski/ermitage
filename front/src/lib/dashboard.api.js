@@ -32,7 +32,7 @@ export const createFolder = async({folder}) => {
 }
 
 export const deleteFolder = async({folder}) => {
-  const res = await api.post(`/delete/${folder}`);
+  const res = await api.delete(`/${folder}`);
   return res;
 }
 

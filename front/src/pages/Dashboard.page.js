@@ -30,6 +30,7 @@ const Page = () => {
   useEffect(() => {
     getFolders().then(res => {
       setFolders(res.data);
+      //updateDashboardLayout({layout})
       setLayout(res.data.map((e, i) => ({ i: i.toString(), x: i % gridProps.cols, y: 0, w: 1, h: 3 })))
     }
     ).finally(() => {
