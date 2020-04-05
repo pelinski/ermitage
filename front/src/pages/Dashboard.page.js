@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
-
+import _ from "lodash"
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
@@ -9,9 +9,8 @@ import "/node_modules/react-resizable/css/styles.css"
 import { Field } from "../components/Form";
 import { FormButton } from "../components/Buttons"
 
-import { withProtected } from "../lib/protectRoute.hoc"
 import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
-
+import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
 
 
@@ -19,31 +18,25 @@ const ReactGridLayout = WidthProvider(RGL);
 const Folder = ({ children, deleteFolder, setChanges }) => (<><button onClick={() => { deleteFolder(); setChanges(true) }} className="folderDetail"> x </button><div className="folderContent">{children}</div></>)
 
 
-
 const Page = () => {
 
   //Hooks
-  const [folders, setFolders] = useState([]);
-  const [layout, setLayout] = useState([]);
   const [error, setError] = useState("");
-  const [changes, setChanges] = useState(false);
+  const [changes, setChanges] = useState(true);
+  const [dashboard,setDashboard] = useState({
+    folders: [],
+    layout: []
+  });
   const [data, setData] = useState({
     folder: ""
   });
 
-  useEffect( () => {
-    getDashboardLayout().then(res => { console.log("first layout charged", res.data); setLayout(res.data);}).finally(()=> {setChanges(true)})
-  },[]);
-
 
 
   useEffect(() => {
-    getFolders().then(res => {
-      setFolders(res.data);
-    }).finally(() => {
-      setChanges(false)
-    })
-  }, [changes]);
+    Promise.all([getFolders(),getDashboardLayout()]).then(([foldersRes,layoutRes]) => {
+      setDashboard({ ...dashboard, folders:foldersRes.data, layout:layoutRes.data })
+    }).finally(()=>setChanges(false));}, [changes]); //when folder is added or deleted
 
   // Grid
   const gridProps = {
@@ -51,22 +44,21 @@ const Page = () => {
     rowHeight: 30,
   }
 
-  const onLayoutChange = (layout) => {
-    updateDashboardLayout({layout});
-    setLayout(layout)
-  }
 
+  const onLayoutChange = (newLayout) => {
+    updateDashboardLayout({ layout:newLayout }).then(() => setDashboard({...dashboard, layout:newLayout}));
+  }
 
   return (
     <>
       <h1> These are your folders</h1>
 
-      <ReactGridLayout className="folderWrapper layout" layout={layout} {...gridProps} onLayoutChange={onLayoutChange}>
-        {folders.map((e, i) =>
-          <div key={i} className="folder"  data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+      <ReactGridLayout className="folderWrapper layout" layout={dashboard.layout} {...gridProps} onLayoutChange={(e)=>onLayoutChange(e)}>
+        {dashboard.folders.map((e, i) =>
+          <div key={i} className="folder" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() =>
-              handlePost({ fields: ["folder"], data: folders[i], apiFunction: deleteFolder, setError, setChanges })}>
-              <Link style={{ display: "inline-block", width: "80%" }} to={folders[i].path}>{folders[i].folder}</Link>
+              handlePost({ fields: ["folder"], data: dashboard.folders[i], apiFunction: deleteFolder, setError, setChanges })}>
+              <Link style={{ display: "inline-block", width: "80%" }} to={dashboard.folders[i].path}>{dashboard.folders[i].folder}</Link>
             </Folder>
           </div>)}
       </ReactGridLayout>
