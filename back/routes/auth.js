@@ -88,7 +88,7 @@ router.post("/logout", (req, res) => {
         req.logout();
         res.status(200).json({ message: "Logged out" })
     } else {
-        res.status(401).json({ message: "You have to be logged in to logout" })
+        res.status(401)
     }
 });
 

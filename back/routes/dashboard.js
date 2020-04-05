@@ -6,8 +6,6 @@ const Element = require("../models/Element");
 const User = require("../models/User");
 const Folder = require("../models/Folder");
 
-const authErrorMsg = { message: "Unauthorized" };
-
 
 //RETRIEVE FOLDERS FROM USER
 router.get("/folders", async (req, res, next) => {
@@ -15,7 +13,7 @@ router.get("/folders", async (req, res, next) => {
     const { folders } = await User.findOne({ _id: req.user._id }).populate("folders");
     res.status(200).json(folders)
   } else {
-    res.status(401).json(authErrorMsg)
+    res.status(401)
   }
 });
 
@@ -34,7 +32,7 @@ router.post("/update/layout", async (req, res, next) => {
       res.status(500).json({ message: "Something went wrong" })
     }
   } else {
-    res.status(401).json(authErrorMsg)
+    res.status(401)
 
   }
 
@@ -73,7 +71,7 @@ router.post("/create/:folder", async (req, res, next) => {
       res.status(500).json({ message: "Something went wrong" })
     }
   } else {
-    res.status(401).json(authErrorMsg)
+    res.status(401)
   }
 
 })
@@ -95,7 +93,7 @@ router.delete("/:folder", async (req, res, next) => {
       res.status(500).json({ message: "Something went wrong" })
     }
   } else {
-    res.status(401).json(authErrorMsg)
+    res.status(401)
   }
 })
 

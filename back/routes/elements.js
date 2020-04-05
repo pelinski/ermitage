@@ -6,8 +6,6 @@ const Element = require("../models/Element");
 const User = require("../models/User");
 const Folder = require("../models/Folder");
 
-const authErrorMsg = { message: "Unauthorized" };
-
 
 // ELEMENTS 
 //RETRIEVE CONTENT OF FOLDER
@@ -20,7 +18,7 @@ router.get("/:folder", async (req, res, next) => {
       }).populate("elements");
       res.status(200).json(elements)
     } else {
-      res.status(401).json({ message: "You must be logged in" })
+      res.status(401)
     }
   })
 
@@ -41,7 +39,7 @@ router.post("/upload/text", async (req, res, next) => {
       res.status(500).json({ message: "This route is for text" });
     }
   } else {
-    res.status(401).json(authErrorMsg)
+    res.status(401)
   }
 
 })
