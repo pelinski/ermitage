@@ -18,7 +18,7 @@ export const handlePost = ({fields,data,apiFunction,setError,setChanges}) => {
       console.log(res.data.message);
     }
     setChanges(true)
-  }).catch(e => console.log(e))
+  })
 
 
 };

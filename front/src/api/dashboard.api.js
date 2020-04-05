@@ -10,8 +10,13 @@ export const getFolders = async () => {
   return res;
 }
 export const createFolder = async({folder}) => {
-  const res = await api.post(`/create/${folder}`);
-  return res;
+  try {
+    const res = await api.post(`/create/${folder}`);
+    return res;
+  }
+  catch (e) {
+    return e.response;
+  }
 }
 
 export const deleteFolder = async({folder}) => {
@@ -24,8 +29,16 @@ export const updateDashboardLayout  = async({layout}) => {
   return res;
 }
 
+export const getDashboardLayout  = async() => {
+  const res = await api.get(`/layout`);
+  return res;
+}
 
+
+
+
+/*
 export const updateFolderLayout = async ({folder,layout}) => {
   const res = await api.post(`/update/folder/${folder}`,{layout});
   return res;
-}
+}*/
