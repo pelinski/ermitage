@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"
-import { useUserLogout, useUser } from "../lib/auth.api"
+import { useUserLogout, useUser } from "../api/auth.api"
 
 export const LoggedinNav = () => {
   const handleLogout = useUserLogout();

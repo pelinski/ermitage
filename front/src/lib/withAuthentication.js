@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { UserContext, whoami } from "./auth.api";
+import { UserContext, whoami } from "../api/auth.api";
 import { Loading } from "./Loading";
 
 // THIS is a HOC

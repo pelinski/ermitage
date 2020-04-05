@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { FormButton } from "../components/Buttons"
 import { Field } from "../components/Form"
 import { withRouter } from "react-router-dom";
-import { doLogin, useUserSetter } from "../lib/auth.api"
+import { doLogin, useUserSetter } from "../api/auth.api"
 
 
 export const LoginPage = withRouter(({ history }) => {

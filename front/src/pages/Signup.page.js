@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { FormButton } from "../components/Buttons"
 import { Field } from "../components/Form";
-import { doSignup, useUserSetter, colorSecurityPassword } from "../lib/auth.api"
+import { doSignup, useUserSetter, colorSecurityPassword } from "../api/auth.api"
 import { withRouter } from "react-router-dom";
 
 export const SignupPage = withRouter(({ history }) => {

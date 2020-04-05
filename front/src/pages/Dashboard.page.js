@@ -9,7 +9,7 @@ import { Field } from "../components/Form";
 import { FormButton } from "../components/Buttons"
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { getFolders, createFolder, deleteFolder, updateDashboardLayout} from "../lib/dashboard.api";
+import { getFolders, createFolder, deleteFolder, updateDashboardLayout} from "../api/dashboard.api";
 
 import { handleInputChange, handlePost } from "../lib/formHelpers";
 

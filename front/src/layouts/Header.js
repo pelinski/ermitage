@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useUser } from "../lib/auth.api"
+import { useUser } from "../api/auth.api"
 import { LoggedinNav, VisitorNav } from "../components/Nav";
 
 const Logo = styled.div`
