@@ -113,7 +113,9 @@ router.delete("/:folder", async (req, res, next) => {
     try {
       await Folder.findOneAndDelete({
         $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }]
-      }, async (err, res) => (await User.updateOne({ _id: req.user._id }, { $pull: { "folders": res._id } })));
+      }, async (err, res) => { await User.updateOne({ _id: req.user._id }, { $pull: { folders: res._id } })
+      await Element.deleteMany({ $and: [{ user: req.user._id }, { folder: res._id }] })
+    });
       res.status(200).json({ message: `${folder} folder deleted` });
     }
     catch (err) {
@@ -122,7 +124,6 @@ router.delete("/:folder", async (req, res, next) => {
   } else {
     res.status(401).json(authErrorMsg)
   }
-
 })
 
 
