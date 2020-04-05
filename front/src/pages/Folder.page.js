@@ -7,7 +7,7 @@ import "/node_modules/react-resizable/css/styles.css"
 import { Field } from "../components/Form";
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { uploadText, retrieveText } from "../lib/dashboard.api"
+import { uploadText, retrieveText } from "../lib/elements.api"
 
 
 const Grid = ({folder}) => {

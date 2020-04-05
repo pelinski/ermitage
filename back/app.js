@@ -68,6 +68,8 @@ const auth = require("./routes/auth");
 app.use("/auth", auth);
 const dashboard = require("./routes/dashboard");
 app.use("/dashboard", dashboard);
+const elements = require("./routes/elements");
+app.use("/elements", elements);
 
 
 module.exports = app;

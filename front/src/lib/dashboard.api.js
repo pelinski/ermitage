@@ -5,23 +5,6 @@ const api = axios.create({
   withCredentials: true
 });
 
-
-//ELEMENTS
-
-//must upload only to folder
-export const uploadText = async ({text, folder}) => {
-  const res = await api.post("/upload/text", {text,folder});
-  return res;
-};
-
-
-//must retrieve only from folder
-export const retrieveText = async ({folder}) => {
-  const res =  await api.get(`/${folder}`);
-  return res;
-}
-
-//FOLDERS
 export const getFolders = async () => {
   const res = await api.get("/folders");
   return res;
