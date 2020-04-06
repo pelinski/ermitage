@@ -78,9 +78,8 @@ router.post("/create/:folder", async (req, res, next) => {
     try {
 
       // No duplicated folder names
-      const existingFolder = await Folder.findOne({ folder })
+      const existingFolder = await Folder.findOne({ $and: [{ user: req.user._id }, { folder }] })
       if (existingFolder !== null) {
-        console.log("folder name already exists")
         return res.status(406).json({ message: "Sorry, this folder name already exists" });
       }
       await Folder.create({

@@ -16,6 +16,7 @@ export const handlePost = ({fields,data,apiFunction,setError,setChanges}) => {
     }
     else {
       console.log(res.data.message);
+      setError("");
     }
     setChanges(true)
   })

@@ -7,7 +7,23 @@ $button-padding: 5px 5px;
     margin: 0;
     padding: 0;
     overflow: auto;
+    text-decoration: none;
+    color: black;
 }
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Prata", serif;
+}
+
 .content-box {
     margin: $margin-content;
     margin-top: 0;
@@ -51,9 +67,15 @@ nav {
     border: $border;
 }
 
-.dashboard-element {
-    border: $border;
-    overflow-wrap: break-word;
+.layout {
+    height: 80% !important;
+    .react-grid-item.react-grid-placeholder {
+        opacity: 0 !important;
+    }
+    .grid-element {
+        border: $border;
+        overflow-wrap: break-word;
+    }
 }
 
 .folder {
@@ -80,6 +102,20 @@ nav {
     }
 }
 
-.react-grid-item.react-grid-placeholder {
-    opacity: 0 !important;
+.Collapsible {
+    align-self: flex-end;
+    text-align: right;
+
+    input {
+        margin-bottom: 10px;
+        height: 20px;
+        width: 100px;
+    }
+}
+
+.delete-alert{
+    display:flex;
+    justify-content: space-between;
+    padding: $button-padding;
+    border:$border;
 }

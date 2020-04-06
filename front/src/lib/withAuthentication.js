@@ -26,7 +26,7 @@ export const withAuthentication = Component => () => {
   return (
     <UserContext.Provider value={{ user, setUser, loading }}>
       {loading && <Loading />}
-      <Component />
+    <Component/>
     </UserContext.Provider>
   );
 };

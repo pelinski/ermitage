@@ -5,7 +5,6 @@ import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { Field } from "../components/Form";
-import { FormButton } from "../components/Buttons"
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { uploadText, getText, removeText, updateFolderLayout, getFolderLayout } from "../api/elements.api"
@@ -22,11 +21,34 @@ const Page = ({folder}) => {
     elements: [],
     layout: []
   });
-  
+  const [alerts, setAlerts] = useState({
+    remove: {},
+    showAlert:false
+  })
+
+  const DeleteAlert = () => {
+    return (
+      <div className="delete-alert">
+        <div>
+          <p>
+            Are you sure you want to delete the element {alerts.remove.e}? <br />
+      You cannot undo this.
+    </p>
+        </div>
+        <div>
+          <button onClick={() => {
+           handleRemove({id:alerts.remove})
+            setAlerts({ ...alerts, showAlert:false, remove:""});
+          }}>Yes</button>
+          <button onClick={() =>  setAlerts({ ...alerts, showAlert:false, remove:""})}>Cancel</button>
+        </div>
+      </div>
+    )
+  }
+
 
   useEffect(() => {
     Promise.all([getText({folder}),getFolderLayout({folder})]).then(([elementsRes,layoutRes]) => {
-      console.log("layoutres", layoutRes.data)
       setFolderBoard({ ...folderBoard, elements:elementsRes.data, layout:layoutRes.data});
     })}
     , [changes]); //when folder is added or deleted*/
@@ -41,25 +63,17 @@ const Page = ({folder}) => {
     uploadText({text: data.text,folder}).then(()=>setChanges(!changes));
   };
 
-  const handleRemove = ({id, layoutItem}) => {
-    console.log("removeElement") 
-    const newLayout = folderBoard.layout.filter(e => e!=layoutItem);
-    Promise.all([ removeText({id}), updateFolderLayout({ folder, layout: newLayout })]).then(() =>
-    setChanges(!changes));
+  const handleRemove = ({id}) => {
+   removeText({id}).then(()=> setChanges(!changes))
   }
 
-/*
-  const handleEdit = (e) => {
-    console.log("edit", e)
-  }
-*/
 
   const onLayoutChange=(newLayout) => {
     updateFolderLayout({ folder, layout: newLayout }).then(() => setFolderBoard({...folderBoard, layout:newLayout}));
   }
 
   return (<>
-   <h1> This is Folder {folder}</h1>
+   <h1>{folder}</h1>
 
     Add item
     
@@ -70,15 +84,17 @@ const Page = ({folder}) => {
 
       {folderBoard.elements.map((element,i) => { 
         return (
-        <div className="dashboard-element" key={element._id}  data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
+        <div className="grid-element" key={element._id}  data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
           <button onClick={()=>{ 
-  
-          handleRemove({id:element._id, layoutItem:folderBoard.layout[i] })}}>x</button>
-          <button>Edit</button>
+            setAlerts({ ...alerts, showAlert:true, remove: element._id });
+          }}>x</button>
+
           {element.text}
         </div>)
       })}
     </ReactGridLayout>
+    {alerts.showAlert && <DeleteAlert />}
+
   </>)
 }
 
