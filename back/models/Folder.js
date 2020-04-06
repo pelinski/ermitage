@@ -6,7 +6,7 @@ const schema = new Schema(
   {
     folder:String,
     folderUrl:String,
-    layout: Object,
+    layout: [{type:Object}],
     user: { type: ObjectId, ref: 'User' },
     elements: [{type:ObjectId, ref:"Element"}],
     path:String

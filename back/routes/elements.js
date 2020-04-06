@@ -8,7 +8,7 @@ const Folder = require("../models/Folder");
 
 
 // ELEMENTS 
-//RETRIEVE CONTENT OF FOLDER
+//GET CONTENT OF FOLDER
 // TO DO: ADD PAGINATION
 router.get("/:folder", async (req, res, next) => {
     if (req.user) {
@@ -22,7 +22,7 @@ router.get("/:folder", async (req, res, next) => {
     }
   })
 
-//upload text
+//UPLOAD TEXT
 router.post("/upload/text", async (req, res, next) => {
   if (req.user) {
     const { text, folder } = req.body;
@@ -42,6 +42,40 @@ router.post("/upload/text", async (req, res, next) => {
     res.status(401)
   }
 
+})
+
+  //REMOVE TEXT
+  router.delete("/",async(req,res)=> {
+    if(req.user) {
+      const {id} = req.body;
+      console.log(id)
+      const element = await Element.findOneAndDelete({ $and: [{ user: req.user._id }, { _id:id }] });
+      res.status(200).json({message: "Element removed"})
+
+    }
+    else {  res.status(401)}
+  })
+
+  // REMOVE ELEMENT FROM DB
+router.delete("/:id", async (req, res, next) => {
+  if (req.user) {
+    const { id } = req.params;
+    console.log(id)
+    try {
+      await Element.findOneAndDelete({
+        $and: [{ user: req.user._id }, { _id:id}]
+      }, async (err, res) => {
+       await Folder.updateOne({
+          $and: [{ user: req.user._id }, { _id:res.folder}]}, { $pull: { elements: res._id } });
+      });
+      res.status(200).json({ message: `Element deleted` });
+    }
+    catch (err) {
+      res.status(500).json({ message: "Something went wrong" })
+    }
+  } else {
+    res.status(401)
+  }
 })
 
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
-import _ from "lodash"
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
@@ -15,7 +14,10 @@ import { handleInputChange, handlePost } from "../lib/formHelpers";
 
 
 const ReactGridLayout = WidthProvider(RGL);
-const Folder = ({ children, deleteFolder, setChanges }) => (<><button onClick={() => { deleteFolder(); setChanges(true) }} className="folderDetail"> x </button><div className="folderContent">{children}</div></>)
+const Folder = ({ children, deleteFolder, setChanges }) => (<>
+<button onClick={() =>  deleteFolder()} className="folderDetail"> x </button>
+<div className="folderContent">{children}</div>
+</>)
 
 
 const Page = () => {
@@ -53,14 +55,17 @@ const Page = () => {
     <>
       <h1> These are your folders</h1>
 
-      <ReactGridLayout className="folderWrapper layout" layout={dashboard.layout} {...gridProps} onLayoutChange={(e)=>onLayoutChange(e)}>
+      <ReactGridLayout className="layout" layout={dashboard.layout} {...gridProps} onLayoutChange={(e)=>onLayoutChange(e)}>
         {dashboard.folders.map((e, i) =>
-          <div key={i} className="folder" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+         
+         <div key={i} className="folder" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() =>
-              handlePost({ fields: ["folder"], data: dashboard.folders[i], apiFunction: deleteFolder, setError, setChanges })}>
-              <Link style={{ display: "inline-block", width: "80%" }} to={dashboard.folders[i].path}>{dashboard.folders[i].folder}</Link>
+              handlePost({ fields: ["folder"], data: e, apiFunction: deleteFolder, setError, setChanges })}>
+              <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
             </Folder>
           </div>)}
+
+
       </ReactGridLayout>
       <form onSubmit={e => {
         e.preventDefault();

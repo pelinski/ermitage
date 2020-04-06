@@ -18,7 +18,6 @@ export const createFolder = async({folder}) => {
     return e.response;
   }
 }
-
 export const deleteFolder = async({folder}) => {
   const res = await api.delete(`/${folder}`);
   return res;
