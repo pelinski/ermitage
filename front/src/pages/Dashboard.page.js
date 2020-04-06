@@ -58,7 +58,7 @@ const Page = () => {
       <ReactGridLayout className="layout" layout={dashboard.layout} {...gridProps} onLayoutChange={(e)=>onLayoutChange(e)}>
         {dashboard.folders.map((e, i) =>
          
-         <div key={i} className="folder" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+         <div key={e._id} className="folder" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() =>
               handlePost({ fields: ["folder"], data: e, apiFunction: deleteFolder, setError, setChanges })}>
               <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
