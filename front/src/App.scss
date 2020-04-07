@@ -2,6 +2,7 @@ $border: 2px solid black;
 $padding: 20px;
 $margin-content: 50px;
 $button-padding: 5px;
+$margin-bottom: 20px;
 
 * {
     margin: 0;
@@ -140,13 +141,15 @@ nav {
 .delete-alert {
     display: flex;
     justify-content: space-between;
+    width: 40vw;
     padding: $button-padding;
     border: $border;
+    margin-bottom: $margin-bottom;
 }
 
 .editorContainer {
     border: $border;
-    margin-bottom: 20px;
+    margin-bottom: $margin-bottom;
     overflow: hidden;
     min-height: 20vh;
     max-height: 60vh;

@@ -2,12 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components"
 
-//import { Editor, EditorState, RichUtils } from 'draft-js';
-//import { stateToHTML } from 'draft-js-export-html';
-
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
-//import "/node_modules/draft-js/dist/Draft.css"
 
 import { AddItemCollapsible } from "../components/Collapsible"
 import { AudioIcon, FolderIcon, TextIcon, ElementIcon, DeleteIcon, CameraIcon } from "../components/Icons"
@@ -18,6 +14,7 @@ import { withProtected } from "../lib/protectRoute.hoc"
 import { getText, removeText, updateFolderLayout, getFolderLayout } from "../api/elements.api"
 
 const ReactGridLayout = WidthProvider(RGL);
+
 const TitleWrapper = styled.div`
 display:flex;
 align-items:center;
@@ -42,11 +39,7 @@ const Page = ({ folder }) => {
   })
 
 
-  const gridProps = {
-    cols: 8,
-    rowHeight: 30,
-    className: "layout"
-  }
+  const gridProps = { cols: 8, rowHeight: 30, className: "layout" }
 
   const DeleteAlert = () => {
     return (
@@ -96,15 +89,13 @@ const Page = ({ folder }) => {
 
     <div className="add-item">
       <AddItemCollapsible {...{ open, setOpen }}>
-
         <AudioIcon />
         <TextIcon />
         <CameraIcon />
-
       </AddItemCollapsible>
     </div>
 
-
+    {alerts.showAlert && <DeleteAlert />}
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
 
       {folderBoard.elements.map((element, i) => {
@@ -121,7 +112,7 @@ const Page = ({ folder }) => {
       })}
     </ReactGridLayout>
 
-    {alerts.showAlert && <DeleteAlert />}
+
 
   </>)
 }
