@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import RGL, { WidthProvider } from "react-grid-layout";
+import styled from "styled-components"
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { Field } from "../components/Form";
-import { Collapsible } from "../components/Collapsible"
+import { AddItemCollapsible } from "../components/Collapsible"
+import { AudioIcon, FolderIcon, TextIcon, ElementIcon, DeleteIcon, CameraIcon } from "../components/Icons"
 
 
 import { withProtected } from "../lib/protectRoute.hoc"
@@ -13,6 +15,15 @@ import { uploadText, getText, removeText, updateFolderLayout, getFolderLayout } 
 import { handleInputChange } from "../lib/formHelpers";
 
 const ReactGridLayout = WidthProvider(RGL);
+const TitleWrapper = styled.div`
+display:flex;
+align-items:center;
+img {
+
+  padding-right:10px;
+}
+`
+
 
 
 const Page = ({ folder }) => {
@@ -80,12 +91,18 @@ const Page = ({ folder }) => {
   }
 
   return (<>
-    <h1>{folder}</h1>
+    <TitleWrapper>
+
+      <FolderIcon /> <h1>{folder}</h1>
+    </TitleWrapper>
     <div className="add-item">
-      <Collapsible trigger="Add item" {...{ open, setOpen }}>
-        <Field field="text" {...{ example: "text input", data }} handleInputChange={(e) => handleInputChange(e, data, setData)} />
-        <button onClick={handleAdd}>+</button>
-      </Collapsible>
+      <AddItemCollapsible {...{ open, setOpen }}>
+        {/*<Field field="text" {...{ example: "text input", data }} handleInputChange={(e) => handleInputChange(e, data, setData)} />
+        <button onClick={handleAdd}>+</button>*/}
+        <AudioIcon />
+        <TextIcon />
+        <CameraIcon />
+      </AddItemCollapsible>
     </div>
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
@@ -95,7 +112,9 @@ const Page = ({ folder }) => {
           <div className="grid-element" key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
             <button onClick={() => {
               setAlerts({ ...alerts, showAlert: true, remove: element._id });
-            }}>x</button>
+            }}>
+              <DeleteIcon />
+            </button>
 
             {element.text}
           </div>)

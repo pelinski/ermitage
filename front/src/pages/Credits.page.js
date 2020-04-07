@@ -1,0 +1,10 @@
+/*
+Microphone by Alex Chamorro from the Noun Project
+Folder by Alex Chamorro from the Noun Project
+text by Alex Chamorro from the Noun Project
+document new by Alex Chamorro from the Noun Project
+Pencil by Alex Chamorro from the Noun Project
+Close by Alex Chamorro from the Noun Project
+Camera by Alex Chamorro from the Noun Project
+Document Delete by Alex Chamorro from the Noun Project
+*/

@@ -113,6 +113,11 @@ nav {
     padding: $button-padding $padding;
     border: $border;
     z-index: 1000;
+    .Collapsible {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
 }
 
 .Collapsible {

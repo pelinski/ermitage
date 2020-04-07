@@ -89,7 +89,7 @@ const Page = () => {
     <>
       <TitleWrapper>
         <h1>Folders</h1>
-        <Collapsible trigger="Add folder" {...{ open, setOpen }}>
+        <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
           <form onSubmit={e => {
             e.preventDefault();
             handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges });
