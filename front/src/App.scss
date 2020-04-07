@@ -1,7 +1,7 @@
 $border: 2px solid black;
 $padding: 20px;
 $margin-content: 50px;
-$button-padding: 5px 5px;
+$button-padding: 5px;
 
 * {
     margin: 0;
@@ -22,6 +22,10 @@ h4,
 h5,
 h6 {
     font-family: "Prata", serif;
+}
+
+button {
+    border: none;
 }
 
 .content-box {
@@ -105,9 +109,8 @@ nav {
 .add-item {
     position: fixed;
     right: 0px;
-    padding-left: 0;
     margin-right: $margin-content;
-    padding-right: $padding;
+    padding: $button-padding $padding;
     border: $border;
     z-index: 1000;
 }
@@ -115,6 +118,11 @@ nav {
 .Collapsible {
     align-self: flex-end;
     text-align: right;
+
+    .trigger {
+        font-size: 14px;
+        font-weight: 300;
+    }
 
     input {
         margin-bottom: 10px;
