@@ -5,6 +5,8 @@ import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { Field } from "../components/Form";
+import Collapsible from 'react-collapsible';
+
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { uploadText, getText, removeText, updateFolderLayout, getFolderLayout } from "../api/elements.api"
@@ -75,10 +77,11 @@ const Page = ({folder}) => {
   return (<>
    <h1>{folder}</h1>
 
-    Add item
-    
-    <Field field="text" {...{ example: "text input", data }} handleInputChange={(e)=> handleInputChange(e,data,setData)} />
+      <Collapsible trigger="Add item">
+        <Field field="text" {...{ example: "text input", data }} handleInputChange={(e)=> handleInputChange(e,data,setData)} />
     <button onClick={handleAdd}>+</button>
+        </Collapsible>
+    
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
 

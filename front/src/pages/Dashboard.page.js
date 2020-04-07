@@ -21,9 +21,6 @@ const Folder = ({ children, deleteFolder }) => (<>
   <button onClick={() => deleteFolder()} className="folderDetail"> x </button>
   <div className="folderContent">{children}</div>
 </>)
-
-
-
 const TitleWrapper = styled.div`
 display:flex;
 justify-content:space-between;

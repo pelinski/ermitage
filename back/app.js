@@ -9,7 +9,7 @@ const MongoStore = require("connect-mongo")(session);
 const logger = require('morgan');
 const cors = require("cors");
 const path = require('path');
-const passport= require("passport")
+
 
 
 mongoose
@@ -44,6 +44,7 @@ const corsOptions = {
 
 
 // Middleware Setup
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -59,7 +60,7 @@ app.use(
 );
 require("./passport")(app);
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 
 const index = require('./routes/index');

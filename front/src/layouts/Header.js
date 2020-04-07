@@ -14,7 +14,7 @@ export const Header = () => {
     return (
         <header>
             <Logo>
-                <Link to="/"> Эж</Link>
+                <Link to="/"> <h1>Эж</h1></Link>
             </Logo>
             {user && <LoggedinNav />}
             {!user && <VisitorNav />}
