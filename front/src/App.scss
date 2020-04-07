@@ -26,6 +26,7 @@ h6 {
 
 button {
     border: none;
+    background-color: transparent;
 }
 
 .content-box {
@@ -141,4 +142,30 @@ nav {
     justify-content: space-between;
     padding: $button-padding;
     border: $border;
+}
+
+.editorContainer {
+    border: $border;
+    margin-bottom: 20px;
+    overflow: hidden;
+    min-height: 20vh;
+    max-height: 60vh;
+    .editorButtons {
+        top: 0;
+        position: -webkit-sticky;
+        position: sticky;
+        border-bottom: $border;
+        padding: $button-padding;
+        button {
+            width: 40px;
+            border: $border;
+            margin: 5px;
+            padding: $button-padding;
+            font-size: 30px;
+        }
+    }
+    .editor {
+        max-height: 60vh;
+        padding: 10px;
+    }
 }
