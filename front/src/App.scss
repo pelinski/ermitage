@@ -102,6 +102,16 @@ nav {
     }
 }
 
+.add-item {
+    position: fixed;
+    right: 0px;
+    padding-left: 0;
+    margin-right: $margin-content;
+    padding-right: $padding;
+    border: $border;
+    z-index: 1000;
+}
+
 .Collapsible {
     align-self: flex-end;
     text-align: right;
@@ -113,9 +123,9 @@ nav {
     }
 }
 
-.delete-alert{
-    display:flex;
+.delete-alert {
+    display: flex;
     justify-content: space-between;
     padding: $button-padding;
-    border:$border;
+    border: $border;
 }

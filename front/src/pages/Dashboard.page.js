@@ -3,12 +3,11 @@ import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components";
 
-import Collapsible from 'react-collapsible';
-
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { FieldNoLabel } from "../components/Form";
+import { Collapsible } from "../components/Collapsible"
 
 import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
@@ -33,10 +32,11 @@ const Page = () => {
   //Hooks
   const [alerts, setAlerts] = useState({
     remove: "",
-    showAlert:false
+    showAlert: false
   })
   const [error, setError] = useState("");
   const [changes, setChanges] = useState(true);
+  const [open, setOpen] = useState(false);
   const [dashboard, setDashboard] = useState({
     folders: [],
     layout: []
@@ -77,9 +77,9 @@ const Page = () => {
         <div>
           <button onClick={() => {
             handlePost({ fields: ["folder"], data: alerts.remove, apiFunction: deleteFolder, setError, setChanges });
-            setAlerts({ ...alerts, showAlert:false, remove:""});
+            setAlerts({ ...alerts, showAlert: false, remove: "" });
           }}>Yes</button>
-          <button onClick={() =>  setAlerts({ ...alerts, showAlert:false, remove:""})}>Cancel</button>
+          <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
         </div>
       </div>
     )
@@ -89,7 +89,7 @@ const Page = () => {
     <>
       <TitleWrapper>
         <h1>Folders</h1>
-        <Collapsible trigger="Add folder">
+        <Collapsible trigger="Add folder" {...{ open, setOpen }}>
           <form onSubmit={e => {
             e.preventDefault();
             handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges });
@@ -104,7 +104,7 @@ const Page = () => {
         {dashboard.folders.map((e, i) =>
           <div key={e._id} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() => {
-              setAlerts({ ...alerts, showAlert:true, remove:e});
+              setAlerts({ ...alerts, showAlert: true, remove: e });
             }}>
               <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
             </Folder>

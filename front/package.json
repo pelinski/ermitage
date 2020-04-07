@@ -12,7 +12,6 @@
     "axios": "^0.19.2",
     "parcel": "^1.12.4",
     "react": ">= 16.8.0",
-    "react-collapsible": "^2.7.0",
     "react-dom": ">= 16.8.0",
     "react-grid-layout": "^0.18.3",
     "react-is": ">= 16.8.0",

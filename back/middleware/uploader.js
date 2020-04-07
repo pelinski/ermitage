@@ -1,7 +1,7 @@
-import multer from "multer";
-import cloudinaryStorage from "multer-storage-cloudinary";
-import cloudinary from "cloudinary";
-import _ from "lodash";
+const multer = require("multer");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary");
+const _ = require("lodash");
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
