@@ -1594,6 +1594,14 @@ cloudinary-core@^2.8.2:
   resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.8.2.tgz#355faf986ded19358a65ddc28ad29344c1de0902"
   integrity sha512-nV1lhEXlqNhgnbnzsDzbrNUAkP8H9J5RuBareRlWyb8tKx/94DvG/kXWrSlC8XNB3uKfiwxOudOnRdjsEnjBgA==
 
+cloudinary-react@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/cloudinary-react/-/cloudinary-react-1.4.0.tgz#540d79c5e855748eb80f20f3ba1668ee86f9df16"
+  integrity sha512-HCPveSK+Z/+i3RkjFtsobiF70DcBKLgpRpfTrQjNbxFfXFo/PLOiHXO9n1+PDKzp+8Li57n53/T6G/ixVW1OIw==
+  dependencies:
+    cloudinary-core "^2.8.2"
+    prop-types "^15.6.2"
+
 coa@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/coa/-/coa-2.0.2.tgz#43f6c21151b4ef2bf57187db0d73de229e3e7ec3"
@@ -4615,7 +4623,7 @@ react-spinkit@^3.0.0:
     object-assign "^4.1.0"
     prop-types "^15.5.8"
 
-"react@^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0":
+react@^16.3.3:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
