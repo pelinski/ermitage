@@ -6,9 +6,11 @@ import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { AddItemCollapsible } from "../components/Collapsible"
-import { AudioIcon, FolderIcon, TextIcon, ElementIcon, DeleteIcon, CameraIcon } from "../components/Icons"
-import { TextElement } from "../components/Elements"
+import { FolderIcon, DeleteIcon } from "../components/Icons"
+import { TextElement, ImageElement } from "../components/Elements"
 import { TextEditor } from "../components/TextEditor"
+import { DeleteAlert } from "../components/Alerts"
+import { UploadImage } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { getText, removeText, updateFolderLayout, getFolderLayout } from "../api/elements.api"
@@ -19,14 +21,18 @@ const TitleWrapper = styled.div`
 display:flex;
 align-items:center;
 img {
-
   padding-right:10px;
 }
 `
 
 
 const Page = ({ folder }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState({
+    main: false,
+    text: false,
+    audio: false,
+    images: false
+  })
   const [changes, setChanges] = useState(true);
 
   const [folderBoard, setFolderBoard] = useState({
@@ -41,33 +47,12 @@ const Page = ({ folder }) => {
 
   const gridProps = { cols: 8, rowHeight: 30, className: "layout" }
 
-  const DeleteAlert = () => {
-    return (
-      <div className="delete-alert">
-        <div>
-          <p>
-            Are you sure you want to delete the element {alerts.remove.e}? <br />
-      You cannot undo this.
-    </p>
-        </div>
-        <div>
-          <button onClick={() => {
-            handleRemove({ id: alerts.remove })
-            setAlerts({ ...alerts, showAlert: false, remove: "" });
-          }}>Yes</button>
-          <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
-        </div>
-      </div>
-    )
-  }
-
 
   useEffect(() => {
     Promise.all([getText({ folder }), getFolderLayout({ folder })]).then(([elementsRes, layoutRes]) => {
       setFolderBoard({ ...folderBoard, elements: elementsRes.data, layout: layoutRes.data });
     })
-  }
-    , [changes]); //when folder is added or deleted*/
+  }, [changes]); //when folder is added or deleted*/
 
 
   const handleRemove = ({ id }) => {
@@ -80,40 +65,23 @@ const Page = ({ folder }) => {
   }
 
   return (<>
-    <TitleWrapper>
-
-      <FolderIcon /> <h1>{folder}</h1>
-    </TitleWrapper>
-
-    <TextEditor {...{ changes, setChanges, folder }} />
-
-    <div className="add-item">
-      <AddItemCollapsible {...{ open, setOpen }}>
-        <AudioIcon />
-        <TextIcon />
-        <CameraIcon />
-      </AddItemCollapsible>
+    <TitleWrapper><FolderIcon /> <h1>{folder}</h1></TitleWrapper>
+    <div className="menu">
+      {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
+      {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
+      <AddItemCollapsible {...{ open, setOpen }} />
     </div>
-
-    {alerts.showAlert && <DeleteAlert />}
+    {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
-
-      {folderBoard.elements.map((element, i) => {
-        return (
-          <div className="grid-element" key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
-            <button onClick={() => {
-              setAlerts({ ...alerts, showAlert: true, remove: element._id });
-            }}>
-              <DeleteIcon />
-            </button>
-
-            {element.type == "text" && <TextElement text={element.text} />}
-          </div>)
-      })}
+      {folderBoard.elements.map((element, i) => (
+        <div className="grid-element" key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
+          <button onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element._id }) }}>
+            <DeleteIcon />
+          </button>
+          {element.type == "text" && <TextElement text={element.text} />}
+          {element.type == "image" && <ImageElement image={element.image} />}
+        </div>))}
     </ReactGridLayout>
-
-
-
   </>)
 }
 

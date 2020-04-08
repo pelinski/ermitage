@@ -7,7 +7,7 @@ import "/node_modules/draft-js/dist/Draft.css"
 import { uploadText } from "../api/elements.api"
 
 
-export const TextEditor = ({ changes, setChanges, folder }) => {
+export const TextEditor = ({ changes, setChanges, open, setOpen, folder }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
   const handleKeyCommand = (command) => {
@@ -40,6 +40,8 @@ export const TextEditor = ({ changes, setChanges, folder }) => {
         <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-three'))} >h3</button>
         <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
         <button onClick={handleAdd} >Add</button>
+        <button onClick={() => setOpen({ ...open, text: !open.text })} >X</button>
+
 
       </div>
       <div className="editor">

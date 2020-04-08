@@ -108,20 +108,6 @@ nav {
     }
 }
 
-.add-item {
-    position: fixed;
-    right: 0px;
-    margin-right: $margin-content;
-    padding: $button-padding $padding;
-    border: $border;
-    z-index: 1000;
-    .Collapsible {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-    }
-}
-
 .Collapsible {
     align-self: flex-end;
     text-align: right;
@@ -147,28 +133,46 @@ nav {
     margin-bottom: $margin-bottom;
 }
 
-.editorContainer {
-    border: $border;
-    margin-bottom: $margin-bottom;
-    overflow: hidden;
-    min-height: 20vh;
-    max-height: 60vh;
-    .editorButtons {
-        top: 0;
-        position: -webkit-sticky;
-        position: sticky;
-        border-bottom: $border;
-        padding: $button-padding;
-        button {
-            width: 40px;
-            border: $border;
-            margin: 5px;
+.menu {
+    display: flex;
+    .editorContainer {
+        border: $border;
+        margin-bottom: $margin-bottom;
+        width: 70vw;
+        overflow: hidden;
+        min-height: 20vh;
+        max-height: 60vh;
+        .editorButtons {
+            top: 0;
+            position: -webkit-sticky;
+            position: sticky;
+            border-bottom: $border;
             padding: $button-padding;
-            font-size: 30px;
+            button {
+                width: 40px;
+                border: $border;
+                margin: 5px;
+                padding: $button-padding;
+                font-size: 30px;
+            }
+        }
+        .editor {
+            max-height: 60vh;
+            padding: 10px;
         }
     }
-    .editor {
-        max-height: 60vh;
-        padding: 10px;
+
+    .add-item {
+        position: fixed;
+        right: 0px;
+        margin-right: $margin-content;
+        padding: $button-padding $padding;
+        border: $border;
+        z-index: 1000;
+        .Collapsible {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
     }
 }

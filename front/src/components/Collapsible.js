@@ -1,6 +1,5 @@
 import React from "react";
-import { ElementIcon, ElementCloseIcon, TextIcon } from "./Icons";
-import { Editor, EditorState } from 'draft-js';
+import { ElementIcon, ElementCloseIcon, AudioIcon, TextIcon, CameraIcon } from "./Icons";
 
 
 export const Collapsible = ({ children, trigger, open, setOpen }) => (
@@ -10,13 +9,19 @@ export const Collapsible = ({ children, trigger, open, setOpen }) => (
   </div>)
 
 
-export const AddItemCollapsible = ({ children, open, setOpen }) => (
-  <div className="Collapsible">
-    <button className="trigger" onClick={() => setOpen(!open)}>
-      {open || <ElementIcon />}
-      {open && <ElementCloseIcon />}
-    </button>
-    {open && children}
+export const AddItemCollapsible = ({ open, setOpen }) => (
+  <div className="add-item">
+    <div className="Collapsible">
+      <button className="trigger" onClick={() => setOpen({ ...open, main: !open.main })}>
+        {open.main || <ElementIcon />}
+        {open.main && <ElementCloseIcon />}
+      </button>
+
+      {open.main && <AudioIcon />}
+      {open.main && <TextIcon {...{ open, setOpen }} />}
+      {open.main && <CameraIcon {...{ open, setOpen }} />}
+
+    </div>
   </div>)
 
 /*

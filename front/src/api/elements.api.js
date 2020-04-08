@@ -12,12 +12,12 @@ const foldersApi = axios.create({
 
 //FOLDER: EDIT NAME, GET LAYOUT, UPDATE LAYOUT
 
-export const updateFolderLayout  = async({folder,layout}) => {
-  const res = await foldersApi.post(`/update/${folder}/layout`, {layout});
+export const updateFolderLayout = async ({ folder, layout }) => {
+  const res = await foldersApi.post(`/update/${folder}/layout`, { layout });
   return res;
 }
 
-export const getFolderLayout  = async({folder}) => {
+export const getFolderLayout = async ({ folder }) => {
   const res = await foldersApi.get(`/${folder}/layout`);
   return res;
 }
@@ -27,18 +27,25 @@ export const getFolderLayout  = async({folder}) => {
 //ELEMENTS
 
 //must upload only to folder
-export const uploadText = async ({text, folder}) => {
-  const res = await elementsApi.post("/upload/text", {text,folder});
+export const uploadText = async ({ text, folder }) => {
+  const res = await elementsApi.post(`/upload/${folder}/text`, { text });
   return res;
 };
 
+export const uploadImage = async ({ image, folder }) => {
+  const data = new FormData();
+  data.append("image", image);
+  const res = await elementsApi.post(`/upload/${folder}/image`, data);
+  return res
+};
+
 //must retrieve only from folder
-export const getText = async ({folder}) => {
-  const res =  await elementsApi.get(`/${folder}`);
+export const getText = async ({ folder }) => {
+  const res = await elementsApi.get(`/${folder}`);
   return res;
 }
 
-export const removeText = async ({id}) => {
+export const removeText = async ({ id }) => {
   const res = await elementsApi.delete(`/${id}`);
   return res;
 }

@@ -10,7 +10,7 @@ export const LoginPage = withRouter(({ history }) => {
         username: "",
         password: ""
     });
-    const [error,setError] = useState("");
+    const [error, setError] = useState("");
 
 
     const setUser = useUserSetter();
@@ -37,7 +37,7 @@ export const LoginPage = withRouter(({ history }) => {
             else {
                 setUser(user);
                 console.log(res.data.message);
-                history.push("/");
+                history.push(`${user.username}/dashboard`);
             }
         })
 
