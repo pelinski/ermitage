@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { withAuthentication } from "./lib/withAuthentication"
 
+
 import './App.scss';
 
 import { Layout } from "./layouts/Layout"
@@ -17,7 +18,6 @@ import { FolderPage } from './pages/Folder.page';
 
 
 export const App = withAuthentication(() => (
-
   <Router>
     <Layout>
       <Switch>
@@ -26,7 +26,7 @@ export const App = withAuthentication(() => (
         <Route path="/login" component={LoginPage} />
         <Route path="/aboutus" component={AboutusPage} />
         <Route path="/:user/dashboard" component={DashboardPage} />
-        <Route path="/:user/:folder" component={props => <FolderPage folder={props.match.params.folder}/>} />
+        <Route path="/:user/:folder" component={props => <FolderPage folder={props.match.params.folder} />} />
       </Switch>
     </Layout>
   </Router>

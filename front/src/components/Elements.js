@@ -8,7 +8,7 @@ export const TextElement = ({ text }) => <>{parse(text)}</>
 export const ImageElement = ({ image, width }) => {
 
   return (
-    < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf'>
+    < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf' draggable="false" >
       <Transformation width={width} dpr="auto" crop="fill" />
     </Image >)
 }

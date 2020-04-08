@@ -46,7 +46,7 @@ const Page = ({ folder }) => {
     showAlert: false
   })
 
-  const gridProps = { cols: 8, rowHeight: 30, className: "layout", margin: [10, 10], containerPadding: [10, 10] }
+  const gridProps = { cols: 8, rowHeight: 30, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
 
 
   useEffect(() => {
@@ -70,18 +70,19 @@ const Page = ({ folder }) => {
       <AddItemCollapsible {...{ open, setOpen }} />
     </div>
     {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
+
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
       {folderBoard.elements.map((element, i) => (
-        <div className="grid-element" ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
+        <div className="grid-element" ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
           <button onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element }) }}>
             <DeleteIcon />
           </button>
-          {console.log(elementsRefs.map.get(i)?.getBoundingClientRect())}
           {element.type == "text" && <TextElement text={element.text} />}
           {element.type == "image" && <ImageElement image={element.image} width={elementsRefs.map.get(i)?.getBoundingClientRect().width || 500} />}
         </div>)
       )}
-    </ReactGridLayout>
+    </ReactGridLayout >
+
   </>)
 }
 
