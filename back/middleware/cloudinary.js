@@ -16,7 +16,7 @@ cloudinary.config({
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
   folder: function (req, file, cb) {
-    cb(undefined, `elements/${req.user._id}`);
+    cb(undefined, `elements/${req.user._id}/${req.params.folder}`);
   },
   allowedFormats: ["jpg", "png"],
   filename: function (req, file, cb) {
@@ -25,14 +25,19 @@ const storage = cloudinaryStorage({
 });
 
 const uploadCloudinaryImage = multer({ storage });
+
 const removeCloudinaryImage = ({ public_id }) => {
   cloudinary.v2.uploader.destroy(public_id, (error, result) => {
     if (error) throw new Error(error)
   })
 };
 
+const removeCloudinaryFolder = ({ id, folder }) => {
+  cloudinary.api.delete_resources_by_prefix(`elements/${id}/${folder}/`);
+}
 
 module.exports = {
   uploadCloudinaryImage,
-  removeCloudinaryImage
+  removeCloudinaryImage,
+  removeCloudinaryFolder
 }

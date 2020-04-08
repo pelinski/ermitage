@@ -5,6 +5,8 @@ const Element = require("../models/Element");
 const User = require("../models/User");
 const Folder = require("../models/Folder");
 
+const { removeCloudinaryFolder } = require("../middleware/cloudinary")
+
 
 //RETRIEVE FOLDERS FROM USER
 router.get("/folders", async (req, res, next) => {
@@ -107,6 +109,9 @@ router.delete("/:folder", async (req, res, next) => {
       }, async (err, res) => {
         await User.updateOne({ _id: req.user._id }, { $pull: { folders: res._id } })
         await Element.deleteMany({ $and: [{ user: req.user._id }, { folder: res._id }] });
+        //delete also pics from cloudinary
+        removeCloudinaryFolder({ id: req.user._id, folder });
+
       });
       res.status(200).json({ message: `${folder} folder deleted` });
     }
@@ -120,11 +125,11 @@ router.delete("/:folder", async (req, res, next) => {
 
 //UPDATE FOLDER LAYOUT
 router.post("/update/:folder/layout", async (req, res, next) => {
-  const {folder} = req.params;
+  const { folder } = req.params;
   if (req.user) {
     const { layout } = req.body;
     try {
-     await Folder.updateOne( {$and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }]}, { layout });
+      await Folder.updateOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] }, { layout });
       res.status(200).json({ message: `${folder} layout updated` });
     }
     catch {
@@ -137,10 +142,10 @@ router.post("/update/:folder/layout", async (req, res, next) => {
 
 //GET FOLDER LAYOUT
 router.get("/:folder/layout", async (req, res, next) => {
-  const {folder} = req.params;
+  const { folder } = req.params;
   if (req.user) {
     try {
-      const { layout } = await Folder.findOne({$and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }]});
+      const { layout } = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
       res.status(200).json(layout);
     }
     catch {
