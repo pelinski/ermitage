@@ -3,7 +3,6 @@ const router = express.Router();
 const _ = require("lodash");
 
 const Element = require("../models/Element");
-const User = require("../models/User");
 const Folder = require("../models/Folder");
 
 const { uploadCloudinaryImage, removeCloudinaryImage } = require("../middleware/cloudinary")
@@ -48,6 +47,7 @@ router.post("/upload/:folder/text", async (req, res, next) => {
 })
 
 // UPLOAD IMAGE
+// TO DO: would be cool to add a caption but how do I send folder to the cloudinary middleware and keep the caption?
 router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), async (req, res) => {
   if (req.user) {
     const { folder } = req.params;
@@ -67,7 +67,9 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
 });
 
 // IF ELEMENT IS FILE REMOVE FROM CLOUDINARY
-router.post("/cloudinary", async (req, res, next) => {
+// this is a POST instead of a DELETE bc you cannot send a req.body with a DELETE
+// you could use req.params but since the public_id of files contains a route with folders you get a 404
+router.post("/cloudinary/delete", async (req, res, next) => {
   if (req.user) {
     const { public_id } = req.body;
     removeCloudinaryImage({ public_id });

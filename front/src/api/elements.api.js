@@ -48,7 +48,7 @@ export const getText = async ({ folder }) => {
 //if file, remove also from cloudinary
 export const removeElement = async ({ element }) => {
   if (element.type == "image") {
-    await elementsApi.post(`/cloudinary`, { public_id: element.image.public_id })
+    await elementsApi.post(`/cloudinary/delete`, { public_id: element.image.public_id })
   }
   const res = await elementsApi.delete(`/${element._id}`);
   return res;
