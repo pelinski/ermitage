@@ -5,10 +5,13 @@ import { Image, Transformation } from 'cloudinary-react';
 
 
 export const TextElement = ({ text }) => <>{parse(text)}</>
-export const ImageElement = ({ image }) => (
-  < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf' >
-    <Transformation height="150" width="150" crop="fill" />
-  </Image >)
+export const ImageElement = ({ image, width }) => {
+
+  return (
+    < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf'>
+      <Transformation width={width} dpr="auto" crop="fill" />
+    </Image >)
+}
 
 
 

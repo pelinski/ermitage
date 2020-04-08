@@ -81,6 +81,7 @@ nav {
     .grid-element {
         border: $border;
         overflow-wrap: break-word;
+        overflow: hidden;
     }
 }
 
