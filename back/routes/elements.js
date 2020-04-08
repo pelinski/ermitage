@@ -6,7 +6,7 @@ const Element = require("../models/Element");
 const User = require("../models/User");
 const Folder = require("../models/Folder");
 
-const { uploadCloudinaryImage } = require("../middleware/uploader")
+const { uploadCloudinaryImage, removeCloudinaryImage } = require("../middleware/cloudinary")
 
 
 // ELEMENTS 
@@ -66,19 +66,28 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
   }
 });
 
+// IF ELEMENT IS FILE REMOVE FROM CLOUDINARY
+router.post("/cloudinary", async (req, res, next) => {
+  if (req.user) {
+    const { public_id } = req.body;
+    removeCloudinaryImage({ public_id });
+    res.status(200).json({ message: "Element deleted" });
+  } else {
+    res.status(401)
+  }
+})
+
+
 // REMOVE ELEMENT FROM DB
 router.delete("/:id", async (req, res, next) => {
   if (req.user) {
     const { id } = req.params;
     console.log(id)
     try {
-      await Element.findOneAndDelete({
-        $and: [{ user: req.user._id }, { _id: id }]
-      }, async (err, res) => {
-        await Folder.updateOne({
-          $and: [{ user: req.user._id }, { _id: res.folder }]
-        }, { $pull: { elements: res._id } });
+      await Element.findOneAndDelete({ $and: [{ user: req.user._id }, { _id: id }] }, async (err, res) => {
+        await Folder.updateOne({ $and: [{ user: req.user._id }, { _id: res.folder }] }, { $pull: { elements: res._id } });
       });
+
       res.status(200).json({ message: `Element deleted` });
     }
     catch (err) {

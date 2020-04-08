@@ -13,7 +13,7 @@ import { DeleteAlert } from "../components/Alerts"
 import { UploadImage } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { getText, removeText, updateFolderLayout, getFolderLayout } from "../api/elements.api"
+import { getText, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -55,14 +55,10 @@ const Page = ({ folder }) => {
   }, [changes]); //when folder is added or deleted*/
 
 
-  const handleRemove = ({ id }) => {
-    removeText({ id }).then(() => setChanges(!changes))
-  }
+  const handleRemove = ({ element }) => { removeElement({ element }).then(() => setChanges(!changes)) }
 
 
-  const onLayoutChange = (newLayout) => {
-    updateFolderLayout({ folder, layout: newLayout }).then(() => setFolderBoard({ ...folderBoard, layout: newLayout }));
-  }
+  const onLayoutChange = (newLayout) => { updateFolderLayout({ folder, layout: newLayout }).then(() => setFolderBoard({ ...folderBoard, layout: newLayout })); }
 
   return (<>
     <TitleWrapper><FolderIcon /> <h1>{folder}</h1></TitleWrapper>
@@ -75,7 +71,7 @@ const Page = ({ folder }) => {
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
       {folderBoard.elements.map((element, i) => (
         <div className="grid-element" key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }}>
-          <button onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element._id }) }}>
+          <button onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element }) }}>
             <DeleteIcon />
           </button>
           {element.type == "text" && <TextElement text={element.text} />}
