@@ -5,17 +5,11 @@ import { Image, Transformation } from 'cloudinary-react';
 
 
 export const TextElement = ({ text }) => <>{parse(text)}</>
-export const ImageElement = ({ image, width }) => {
-
-  return (
-    < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf' draggable="false" >
-      <Transformation width={width} dpr="auto" crop="fill" />
-    </Image >)
-}
+export const ImageElement = ({ image, width }) => (
+  < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf' draggable="false" >
+    <Transformation width={width} dpr="auto" crop="fill" />
+  </Image >)
 
 
 
-
-// { width: 200, crop: "fit" }
-//  <Transformation overlay="text:arial_60:pic" gravity="north" y="20" />
-//<Transformation angle="20" />
+//<Transformation overlay="text:arial_60:pic" gravity="north" y="0" />
