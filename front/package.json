@@ -20,6 +20,7 @@
     "parcel": "^1.12.4",
     "react": "^16.3.3",
     "react-dom": "^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0",
+    "react-favicon": "^0.0.18",
     "react-grid-layout": "^0.18.3",
     "react-is": ">= 16.8.0",
     "react-multi-ref": "^1.0.0",

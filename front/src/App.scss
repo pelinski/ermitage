@@ -1,4 +1,4 @@
-$border: 2px solid black;
+$border: 1.8px solid black;
 $padding: 20px;
 $margin-content: 50px;
 $button-padding: 5px;
@@ -34,7 +34,6 @@ button {
     margin: $margin-content;
     margin-top: 0;
     height: 78%;
-    border: $border;
     padding: $padding;
 }
 
