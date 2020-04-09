@@ -24,7 +24,8 @@
     "multer-storage-cloudinary": "^2.2.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "telegraf": "^3.37.0"
+    "telegraf": "^3.37.0",
+    "telegraf-session-mongodb": "^1.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"

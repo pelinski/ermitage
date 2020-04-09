@@ -9,7 +9,7 @@ export const getFolders = async () => {
   const res = await api.get("/folders");
   return res;
 }
-export const createFolder = async({folder}) => {
+export const createFolder = async ({ folder }) => {
   try {
     const res = await api.post(`/create/${folder}`);
     return res;
@@ -18,26 +18,17 @@ export const createFolder = async({folder}) => {
     return e.response;
   }
 }
-export const deleteFolder = async({folder}) => {
+export const deleteFolder = async ({ folder }) => {
   const res = await api.delete(`/${folder}`);
   return res;
 }
 
-export const updateDashboardLayout  = async({layout}) => {
-  const res = await api.post(`/update/layout`, {layout});
+export const updateDashboardLayout = async ({ layout }) => {
+  const res = await api.post(`/update/layout`, { layout });
   return res;
 }
 
-export const getDashboardLayout  = async() => {
+export const getDashboardLayout = async () => {
   const res = await api.get(`/layout`);
   return res;
 }
-
-
-
-
-/*
-export const updateFolderLayout = async ({folder,layout}) => {
-  const res = await api.post(`/update/folder/${folder}`,{layout});
-  return res;
-}*/

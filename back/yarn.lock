@@ -1355,7 +1355,7 @@ module-alias@^2.2.2:
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
 
-mongodb@3.5.5, mongodb@^3.1.0:
+mongodb@3.5.5, mongodb@^3.1.0, mongodb@^3.1.10:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.5.tgz#1334c3e5a384469ac7ef0dea69d59acc829a496a"
   integrity sha512-GCjDxR3UOltDq00Zcpzql6dQo1sVry60OXJY3TDmFc2SWFY6c8Gn1Ardidc5jDirvJrx2GC3knGOImKphbSL3A==
@@ -2211,6 +2211,13 @@ tar@^4.4.2:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
+
+telegraf-session-mongodb@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/telegraf-session-mongodb/-/telegraf-session-mongodb-1.2.1.tgz#702135a3557f37d6d1c0d8788ebec2ed2c39a047"
+  integrity sha512-Y/35PzMFGxSt6VzYOYbov4lKJrnyXRVR9vIFiIIGbEktjXXPqlfZ+/Yljp1ubrF6xM6VNsb7BmwXRd1TntOeoA==
+  dependencies:
+    mongodb "^3.1.10"
 
 telegraf@^3.37.0:
   version "3.37.0"

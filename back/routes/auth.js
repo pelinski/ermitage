@@ -76,7 +76,7 @@ router.post('/login', (req, res, next) => {
             if (loginErr) {
                 next(loginErr);
             }
-            return res.status(200).json({ message: 'Authentication succeeded' });
+            return res.status(200).json({ message: 'Authentication succeeded', user });
         });
     })(req, res, next);
 });

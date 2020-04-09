@@ -40,6 +40,7 @@ router.post("/update/layout", async (req, res, next) => {
 
 //GET DASHBOARD LAYOUT
 router.get("/layout", async (req, res, next) => {
+  console.log("user", req.user)
   if (req.user) {
     try {
       const { layout } = await User.findOne({ _id: req.user._id });
