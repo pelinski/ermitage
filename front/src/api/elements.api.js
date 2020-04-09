@@ -1,0 +1,56 @@
+import axios from "axios";
+
+const elementsApi = axios.create({
+  baseURL: "http://localhost:3000/elements",
+  withCredentials: true
+});
+
+const foldersApi = axios.create({
+  baseURL: "http://localhost:3000/dashboard",
+  withCredentials: true
+});
+
+//FOLDER: EDIT NAME, GET LAYOUT, UPDATE LAYOUT
+
+export const updateFolderLayout = async ({ folder, layout }) => {
+  const res = await foldersApi.post(`/update/${folder}/layout`, { layout });
+  return res;
+}
+
+export const getFolderLayout = async ({ folder }) => {
+  const res = await foldersApi.get(`/${folder}/layout`);
+  return res;
+}
+
+
+
+//ELEMENTS
+
+//must upload only to folder
+export const uploadText = async ({ text, folder }) => {
+  const res = await elementsApi.post(`/upload/${folder}/text`, { text });
+  return res;
+};
+
+export const uploadImage = async ({ image, folder }) => {
+  const data = new FormData();
+  data.append("image", image);
+  const res = await elementsApi.post(`/upload/${folder}/image`, data);
+  return res
+};
+
+//must retrieve only from folder
+export const getText = async ({ folder }) => {
+  const res = await elementsApi.get(`/${folder}`);
+  return res;
+}
+
+//if file, remove also from cloudinary
+export const removeElement = async ({ element }) => {
+  if (element.type == "image") {
+    await elementsApi.post(`/cloudinary/delete`, { public_id: element.image.public_id })
+  }
+  const res = await elementsApi.delete(`/${element._id}`);
+  return res;
+}
+

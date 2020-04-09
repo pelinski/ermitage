@@ -1,0 +1,179 @@
+$border: 2px solid black;
+$padding: 20px;
+$margin-content: 50px;
+$button-padding: 5px;
+$margin-bottom: 20px;
+
+* {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    text-decoration: none;
+    color: black;
+}
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Prata", serif;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+}
+
+.content-box {
+    margin: $margin-content;
+    margin-top: 0;
+    height: 78%;
+    border: $border;
+    padding: $padding;
+}
+
+input {
+    border: $border;
+}
+
+header {
+    margin: 0 $margin-content;
+    height: 3 * $padding;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav {
+    align-self: flex-end;
+    display: flex;
+
+    span {
+        border: $border;
+        border-bottom: 0;
+        border-right: 0;
+        padding: $button-padding;
+    }
+    span:last-of-type {
+        border-right: $border;
+    }
+}
+
+.auth-button {
+    width: 100px;
+    padding: $button-padding;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    border: $border;
+}
+
+.layout {
+    height: 90% !important;
+    .react-grid-item.react-grid-placeholder {
+        opacity: 0 !important;
+    }
+    .grid-element {
+        border: $border;
+        overflow-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
+.folder {
+    margin: 5px;
+    border: $border;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+
+    .folderDetail {
+        text-align: right;
+        padding-right: 4px;
+        align-self: flex-end;
+        width: 65%;
+        height: 20px;
+        border-bottom: $border;
+        border-left: $border;
+        margin-bottom: 10px;
+    }
+
+    .folderContent {
+        text-align: center;
+    }
+}
+
+.Collapsible {
+    align-self: flex-end;
+    text-align: right;
+
+    .trigger {
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    input {
+        margin-bottom: 10px;
+        height: 20px;
+        width: 100px;
+    }
+}
+
+.delete-alert {
+    display: flex;
+    justify-content: space-between;
+    width: 40vw;
+    padding: $button-padding;
+    border: $border;
+    margin-bottom: $margin-bottom;
+}
+
+.menu {
+    display: flex;
+    .editorContainer {
+        border: $border;
+        margin-bottom: $margin-bottom;
+        width: 70vw;
+        overflow: hidden;
+        min-height: 20vh;
+        max-height: 60vh;
+        .editorButtons {
+            top: 0;
+            position: -webkit-sticky;
+            position: sticky;
+            border-bottom: $border;
+            padding: $button-padding;
+            button {
+                width: 40px;
+                border: $border;
+                margin: 5px;
+                padding: $button-padding;
+                font-size: 30px;
+            }
+        }
+        .editor {
+            max-height: 60vh;
+            padding: 10px;
+        }
+    }
+
+    .add-item {
+        position: fixed;
+        right: 0px;
+        margin-right: $margin-content;
+        padding: $button-padding $padding;
+        border: $border;
+        z-index: 1000;
+        .Collapsible {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+    }
+}

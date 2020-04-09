@@ -1,0 +1,41 @@
+{
+  "name": "ermitage-front",
+  "version": "1.0.0",
+  "description": "The place to collect what inspires you.",
+  "main": "index.js",
+  "repository": "https://github.com/pelinski/ermitage",
+  "author": "Teresa Pelinski",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "@babel/core": "^7.0.0-0",
+    "axios": "^0.19.2",
+    "cloudinary-core": "^2.8.2",
+    "cloudinary-react": "^1.4.0",
+    "draft-js": "^0.11.5",
+    "draft-js-export-html": "^1.4.1",
+    "html-react-parser": "^0.10.3",
+    "icons": "^1.0.0",
+    "lodash": ">=4.0",
+    "parcel": "^1.12.4",
+    "react": "^16.3.3",
+    "react-dom": "^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0",
+    "react-grid-layout": "^0.18.3",
+    "react-is": ">= 16.8.0",
+    "react-multi-ref": "^1.0.0",
+    "react-router-dom": "^5.1.2",
+    "react-spinkit": "^3.0.0",
+    "sass": "^1.26.3",
+    "styled": "^1.0.0",
+    "styled-components": "^5.0.1"
+  },
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel": "^6.23.0"
+  }
+}
