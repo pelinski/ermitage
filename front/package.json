@@ -26,6 +26,7 @@
     "react-multi-ref": "^1.0.0",
     "react-router-dom": "^5.1.2",
     "react-spinkit": "^3.0.0",
+    "react-spring": "^8.0.27",
     "sass": "^1.26.3",
     "styled": "^1.0.0",
     "styled-components": "^5.0.1"

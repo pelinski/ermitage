@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { animated, useSpring } from "react-spring"
 import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components";
@@ -15,6 +16,7 @@ import { handleInputChange, handlePost } from "../lib/formHelpers";
 
 
 
+
 const ReactGridLayout = WidthProvider(RGL);
 const Folder = ({ children, deleteFolder }) => (<>
   <button onClick={() => deleteFolder()} className="folderDetail"> x </button>
@@ -28,7 +30,6 @@ justify-content:space-between;
 
 
 const Page = () => {
-
   //Hooks
   const [alerts, setAlerts] = useState({
     remove: "",
@@ -54,6 +55,13 @@ const Page = () => {
   }, [changes]); //when folder is added or deleted
 
   // Grid
+  const props = {
+    grid: {
+      cols: 8,
+      rowHeight: 30,
+    },
+    spring: useSpring({ opacity: 1, from: { opacity: 0 }, duration: 600 })
+  }
   const gridProps = {
     cols: 8,
     rowHeight: 30,
@@ -62,7 +70,6 @@ const Page = () => {
   const onLayoutChange = (newLayout) => {
     updateDashboardLayout({ layout: newLayout }).then(() => setDashboard({ ...dashboard, layout: newLayout }));
   }
-
 
 
   const DeleteAlert = () => {
@@ -85,6 +92,7 @@ const Page = () => {
     )
   }
 
+
   return (
     <>
       <TitleWrapper>
@@ -100,15 +108,19 @@ const Page = () => {
         </Collapsible>
       </TitleWrapper>
 
-      <ReactGridLayout className="layout" layout={dashboard.layout} {...gridProps} onLayoutChange={(e) => onLayoutChange(e)}>
+      <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => onLayoutChange(e)}>
+
         {dashboard.folders.map((e, i) =>
-          <div key={e._id} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+
+          <animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() => {
               setAlerts({ ...alerts, showAlert: true, remove: e });
             }}>
               <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
             </Folder>
-          </div>)}
+          </animated.div>)
+
+        }
       </ReactGridLayout>
 
       {alerts.showAlert && <DeleteAlert />}
