@@ -46,23 +46,21 @@ export const SignupPage = withRouter(({ history }) => {
 
 
   return (
-    <>
-      <h1>Эж</h1>
-      <form onSubmit={e => {
-        e.preventDefault();
-        handleSubmit(data);
-      }}>
-        <Field field="username" {...{ example, data, handleInputChange }} />
-        <Field field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
-        <Field field="email" type="email" {...{ example, data, handleInputChange }} />
-        {error}
-        <FormButton type="submit" >
-          Sign up
+
+    <form onSubmit={e => {
+      e.preventDefault();
+      handleSubmit(data);
+    }}>
+      <Field field="username" {...{ example, data, handleInputChange }} />
+      <Field field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
+      <Field field="email" type="email" {...{ example, data, handleInputChange }} />
+      {error}
+      <FormButton type="submit" >
+        Sign up
          </FormButton>
 
-      </form>
-
-    </>)
+    </form>
+  )
 });
 
 

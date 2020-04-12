@@ -3,6 +3,7 @@ $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
 $margin-bottom: 20px;
+$content-height: 78%;
 
 * {
     margin: 0;
@@ -51,7 +52,7 @@ nav {
 .content-box {
     margin: $margin-content;
     margin-top: 0;
-    height: 78%;
+    height: $content-height;
     padding: $padding;
 }
 footer {
@@ -97,6 +98,24 @@ button {
             }
             .home-button {
                 padding: 0 $button-padding;
+            }
+            .dashboard-button {
+                padding: 0 2px;
+            }
+        }
+        .logged-in {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h4 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 0.5vh;
+                p {
+                    margin-left: 3px;
+                    text-decoration: underline;
+                }
             }
         }
 

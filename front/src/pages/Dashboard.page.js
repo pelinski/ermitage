@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { animated, useSpring } from "react-spring"
+import { animated as Animated, useSpring } from "react-spring"
 import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components";
@@ -62,10 +62,6 @@ const Page = () => {
     },
     spring: useSpring({ opacity: 1, from: { opacity: 0 }, duration: 600 })
   }
-  const gridProps = {
-    cols: 8,
-    rowHeight: 30,
-  }
 
   const onLayoutChange = (newLayout) => {
     updateDashboardLayout({ layout: newLayout }).then(() => setDashboard({ ...dashboard, layout: newLayout }));
@@ -112,13 +108,13 @@ const Page = () => {
 
         {dashboard.folders.map((e, i) =>
 
-          <animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+          <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() => {
               setAlerts({ ...alerts, showAlert: true, remove: e });
             }}>
               <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
             </Folder>
-          </animated.div>)
+          </Animated.div>)
 
         }
       </ReactGridLayout>

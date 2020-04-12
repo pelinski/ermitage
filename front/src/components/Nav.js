@@ -9,7 +9,6 @@ export const LoggedinNav = () => {
   return (<>
 
     <nav>
-      <p>Hi, {username}</p>
       <span>
         <Link to={`/${username}/dashboard`} >Dashboard</Link>
       </span>

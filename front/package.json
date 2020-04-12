@@ -15,11 +15,10 @@
     "draft-js": "^0.11.5",
     "draft-js-export-html": "^1.4.1",
     "html-react-parser": "^0.10.3",
-    "icons": "^1.0.0",
     "lodash": ">=4.0",
     "parcel": "^1.12.4",
-    "react": "^16.3.3",
-    "react-dom": "^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0",
     "react-favicon": "^0.0.18",
     "react-grid-layout": "^0.18.3",
     "react-is": ">= 16.8.0",
@@ -28,7 +27,6 @@
     "react-spinkit": "^3.0.0",
     "react-spring": "^8.0.27",
     "sass": "^1.26.3",
-    "styled": "^1.0.0",
     "styled-components": "^5.0.1"
   },
   "scripts": {
