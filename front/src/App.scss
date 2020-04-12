@@ -1,7 +1,7 @@
 $border: 1.8px solid black;
 $padding: 20px;
 $margin-content: 50px;
-$button-padding: 5px;
+$button-padding: 10px;
 $margin-bottom: 20px;
 
 * {
@@ -28,10 +28,14 @@ h6 {
 }
 
 header {
-    margin: 0 $margin-content;
+    margin: 10px $margin-content;
     height: 3 * $padding;
     display: flex;
     justify-content: space-between;
+    a {
+        display: flex;
+        align-items: flex-end;
+    }
 }
 
 nav {
@@ -39,16 +43,24 @@ nav {
     display: flex;
 
     span {
-        border: $border;
-        border-bottom: 0;
-        border-right: 0;
-        padding: $button-padding;
-    }
-    span:last-of-type {
-        border-right: $border;
+        border-bottom: $border;
+        margin: 0 5px;
+        padding: 4px $button-padding;
     }
 }
-
+.content-box {
+    margin: $margin-content;
+    margin-top: 0;
+    height: 78%;
+    padding: $padding;
+}
+footer {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    position: absolute;
+    bottom: 2vh;
+}
 button {
     font-size: 14pt;
     font-family: "Playfair Display", serif;
@@ -98,12 +110,6 @@ button {
         margin: 0 5vw;
         width: 60vw;
     }
-}
-.content-box {
-    margin: $margin-content;
-    margin-top: 0;
-    height: 78%;
-    padding: $padding;
 }
 
 input {

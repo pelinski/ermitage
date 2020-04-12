@@ -1,12 +1,10 @@
 import React from "react"
-import { useSpring, animated } from 'react-spring'
+import { useSpring, animated as Animated } from 'react-spring'
 
 import { Button } from "../components/Buttons"
 
 import logo from "../public/home-logo.svg"
 import plane from "../public/hermitage-home.svg"
-
-
 
 
 export const HomePage = () => {
@@ -18,28 +16,38 @@ export const HomePage = () => {
   const props = useSpring({ opacity: 1, from: { opacity: 0 }, duration: 800 });
 
   return (<>
-    <animated.div style={{ ...props, overflow: "hidden" }} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
-      <animated.div style={{ transform: propsParallax.xy.interpolate(trans1), padding: "0 2vw" }}>
-        <img src={logo} />
-      </animated.div>
-      <div className="sub-title-home">
-        <div className="text-col" style={{ overflow: "hidden" }}>
-          <h1>The place to collect what inspires you.</h1>
-
-          <animated.div className="buttons" style={{ transform: propsParallax.xy.interpolate(trans2) }}>
-            <Button to="/signup"><em>Join now</em></Button>
-            <p>or</p>
-            <Button to="/login"><em>Log in</em></Button>
-          </animated.div>
-
-        </ div>
-        <animated.div style={props} className="map-col">
-          <img src={plane} />
-
-        </animated.div>
-      </div>
-
-    </animated.div>
+    <Animated.div style={{ ...props, overflow: "hidden" }} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
+      <Logo {...{ propsParallax }} trans={trans1} />
+      <SubtitleHome {...{ props, propsParallax, transAuth: trans2 }} />
+    </Animated.div>
   </>
   )
 };
+
+const AuthButtons = ({ propsParallax, trans }) => (
+  <Animated.div className="buttons" style={{ transform: propsParallax.xy.interpolate(trans) }}>
+    <Button to="/signup"><em>Join now</em></Button>
+    <p>or</p>
+    <Button to="/login"><em>Log in</em></Button>
+  </Animated.div>)
+
+const Logo = ({ propsParallax, trans }) => (
+  <Animated.div style={{ transform: propsParallax.xy.interpolate(trans), padding: "0 2vw" }}>
+    <img src={logo} />
+  </Animated.div>)
+
+const Plane = ({ props }) => (
+  <Animated.div style={props} className="map-col">
+    <img src={plane} />
+  </Animated.div>)
+
+const SubtitleHome = ({ props, propsParallax, transAuth }) => (
+  <div className="sub-title-home">
+    <div className="text-col" style={{ overflow: "hidden" }}>
+      <h1>The place to collect what inspires you.</h1>
+      <AuthButtons {...{ propsParallax }} trans={transAuth} />
+    </ div>
+
+    <Plane {...{ props }} />
+
+  </div>)
