@@ -41,8 +41,6 @@ export const TextEditor = ({ changes, setChanges, open, setOpen, folder }) => {
         <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
         <button onClick={handleAdd} >Add</button>
         <button onClick={() => setOpen({ ...open, text: !open.text })} >X</button>
-
-
       </div>
       <div className="editor">
         <Editor

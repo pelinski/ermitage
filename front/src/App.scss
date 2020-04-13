@@ -77,6 +77,14 @@ button {
     border: $border;
 }
 
+.page-title {
+    display: flex;
+    align-items: center;
+    img {
+        padding-right: 10px;
+    }
+}
+
 .sub-title-home {
     display: flex;
     margin-top: 2vh;
@@ -167,7 +175,7 @@ input {
         display: flex;
         .text-content {
             margin-top: -10px;
-            padding: 0 20px;
+            padding: 0 20px 10px 20px;
         }
         .delete-item-button {
             position: absolute;
@@ -265,16 +273,8 @@ input {
     }
 
     .add-item {
-        position: fixed;
-        right: 0px;
-        margin-right: $margin-content;
-        padding: $button-padding $padding;
-        border: $border;
-        z-index: 1000;
         .Collapsible {
             display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
         }
     }
 }

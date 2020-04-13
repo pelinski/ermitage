@@ -18,15 +18,6 @@ import { getText, removeElement, updateFolderLayout, getFolderLayout } from "../
 
 const ReactGridLayout = WidthProvider(RGL);
 
-const TitleWrapper = styled.div`
-display:flex;
-align-items:center;
-img {
-  padding-right:10px;
-}
-`
-
-
 const Page = ({ folder }) => {
   const [elementsRefs] = useState(() => new MultiRef());
   const [open, setOpen] = useState({
@@ -63,12 +54,12 @@ const Page = ({ folder }) => {
 
   return (<>
 
-    <TitleWrapper><FolderIcon /> <h1>{folder}</h1></TitleWrapper>
-    <div className="menu">
+    <div className="page-title"><FolderIcon /> <div className="menu">
       {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
       {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
       <AddItemCollapsible {...{ open, setOpen }} />
-    </div>
+    </div><h1>{folder}</h1></div>
+
     {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
