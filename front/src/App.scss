@@ -137,13 +137,52 @@ input {
 
 .layout {
     height: 90% !important;
+
     .react-grid-item.react-grid-placeholder {
         opacity: 0 !important;
     }
     .grid-element {
         border: $border;
         overflow-wrap: break-word;
+
+        .delete-item-button {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+    .react-grid-item {
+        .delete-item-button {
+            position: fixed;
+        }
+    }
+    .element-image {
         overflow: hidden;
+        .delete-item-button {
+            position: absolute;
+            z-index: 1000;
+        }
+    }
+    .element-text {
+        display: flex;
+        .text-content {
+            margin-top: -10px;
+            padding: 0 20px;
+        }
+        .delete-item-button {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            z-index: 1000;
+            top: 0;
+            position: -webkit-sticky;
+            position: sticky;
+        }
+        .react-grid-item > .react-resizable-handle {
+            z-index: 1000;
+            flex-shrink: 0;
+        }
     }
 }
 

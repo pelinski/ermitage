@@ -73,12 +73,14 @@ const Page = ({ folder }) => {
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
       {folderBoard.elements.map((element, i) => (
-        <div className="grid-element" ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
-          <button onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element }) }}>
-            <DeleteIcon />
-          </button>
-          {element.type == "text" && <TextElement text={element.text} />}
-          {element.type == "image" && <ImageElement image={element.image} width={elementsRefs.map.get(i)?.getBoundingClientRect().width || 500} />}
+        <div className={`grid-element ${element.type == "image" && "element-image"} ${element.type == "text" && "element-text"}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
+          <div>
+            <button className="delete-item-button" onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element }) }}>
+              <DeleteIcon />
+            </button>
+            {element.type == "text" && <TextElement text={element.text} />}
+            {element.type == "image" && <ImageElement image={element.image} height={elementsRefs.map.get(i)?.getBoundingClientRect().height || 500} width={elementsRefs.map.get(i)?.getBoundingClientRect().width || 500} />}
+          </div>
         </div>)
       )}
     </ReactGridLayout >
