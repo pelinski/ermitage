@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, createRef } from "react";
+import React, { useState, useEffect } from "react";
 import RGL, { WidthProvider } from "react-grid-layout";
-import styled from "styled-components"
 import MultiRef from 'react-multi-ref';
 
 import "/node_modules/react-grid-layout/css/styles.css"
@@ -70,7 +69,7 @@ const Page = ({ folder }) => {
               <DeleteIcon />
             </button>
             {element.type == "text" && <TextElement text={element.text} />}
-            {element.type == "image" && <ImageElement image={element.image} height={elementsRefs.map.get(i)?.getBoundingClientRect().height || 500} width={elementsRefs.map.get(i)?.getBoundingClientRect().width || 500} />}
+            {element.type == "image" && <ImageElement image={element.image} size={elementsRefs.map.get(i)?.getBoundingClientRect()} />}
           </div>
         </div>)
       )}

@@ -5,9 +5,9 @@ import { Image, Transformation } from 'cloudinary-react';
 
 
 export const TextElement = ({ text }) => <div className="text-content">{parse(text)}</div>
-export const ImageElement = ({ image, height, width }) => (
+export const ImageElement = ({ image, size }) => (
   < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf' draggable="false" >
-    <Transformation height={height} width={width} dpr="auto" crop="fill" />
+    <Transformation height={size?.height || 500} width={size?.width || 500} dpr="auto" crop="fill" />
   </Image >)
 
 
