@@ -275,6 +275,7 @@ input {
     .add-item {
         .Collapsible {
             display: flex;
+            flex-direction: row-reverse;
         }
     }
 }

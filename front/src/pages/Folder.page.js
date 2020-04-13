@@ -53,12 +53,17 @@ const Page = ({ folder }) => {
 
   return (<>
 
-    <div className="page-title"><FolderIcon /> <div className="menu">
+    <div className="page-title">
+      <FolderIcon />
+      <h1>{folder}</h1>
+      <AddItemCollapsible {...{ open, setOpen }} />
+    </div>
+
+    <div className="menu">
       {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
       {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
-      <AddItemCollapsible {...{ open, setOpen }} />
-    </div><h1>{folder}</h1></div>
 
+    </div>
     {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>

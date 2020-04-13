@@ -13,16 +13,11 @@ export const FolderIcon = () => <img src={folderIcon} alt="Folder icon" />;
 
 export const AudioIcon = () => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 2000 })
-
   return (
     <Animated.button style={props} onClick={() => setOpen({ ...open, audio: !open.audio })}>
       <img src={audioIcon} alt="Audio icon" />
     </Animated.button>)
-
-}
-
-
-  ;
+};
 export const TextIcon = ({ open, setOpen }) => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 1500 })
   return (
