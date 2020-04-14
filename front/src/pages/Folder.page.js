@@ -10,10 +10,10 @@ import { FolderIcon, DeleteIcon } from "../components/Icons"
 import { TextElement, ImageElement } from "../components/Elements"
 import { TextEditor } from "../components/TextEditor"
 import { DeleteAlert } from "../components/Alerts"
-import { UploadImage } from "../components/AddFiles"
+import { UploadImage, UploadAudio } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { getText, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
+import { getElements, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -40,7 +40,7 @@ const Page = ({ folder }) => {
 
 
   useEffect(() => {
-    Promise.all([getText({ folder }), getFolderLayout({ folder })]).then(([elementsRes, layoutRes]) => {
+    Promise.all([getElements({ folder }), getFolderLayout({ folder })]).then(([elementsRes, layoutRes]) => {
       setFolderBoard({ ...folderBoard, elements: elementsRes.data, layout: layoutRes.data });
 
     })
@@ -62,6 +62,7 @@ const Page = ({ folder }) => {
     <div className="menu">
       {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
       {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
+      {open.audio && <UploadAudio {...{ changes, setChanges, open, setOpen, folder }} />}
 
     </div>
     {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
@@ -75,6 +76,7 @@ const Page = ({ folder }) => {
             </button>
             {element.type == "text" && <TextElement text={element.text} />}
             {element.type == "image" && <ImageElement image={element.image} size={elementsRefs.map.get(i)?.getBoundingClientRect()} />}
+
           </div>
         </div>)
       )}

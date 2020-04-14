@@ -8,6 +8,7 @@ const schema = new Schema(
     user: { type: ObjectId, ref: 'User' },
     folder: { type: ObjectId, ref: "Folder" },
     image: Object,
+    audio: Object,
     text: String
   },
   {

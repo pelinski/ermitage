@@ -60,11 +60,33 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
       user: req.user._id
     }, async (err, res) => await Folder.updateOne({ _id: folderForElement._id }, { $push: { elements: res._id } }))
 
-    return res.status(200).json({ message: "Uploaded completed" });
+    return res.status(200).json({ message: "Upload completed" });
   } else {
     req.status(401)
   }
 });
+
+
+// UPLOAD FILE
+router.post("/upload/:folder/file", uploadCloudinaryImage.single("file"), async (req, res) => {
+  if (req.user) {
+    const { folder, type } = req.params;
+    const folderForElement = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
+    await Element.create({
+      type,
+      audio: type == "audio" ? req.file : null,
+      image: type == "image" ? req.file : null,
+      text: "",
+      folder: folderForElement._id,
+      user: req.user._id
+    }, async (err, res) => await Folder.updateOne({ _id: folderForElement._id }, { $push: { elements: res._id } }))
+
+    return res.status(200).json({ message: "Upload completed" });
+  } else {
+    req.status(401)
+  }
+});
+
 
 // IF ELEMENT IS FILE REMOVE FROM CLOUDINARY
 // this is a POST instead of a DELETE bc you cannot send a req.body with a DELETE

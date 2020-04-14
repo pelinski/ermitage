@@ -34,7 +34,7 @@ export const AddItemCollapsible = ({ open, setOpen }) => (
         {open.main || <ElementIcon />}
         {open.main && <ElementCloseIcon />}
       </button>
-      {open.main && <AudioIcon />}
+      {open.main && <AudioIcon {...{ open, setOpen }} />}
       {open.main && <TextIcon {...{ open, setOpen }} />}
       {open.main && <CameraIcon {...{ open, setOpen }} />}
 

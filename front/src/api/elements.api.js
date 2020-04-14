@@ -39,8 +39,16 @@ export const uploadImage = async ({ image, folder }) => {
   return res
 };
 
+export const uploadFile = async ({ file, folder, type }) => {
+  const data = new FormData();
+  data.append("file", file);
+  const res = await elementsApi.post(`/upload/${folder}/file`, { data, type });
+  return res
+};
+
+
 //must retrieve only from folder
-export const getText = async ({ folder }) => {
+export const getElements = async ({ folder }) => {
   const res = await elementsApi.get(`/${folder}`);
   return res;
 }
