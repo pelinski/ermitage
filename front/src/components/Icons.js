@@ -11,7 +11,7 @@ import elementCloseIcon from "../public/element_close.svg"
 
 export const FolderIcon = () => <img src={folderIcon} alt="Folder icon" />;
 
-export const AudioIcon = () => {
+export const AudioIcon = ({ open, setOpen }) => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 2000 })
   return (
     <Animated.button style={props} onClick={() => setOpen({ ...open, audio: !open.audio })}>

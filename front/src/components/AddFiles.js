@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import { uploadImage, uploadFile } from "../api/elements.api";
+import { uploadImage, uploadAudio } from "../api/elements.api";
 import _ from "lodash";
 
 
-const handleSubmit = ({ file, folder, type, setChanges, changes }) => {
-  uploadFile({ file: file.files[0], folder, type }).then(() => setChanges(!changes)).catch((e) => {
-    console.log("Error uploading file");
-    console.log(e);
-  });
-};
 
 export const UploadImage = ({ changes, setChanges, open, setOpen, folder }) => {
   const [file, setFile] = useState();
@@ -34,7 +28,8 @@ export const UploadImage = ({ changes, setChanges, open, setOpen, folder }) => {
 export const UploadAudio = ({ changes, setChanges, open, setOpen, folder }) => {
   const [file, setFile] = useState();
   const handleSubmit = () => {
-    uploadFile({ file: file.files[0], folder, type: "audio" }).then(() => setChanges(!changes)).catch((e) => {
+    const audio = file.files[0];
+    uploadAudio({ audio, folder }).then(() => setChanges(!changes)).catch((e) => {
       console.log("Error uploading file");
       console.log(e);
     });

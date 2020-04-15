@@ -5,7 +5,7 @@ const _ = require("lodash");
 const Element = require("../models/Element");
 const Folder = require("../models/Folder");
 
-const { uploadCloudinaryImage, removeCloudinaryImage } = require("../middleware/cloudinary")
+const { uploadCloudinaryImage, uploadCloudinaryAudio, removeCloudinaryFile } = require("../middleware/cloudinary")
 
 
 // ELEMENTS 
@@ -68,14 +68,14 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
 
 
 // UPLOAD FILE
-router.post("/upload/:folder/file", uploadCloudinaryImage.single("file"), async (req, res) => {
+router.post("/upload/:folder/audio", uploadCloudinaryAudio.single("audio"), async (req, res) => {
   if (req.user) {
-    const { folder, type } = req.params;
+    console.log("in route", req.file)
+    const { folder } = req.params;
     const folderForElement = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
     await Element.create({
-      type,
-      audio: type == "audio" ? req.file : null,
-      image: type == "image" ? req.file : null,
+      type: "audio",
+      audio: req.file,
       text: "",
       folder: folderForElement._id,
       user: req.user._id
@@ -94,7 +94,7 @@ router.post("/upload/:folder/file", uploadCloudinaryImage.single("file"), async 
 router.post("/cloudinary/delete", async (req, res, next) => {
   if (req.user) {
     const { public_id } = req.body;
-    removeCloudinaryImage({ public_id });
+    removeCloudinaryFile({ public_id });
     res.status(200).json({ message: "Element deleted" });
   } else {
     res.status(401)

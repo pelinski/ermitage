@@ -39,10 +39,10 @@ export const uploadImage = async ({ image, folder }) => {
   return res
 };
 
-export const uploadFile = async ({ file, folder, type }) => {
+export const uploadAudio = async ({ audio, folder }) => {
   const data = new FormData();
-  data.append("file", file);
-  const res = await elementsApi.post(`/upload/${folder}/file`, { data, type });
+  data.append("audio", audio);
+  const res = await elementsApi.post(`/upload/${folder}/audio`, data);
   return res
 };
 
@@ -57,6 +57,9 @@ export const getElements = async ({ folder }) => {
 export const removeElement = async ({ element }) => {
   if (element.type == "image") {
     await elementsApi.post(`/cloudinary/delete`, { public_id: element.image.public_id })
+  }
+  if (element.type == "audio") {
+    await elementsApi.post(`/cloudinary/delete`, { public_id: element.audio.public_id })
   }
   const res = await elementsApi.delete(`/${element._id}`);
   return res;
