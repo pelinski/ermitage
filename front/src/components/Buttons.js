@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { DeleteIcon, EditIcon } from "./Icons";
+import { DeleteIcon, EditIcon, LockIcon, UnlockIcon } from "./Icons";
+import { changeFolderPrivacy } from "../api/elements.api";
 
 
 export const LinkButton = ({ to, children }) => (<button className="auth-button"><Link {...{ to }}>{children}</Link></button>)
@@ -19,3 +20,9 @@ export const EditButton = ({ onClick }) => (
 )
 
 
+export const ChangePrivacyButton = ({ folder, isPrivate, changes, setChanges }) => (
+  < button onClick={() => { changeFolderPrivacy({ folder, isPrivate: !isPrivate }); setChanges(!changes) }} >
+
+    {isPrivate ? <LockIcon /> : <UnlockIcon />}
+  </button >
+)

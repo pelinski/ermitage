@@ -10,7 +10,7 @@ const schema = new Schema(
     user: { type: ObjectId, ref: 'User' },
     elements: [{ type: ObjectId, ref: "Element" }],
     path: String,
-    private: { type: Boolean, default: true }
+    isPrivate: { type: Boolean, default: true }
   },
   {
     timestamps: true

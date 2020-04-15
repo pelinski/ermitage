@@ -53,6 +53,7 @@ router.get("/layout", async (req, res, next) => {
   }
 })
 
+
 /*
 // TO DO. route to update folder name
 router.post("/update/folder/:folder", async (req, res, next) => {
@@ -98,6 +99,22 @@ router.post("/create/:folder", async (req, res, next) => {
 
 })
 
+// CHANGE FOLDER PRIVACY 
+router.post(`/:folder/privacy`, async (req, res, next) => {
+  const { folder } = req.params;
+  if (req.user) {
+    const { isPrivate } = req.body;
+    try {
+      await Folder.updateOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] }, { isPrivate });
+      res.status(200).json({ message: `${folder} privacy updated` });
+    }
+    catch {
+      res.status(500).json({ message: "Something went wrong" })
+    }
+  } else {
+    res.status(401)
+  }
+})
 
 // DELETE FOLDER and its elements FROM DB
 router.delete("/:folder", async (req, res, next) => {

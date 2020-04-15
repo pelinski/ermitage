@@ -23,6 +23,10 @@ export const getFolderLayout = async ({ folder }) => {
 }
 
 
+export const changeFolderPrivacy = async ({ folder, isPrivate }) => {
+  const res = await foldersApi.post(`/${folder}/privacy`, { isPrivate });
+  return res;
+}
 
 //ELEMENTS
 
