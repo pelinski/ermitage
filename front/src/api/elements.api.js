@@ -32,6 +32,12 @@ export const uploadText = async ({ text, folder }) => {
   return res;
 };
 
+export const editText = async ({ id, text }) => {
+  const res = await elementsApi.post(`/edit/text`, { id, text });
+  return res;
+}
+
+
 export const uploadImage = async ({ image, folder }) => {
   const data = new FormData();
   data.append("image", image);

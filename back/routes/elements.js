@@ -46,6 +46,22 @@ router.post("/upload/:folder/text", async (req, res, next) => {
 
 })
 
+// EDIT TEXT
+router.post("/edit/text", async (req, res, next) => {
+  if (req.user) {
+    const { id, text } = req.body;
+    await Element.updateOne({ _id: id }, { text })
+    res.status(200).json({ message: "Element updated" })
+  } else {
+    res.status(401)
+  }
+
+}
+
+
+)
+
+
 // UPLOAD IMAGE
 // TO DO: would be cool to add a caption but how do I send folder to the cloudinary middleware and keep the caption?
 router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), async (req, res) => {

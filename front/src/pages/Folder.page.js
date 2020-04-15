@@ -6,7 +6,7 @@ import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { AddItemCollapsible } from "../components/Collapsible"
-import { FolderIcon, DeleteIcon } from "../components/Icons"
+import { FolderIcon, DeleteIcon, EditIcon } from "../components/Icons"
 import { TextElement, ImageElement, AudioElement } from "../components/Elements"
 import { TextEditor } from "../components/TextEditor"
 import { DeleteAlert } from "../components/Alerts"
@@ -14,6 +14,7 @@ import { UploadImage, UploadAudio } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { getElements, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
+import { DeleteButton, EditButton } from "../components/Buttons";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -22,6 +23,7 @@ const Page = ({ folder }) => {
   const [open, setOpen] = useState({
     main: false,
     text: false,
+    textEdit: { state: false, element: null },
     audio: false,
     images: false
   })
@@ -61,6 +63,7 @@ const Page = ({ folder }) => {
 
     <div className="menu">
       {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
+      {open.textEdit.state && <TextEditor {...{ changes, setChanges, open, setOpen, folder, edit: true }} />}
       {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
       {open.audio && <UploadAudio {...{ changes, setChanges, open, setOpen, folder }} />}
 
@@ -71,9 +74,14 @@ const Page = ({ folder }) => {
       {folderBoard.elements.map((element, i) => (
         <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
           <div>
-            <button className="delete-item-button" onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element }) }}>
-              <DeleteIcon />
-            </button>
+            <div className="element-buttons" style={{ width: elementsRefs.map.get(i)?.getBoundingClientRect().width, overflowX: "hidden" }}>
+              {element.type == "text" && <EditButton onClick={() => {
+
+                setOpen({ ...open, textEdit: { state: true, element } });
+                console.log(open.textEdit)
+              }} />}
+              <DeleteButton {...{ setAlerts, alerts, element }} />
+            </div>
             {element.type == "text" && <TextElement text={element.text} />}
             {element.type == "image" && <ImageElement image={element.image} size={elementsRefs.map.get(i)?.getBoundingClientRect()} />}
             {element.type == "audio" && <AudioElement audio={element.audio} size={elementsRefs.map.get(i)?.getBoundingClientRect()} />}
