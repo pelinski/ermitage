@@ -9,7 +9,6 @@ import { uploadText, editText } from "../api/elements.api"
 
 
 export const TextEditor = ({ changes, setChanges, open, setOpen, folder, edit = false }) => {
-  console.log("texteditor", open)
   const initialState = open.textEdit.edit ? EditorState.createEmpty() : EditorState.createWithContent(stateFromHTML(open.textEdit.element.text));
   const [editorState, setEditorState] = useState(initialState)
 
@@ -31,7 +30,6 @@ export const TextEditor = ({ changes, setChanges, open, setOpen, folder, edit = 
   };
 
   const handleEdit = () => {
-    console.log("edittext")
     editText({ text: stateToHTML(editorState.getCurrentContent()), id: open.textEdit.element._id }).then(() => setChanges(!changes));
   };
 
