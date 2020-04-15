@@ -189,6 +189,9 @@ input {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            p {
+                padding: 0 10px 10px 10px;
+            }
             .audio-player {
                 overflow: hidden;
                 display: flex;

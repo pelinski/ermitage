@@ -9,7 +9,8 @@ import { uploadText, editText } from "../api/elements.api"
 
 
 export const TextEditor = ({ changes, setChanges, open, setOpen, folder, edit = false }) => {
-  const initialState = open.textEdit.edit ? EditorState.createEmpty() : EditorState.createWithContent(stateFromHTML(open.textEdit.element.text));
+
+  const initialState = open.textEdit.element ? EditorState.createWithContent(stateFromHTML(open.textEdit?.element.text)) : EditorState.createEmpty();
   const [editorState, setEditorState] = useState(initialState)
 
   const handleKeyCommand = (command) => {

@@ -7,6 +7,8 @@ import textIcon from "../public/text.svg"
 import elementIcon from "../public/element_add.svg"
 import deleteIcon from "../public/delete.svg"
 import editIcon from "../public/edit.svg"
+import lockIcon from "../public/lock.svg"
+import unlockIcon from "../public/unlock.svg"
 import cameraIcon from "../public/camera.svg"
 import elementCloseIcon from "../public/element_close.svg"
 
@@ -42,3 +44,7 @@ export const ElementCloseIcon = () => <img src={elementCloseIcon} alt="Element c
 export const DeleteIcon = () => <img src={deleteIcon} alt="Delete icon" />;
 
 export const EditIcon = () => <img src={editIcon} alt="Edit icon" />;
+
+export const LockIcon = () => <img src={lockIcon} alt="Lock icon" />;
+
+export const UnlockIcon = () => <img src={unlockIcon} alt="Unlock icon" />;

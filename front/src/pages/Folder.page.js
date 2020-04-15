@@ -59,15 +59,10 @@ const Page = ({ folder }) => {
       <FolderIcon />
       <h1>{folder}</h1>
       <AddItemCollapsible {...{ open, setOpen }} />
-    </div>
-
-    <div className="menu">
-      {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
-      {open.textEdit.state && <TextEditor {...{ changes, setChanges, open, setOpen, folder, edit: true }} />}
-      {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
-      {open.audio && <UploadAudio {...{ changes, setChanges, open, setOpen, folder }} />}
 
     </div>
+
+    <AddItemDashboard {...{ open, setOpen, changes, setChanges, folder }} />
     {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
@@ -95,3 +90,13 @@ const Page = ({ folder }) => {
 }
 
 export const FolderPage = withProtected(Page);
+
+
+export const AddItemDashboard = ({ open, setOpen, changes, setChanges, folder }) =>
+  (<div className="menu">
+    {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
+    {open.textEdit.state && <TextEditor {...{ changes, setChanges, open, setOpen, folder, edit: true }} />}
+    {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
+    {open.audio && <UploadAudio {...{ changes, setChanges, open, setOpen, folder }} />}
+
+  </div>)
