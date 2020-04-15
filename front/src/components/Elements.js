@@ -12,9 +12,9 @@ export const ImageElement = ({ image, size }) => (
   </Image >)
 
 export const AudioElement = ({ audio, size }) => (
-  < div className="audio-content" style={{ height: size?.height - 4 || 500 }}>
+  < div className="audio-content" style={{ height: size?.height - 2 || 500 }}>
     <p >{audio.originalname}</p>
-    <ReactPlayer url={audio.url} className="audio-player" controls={true} height={40} width={size?.width - 4 || 500} />
+    <ReactPlayer url={audio.url} className="audio-player" controls={true} height={40} width={size?.width - 2 || 500} />
   </div>)
 
 /*
