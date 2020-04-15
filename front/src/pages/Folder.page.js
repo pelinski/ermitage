@@ -74,7 +74,7 @@ const Page = ({ folder }) => {
       {folderBoard.elements.map((element, i) => (
         <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
           <div>
-            <div className="element-buttons" style={{ width: elementsRefs.map.get(i)?.getBoundingClientRect().width, overflowX: "hidden" }}>
+            <div className="element-buttons" style={{ width: elementsRefs.map.get(i)?.getBoundingClientRect().width - 2, overflowX: "hidden" }}>
               {element.type == "text" && <EditButton onClick={() => {
 
                 setOpen({ ...open, textEdit: { state: true, element } });
