@@ -188,6 +188,12 @@ input {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            .audio-player {
+                overflow: hidden;
+                display: flex;
+                justify-content: flex-end;
+                bottom: 0;
+            }
         }
     }
 }

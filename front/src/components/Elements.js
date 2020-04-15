@@ -11,10 +11,17 @@ export const ImageElement = ({ image, size }) => (
     <Transformation height={size?.height || 500} width={size?.width || 500} dpr="auto" crop="fill" />
   </Image >)
 
-export const AudioElement = ({ audio, size }) => {
-  return (< div className="audio-content" style={{ height: size?.height - 4 || 500 }}>
+export const AudioElement = ({ audio, size }) => (
+  < div className="audio-content" style={{ height: size?.height - 4 || 500 }}>
     <p >{audio.originalname}</p>
-    <ReactPlayer url={audio.url} style={{ overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center", bottom: 0 }} controls={true} height={40} width={size?.width - 4 || 500} />
+    <ReactPlayer url={audio.url} className="audio-player" controls={true} height={40} width={size?.width - 4 || 500} />
   </div>)
-}
+
+/*
+export const VideoElement = ({ video, size }) =>
+  <ReactPlayer url={video.url} className="video-player" controls={true} width={size?.width - 4 || 500} height={size?.height - 4 || 500} />
+*/
+
+
+
 //<Transformation overlay="text:arial_60:pic" gravity="north" y="0" />
