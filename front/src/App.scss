@@ -146,32 +146,30 @@ input {
 
 .layout {
     height: 90% !important;
-
-    .react-grid-item.react-grid-placeholder {
+    .react-grid-placeholder {
         opacity: 0 !important;
+    }
+    .react-grid-item {
+        > .react-resizable-handle {
+            z-index: 1000;
+            flex-shrink: 0;
+        }
     }
     .grid-element {
         border: $border;
         overflow-wrap: break-word;
-
         .delete-item-button {
             width: 100%;
             display: flex;
             justify-content: flex-end;
-        }
-    }
-    .react-grid-item {
-        .delete-item-button {
-            position: fixed;
-        }
-    }
-    .element-image {
-        overflow: hidden;
-        .delete-item-button {
             position: absolute;
             z-index: 1000;
         }
     }
+    .element-image {
+        overflow: hidden;
+    }
+
     .element-text {
         display: flex;
         .text-content {
@@ -179,18 +177,23 @@ input {
             padding: 0 20px 10px 20px;
         }
         .delete-item-button {
-            position: absolute;
-            display: flex;
-            width: 100%;
-            justify-content: flex-end;
-            z-index: 1000;
             top: 0;
             position: -webkit-sticky;
             position: sticky;
         }
-        .react-grid-item > .react-resizable-handle {
-            z-index: 1000;
-            flex-shrink: 0;
+    }
+    .element-audio {
+        .audio-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .audio-player {
+                overflow: hidden;
+                display: flex;
+                justify-content: flex-end;
+                bottom: 0;
+            }
         }
     }
 }

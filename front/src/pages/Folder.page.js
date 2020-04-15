@@ -7,13 +7,13 @@ import "/node_modules/react-resizable/css/styles.css"
 
 import { AddItemCollapsible } from "../components/Collapsible"
 import { FolderIcon, DeleteIcon } from "../components/Icons"
-import { TextElement, ImageElement } from "../components/Elements"
+import { TextElement, ImageElement, AudioElement } from "../components/Elements"
 import { TextEditor } from "../components/TextEditor"
 import { DeleteAlert } from "../components/Alerts"
-import { UploadImage } from "../components/AddFiles"
+import { UploadImage, UploadAudio } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { getText, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
+import { getElements, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -40,7 +40,7 @@ const Page = ({ folder }) => {
 
 
   useEffect(() => {
-    Promise.all([getText({ folder }), getFolderLayout({ folder })]).then(([elementsRes, layoutRes]) => {
+    Promise.all([getElements({ folder }), getFolderLayout({ folder })]).then(([elementsRes, layoutRes]) => {
       setFolderBoard({ ...folderBoard, elements: elementsRes.data, layout: layoutRes.data });
 
     })
@@ -62,19 +62,22 @@ const Page = ({ folder }) => {
     <div className="menu">
       {open.text && <TextEditor {...{ changes, setChanges, open, setOpen, folder }} />}
       {open.image && <UploadImage {...{ changes, setChanges, open, setOpen, folder }} />}
+      {open.audio && <UploadAudio {...{ changes, setChanges, open, setOpen, folder }} />}
 
     </div>
     {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, handleRemove }} />}
 
     <ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
       {folderBoard.elements.map((element, i) => (
-        <div className={`grid-element ${element.type == "image" && "element-image"} ${element.type == "text" && "element-text"}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
+        <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
           <div>
             <button className="delete-item-button" onClick={() => { setAlerts({ ...alerts, showAlert: true, remove: element }) }}>
               <DeleteIcon />
             </button>
             {element.type == "text" && <TextElement text={element.text} />}
             {element.type == "image" && <ImageElement image={element.image} size={elementsRefs.map.get(i)?.getBoundingClientRect()} />}
+            {element.type == "audio" && <AudioElement audio={element.audio} size={elementsRefs.map.get(i)?.getBoundingClientRect()} />}
+
           </div>
         </div>)
       )}

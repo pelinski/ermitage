@@ -5,7 +5,7 @@ const _ = require("lodash");
 const Element = require("../models/Element");
 const Folder = require("../models/Folder");
 
-const { uploadCloudinaryImage, removeCloudinaryImage } = require("../middleware/cloudinary")
+const { uploadCloudinaryImage, uploadCloudinaryAudio, removeCloudinaryFile } = require("../middleware/cloudinary")
 
 
 // ELEMENTS 
@@ -60,11 +60,33 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
       user: req.user._id
     }, async (err, res) => await Folder.updateOne({ _id: folderForElement._id }, { $push: { elements: res._id } }))
 
-    return res.status(200).json({ message: "Uploaded completed" });
+    return res.status(200).json({ message: "Upload completed" });
   } else {
     req.status(401)
   }
 });
+
+
+// UPLOAD FILE
+router.post("/upload/:folder/audio", uploadCloudinaryAudio.single("audio"), async (req, res) => {
+  if (req.user) {
+    console.log("in route", req.file)
+    const { folder } = req.params;
+    const folderForElement = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
+    await Element.create({
+      type: "audio",
+      audio: req.file,
+      text: "",
+      folder: folderForElement._id,
+      user: req.user._id
+    }, async (err, res) => await Folder.updateOne({ _id: folderForElement._id }, { $push: { elements: res._id } }))
+
+    return res.status(200).json({ message: "Upload completed" });
+  } else {
+    req.status(401)
+  }
+});
+
 
 // IF ELEMENT IS FILE REMOVE FROM CLOUDINARY
 // this is a POST instead of a DELETE bc you cannot send a req.body with a DELETE
@@ -72,7 +94,7 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
 router.post("/cloudinary/delete", async (req, res, next) => {
   if (req.user) {
     const { public_id } = req.body;
-    removeCloudinaryImage({ public_id });
+    removeCloudinaryFile({ public_id });
     res.status(200).json({ message: "Element deleted" });
   } else {
     res.status(401)
