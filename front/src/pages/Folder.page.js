@@ -14,12 +14,14 @@ import { UploadImage, UploadAudio } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { getElements, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
-import { addFolderToDashboard } from "../api/dashboard.api"
+import { addFolderToDashboard, deleteFolder } from "../api/dashboard.api"
 import { useUser } from "../api/auth.api"
 import { DeleteButton, EditButton, ChangePrivacyButton } from "../components/Buttons";
 import { NotFound } from "./NotFound.page";
 
 const ReactGridLayout = WidthProvider(RGL);
+
+
 
 const Page = ({ folder, folderUsername }) => {
   //TO DO: MERGE STATES 
@@ -41,7 +43,7 @@ const Page = ({ folder, folderUsername }) => {
   const [folderBoard, setFolderBoard] = useState({
     elements: [],
     layout: [],
-    isPrivate: null
+    isPrivate: null,
   });
 
 
@@ -55,12 +57,14 @@ const Page = ({ folder, folderUsername }) => {
     })
   }, [open.changes]); //when folder is added or deleted*/
 
+
+
   const handleRemove = ({ element }) => { removeElement({ element }).then(() => setOpen({ ...open, changes: !open.changes })) }
   const onLayoutChange = (newLayout) => { updateFolderLayout({ folder, layout: newLayout }).then(() => setFolderBoard({ ...folderBoard, layout: newLayout })); }
 
   if (user.username == folderUsername) {
     return (<>
-      <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate }} />
+      <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate, user }} />
       <AddItemDashboard {...{ open, setOpen, folder }} />
       {open.alerts.showAlert && <DeleteAlert {...{ open, setOpen, handleRemove }} />}
 
@@ -75,7 +79,6 @@ const Page = ({ folder, folderUsername }) => {
 
         )}
       </ReactGridLayout >
-
     </>)
   } else if (user.username != folderUsername && folderBoard.isPrivate == false) {
     return (<>
@@ -109,15 +112,17 @@ const AddItemDashboard = ({ open, setOpen, folder }) =>
 
   </div>)
 
-const PageTitle = ({ folder, folderUsername, open, setOpen, isPrivate, visitor = false }) => (
-  <div className="page-title">
+const PageTitle = ({ folder, folderUsername, open, setOpen, isPrivate, visitor = false, user }) => (
+  < div className="page-title" >
+    {console.log(folder)}
     <FolderIcon />
     <h1>{folder}</h1>
     {visitor && <p>by {folderUsername}</p>}
-    {visitor && <button onClick={() => addFolderToDashboard({ folder, folderUsername })}>Add to your folders</button>}
+    {visitor && !user?.folders.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folder, folderUsername })}>Add to your folders</button>}
+    {visitor && user?.folders.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folder })}>Remove folder from your dashboard</button>}
     {!visitor && <AddItemCollapsible {...{ open, setOpen }} />}
     {!visitor && <ChangePrivacyButton {...{ folder, isPrivate, open, setOpen }} />}
-  </div>
+  </div >
 )
 
 const ElementButtons = ({ element, open, setOpen, elementRef }) => (

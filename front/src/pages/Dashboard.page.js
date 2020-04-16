@@ -82,8 +82,7 @@ const Page = () => {
         </div>
         <div>
           <button onClick={() => {
-
-            deleteFolder({ folder: alerts.remove }).then(() => {
+            deleteFolder({ folderId: alerts.remove._id }).then(() => {
               setAlerts({ ...alerts, showAlert: false, remove: "" });
               setChanges(!changes)
             });
@@ -104,6 +103,7 @@ const Page = () => {
         <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
           <form onSubmit={e => {
             e.preventDefault();
+
             handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges });
           }}>
             <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />

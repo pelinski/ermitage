@@ -140,14 +140,15 @@ router.post(`/:folder/privacy`, async (req, res, next) => {
 
 // DELETE FOLDER and its elements FROM DB
 // OR REMOVE FOLDER FROM DASHBOARD IF USER IS NOT OWNER
-router.post("/delete/folder", async (req, res, next) => {
+router.delete("/:folderId", async (req, res, next) => {
   if (req.user) {
-    const { folder } = req.body;
-    console.log("backroute", folder)
+    const { folderId } = req.params;
+    const folder = await Folder.findOne({ _id: folderId }).exec();
+    console.log(folder);
     try {
       if (folder.user._id == req.user._id) {
         await Folder.findOneAndDelete({
-          $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }]
+          $and: [{ user: req.user._id }, { _id: folder._id }]
         }, async (err, res) => {
           await User.updateOne({ _id: req.user._id }, { $pull: { folders: res._id } })
           await Element.deleteMany({ $and: [{ user: req.user._id }, { folder: res._id }] });
@@ -162,12 +163,16 @@ router.post("/delete/folder", async (req, res, next) => {
       res.status(200).json({ message: `${folder} folder deleted` });
     }
     catch (err) {
+      console.error(err)
       res.status(500).json({ message: "Something went wrong" })
     }
   } else {
     res.status(401)
   }
 })
+
+
+
 
 //UPDATE FOLDER LAYOUT
 router.post("/update/:folder/layout", async (req, res, next) => {

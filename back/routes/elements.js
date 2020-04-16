@@ -14,13 +14,13 @@ const { uploadCloudinaryImage, uploadCloudinaryAudio, removeCloudinaryFile } = r
 router.get("/:username/:folder", async (req, res, next) => {
   if (req.user) {
     const { folder, username } = req.params;
-    const { elements, isPrivate } = await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` }).populate("elements");
+    const { elements, isPrivate, _id } = await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` }).populate("elements");
     if (isPrivate && username != req.user.username) {
       res.status(401);
     } else if (isPrivate && username == req.user.username) {
-      res.status(200).json({ elements, isPrivate })
+      res.status(200).json({ elements, isPrivate, folderId: _id })
     } else if (!isPrivate) {
-      res.status(200).json({ elements, isPrivate })
+      res.status(200).json({ elements, isPrivate, folderId: _id })
     }
   } else {
     res.status(401)
@@ -87,7 +87,6 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
 // UPLOAD FILE
 router.post("/upload/:folder/audio", uploadCloudinaryAudio.single("audio"), async (req, res) => {
   if (req.user) {
-    console.log("in route", req.file)
     const { folder } = req.params;
     const folderForElement = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
     await Element.create({
@@ -123,7 +122,6 @@ router.post("/cloudinary/delete", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   if (req.user) {
     const { id } = req.params;
-    console.log(id)
     try {
       await Element.findOneAndDelete({ $and: [{ user: req.user._id }, { _id: id }] }, async (err, res) => {
         await Folder.updateOne({ $and: [{ user: req.user._id }, { _id: res.folder }] }, { $pull: { elements: res._id } });
