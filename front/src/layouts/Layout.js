@@ -21,7 +21,7 @@ export const Layout = ({ children }) => (
     <div className="content-box">
       {children}
     </div>
-    <Footer>&copy; Teresa Pelinski 2020 || Contribute in <a href="https://github.com/pelinski/ermitage"> github</a></Footer>
+    <Footer>&copy; Teresa Pelinski 2020</Footer>
   </Background>
 );
 

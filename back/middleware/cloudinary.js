@@ -13,7 +13,7 @@ cloudinary.config({
 });
 
 
-const storage = cloudinaryStorage({
+const imageStorage = cloudinaryStorage({
   cloudinary: cloudinary,
   folder: function (req, file, cb) {
     cb(undefined, `elements/${req.user._id}/${req.params.folder}`);
@@ -24,11 +24,26 @@ const storage = cloudinaryStorage({
   },
 });
 
-const uploadCloudinaryImage = multer({ storage });
+const audioStorage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: function (req, file, cb) {
+    cb(undefined, `elements/${req.user._id}/${req.params.folder}`);
+  },
+  params: { resource_type: 'video' },
+  allowedFormats: ["m4a", "mp3", "wav"],
+  filename: function (req, file, cb) {
+    cb(undefined, `${_.random(0, 1000)}${file.originalname}`);
+  },
+});
 
-const removeCloudinaryImage = ({ public_id }) => {
+
+const uploadCloudinaryImage = multer({ storage: imageStorage });
+const uploadCloudinaryAudio = multer({ storage: audioStorage });
+
+
+const removeCloudinaryFile = ({ public_id }) => {
   cloudinary.v2.uploader.destroy(public_id, (error, result) => {
-    if (error) throw new Error(error)
+    if (error) { console.log(error) }
   })
 };
 
@@ -38,6 +53,7 @@ const removeCloudinaryFolder = ({ id, folder }) => {
 
 module.exports = {
   uploadCloudinaryImage,
-  removeCloudinaryImage,
+  uploadCloudinaryAudio,
+  removeCloudinaryFile,
   removeCloudinaryFolder
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { animated as Animated, useSpring } from "react-spring"
 import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components";
@@ -12,6 +13,9 @@ import { Collapsible } from "../components/Collapsible"
 import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
+import { useUser } from "../api/auth.api";
+import { LockIcon, UnlockIcon } from "../components/Icons";
+
 
 
 
@@ -28,7 +32,6 @@ justify-content:space-between;
 
 
 const Page = () => {
-
   //Hooks
   const [alerts, setAlerts] = useState({
     remove: "",
@@ -50,13 +53,18 @@ const Page = () => {
   useEffect(() => {
     Promise.all([getFolders(), getDashboardLayout()]).then(([foldersRes, layoutRes]) => {
       setDashboard({ ...dashboard, folders: foldersRes.data, layout: layoutRes.data })
-    }).finally(() => setChanges(false));
+    });
   }, [changes]); //when folder is added or deleted
 
+
+  const user = useUser();
   // Grid
-  const gridProps = {
-    cols: 8,
-    rowHeight: 30,
+  const props = {
+    grid: {
+      cols: 8,
+      rowHeight: 30,
+    },
+    spring: useSpring({ opacity: 1, from: { opacity: 0 }, duration: 600 })
   }
 
   const onLayoutChange = (newLayout) => {
@@ -65,25 +73,6 @@ const Page = () => {
 
 
 
-  const DeleteAlert = () => {
-    return (
-      <div className="delete-alert">
-        <div>
-          <p>
-            Are you sure you want to delete the folder {alerts.remove.folder}? <br />
-      You will lose all elements inside it.
-    </p>
-        </div>
-        <div>
-          <button onClick={() => {
-            handlePost({ fields: ["folder"], data: alerts.remove, apiFunction: deleteFolder, setError, setChanges });
-            setAlerts({ ...alerts, showAlert: false, remove: "" });
-          }}>Yes</button>
-          <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -92,7 +81,7 @@ const Page = () => {
         <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
           <form onSubmit={e => {
             e.preventDefault();
-            handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges });
+            handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
           }}>
             <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
             {error}
@@ -100,21 +89,44 @@ const Page = () => {
         </Collapsible>
       </TitleWrapper>
 
-      <ReactGridLayout className="layout" layout={dashboard.layout} {...gridProps} onLayoutChange={(e) => onLayoutChange(e)}>
-        {dashboard.folders.map((e, i) =>
-          <div key={e._id} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+      <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => onLayoutChange(e)}>
+
+        {dashboard.folders.filter(e => !((e.user._id != user._id) && (e.isPrivate))).map((e, i) =>
+          <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() => {
               setAlerts({ ...alerts, showAlert: true, remove: e });
             }}>
+              {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
               <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
+              {e.user._id != user._id && <p>by <em>{e.user.username}</em></p>}
             </Folder>
-          </div>)}
+          </Animated.div>)}
       </ReactGridLayout>
 
-      {alerts.showAlert && <DeleteAlert />}
+      {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
 
     </>
   )
 };
 
 export const DashboardPage = withProtected(Page);
+
+const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
+  <div className="delete-alert">
+    <div>
+      <p>
+        Are you sure you want to delete the folder {alerts.remove.folder}? <br />
+    You will lose all elements inside it.
+  </p>
+    </div>
+    <div>
+      <button onClick={() => {
+        deleteFolder({ folderId: alerts.remove._id }).then(() => {
+          setAlerts({ ...alerts, showAlert: false, remove: "" });
+          setChanges(!changes)
+        });
+      }}>Yes</button>
+      <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
+    </div>
+  </div>
+)

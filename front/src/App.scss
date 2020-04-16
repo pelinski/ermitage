@@ -1,8 +1,9 @@
-$border: 2px solid black;
+$border: 1.8px solid black;
 $padding: 20px;
 $margin-content: 50px;
-$button-padding: 5px;
+$button-padding: 10px;
 $margin-bottom: 20px;
+$content-height: 84%;
 
 * {
     margin: 0;
@@ -12,7 +13,8 @@ $margin-bottom: 20px;
     color: black;
 }
 body {
-    font-family: "Lato", sans-serif;
+    font-family: "Playfair Display", serif;
+    //font-family: "Lato", sans-serif;
     font-weight: 300;
 }
 
@@ -22,31 +24,19 @@ h3,
 h4,
 h5,
 h6 {
+    //font-family: 'Playfair Display', serif;
     font-family: "Prata", serif;
 }
 
-button {
-    border: none;
-    background-color: transparent;
-}
-
-.content-box {
-    margin: $margin-content;
-    margin-top: 0;
-    height: 78%;
-    border: $border;
-    padding: $padding;
-}
-
-input {
-    border: $border;
-}
-
 header {
-    margin: 0 $margin-content;
+    margin: 10px $margin-content;
     height: 3 * $padding;
     display: flex;
     justify-content: space-between;
+    a {
+        display: flex;
+        align-items: flex-end;
+    }
 }
 
 nav {
@@ -54,16 +44,31 @@ nav {
     display: flex;
 
     span {
-        border: $border;
-        border-bottom: 0;
-        border-right: 0;
-        padding: $button-padding;
-    }
-    span:last-of-type {
-        border-right: $border;
+        border-bottom: $border;
+        margin: 0 5px;
+        padding: 4px $button-padding;
     }
 }
-
+.content-box {
+    margin: $margin-content;
+    margin-top: 0;
+    margin-bottom: 20px;
+    height: $content-height;
+    padding: $padding;
+}
+footer {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    position: absolute;
+    bottom: 2vh;
+}
+button {
+    font-size: 14pt;
+    font-family: "Playfair Display", serif;
+    border: none;
+    background-color: transparent;
+}
 .auth-button {
     width: 100px;
     padding: $button-padding;
@@ -73,15 +78,128 @@ nav {
     border: $border;
 }
 
+.page-title {
+    display: flex;
+    align-items: center;
+    img {
+        padding-right: 10px;
+    }
+}
+
+.sub-title-home {
+    display: flex;
+    margin-top: 2vh;
+    will-change: transform;
+
+    .text-col {
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 40vw;
+        align-self: center;
+        .buttons {
+            margin-top: 3vh;
+            display: flex;
+            justify-content: center;
+            p {
+                align-self: flex-end;
+            }
+            .home-button {
+                padding: 0 $button-padding;
+            }
+            .dashboard-button {
+                padding: 0 2px;
+            }
+        }
+        .logged-in {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h4 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 0.5vh;
+                p {
+                    margin-left: 3px;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        h1 {
+            text-align: center;
+            width: 25vw;
+        }
+    }
+    .map-col {
+        align-self: center;
+        margin: 0 5vw;
+        width: 60vw;
+    }
+}
+
+input {
+    border: $border;
+}
+
 .layout {
     height: 90% !important;
-    .react-grid-item.react-grid-placeholder {
+    .react-grid-placeholder {
         opacity: 0 !important;
+    }
+
+    .react-grid-item {
+        > .react-resizable-handle {
+            z-index: 1000;
+            flex-shrink: 0;
+        }
     }
     .grid-element {
         border: $border;
         overflow-wrap: break-word;
+        .element-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            z-index: 1000;
+        }
+    }
+    .element-image {
         overflow: hidden;
+    }
+
+    .element-text {
+        display: flex;
+        .text-content {
+            margin-top: -10px;
+            padding: 0 20px 10px 20px;
+        }
+        .element-buttons {
+            top: 0;
+            position: -webkit-sticky;
+            position: sticky;
+        }
+    }
+    .element-audio {
+        .audio-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            p {
+                padding: 0 10px 10px 10px;
+            }
+            .audio-player {
+                overflow: hidden;
+                display: flex;
+                justify-content: flex-end;
+                bottom: 0;
+                align-self: center;
+            }
+        }
     }
 }
 
@@ -164,16 +282,9 @@ nav {
     }
 
     .add-item {
-        position: fixed;
-        right: 0px;
-        margin-right: $margin-content;
-        padding: $button-padding $padding;
-        border: $border;
-        z-index: 1000;
         .Collapsible {
             display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
+            flex-direction: row-reverse;
         }
     }
 }

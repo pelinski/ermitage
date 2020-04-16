@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react"
 import { stateToHTML } from 'draft-js-export-html';
+import { stateFromHTML } from 'draft-js-import-html'
 import { Editor, EditorState, RichUtils } from 'draft-js';
 
 import "/node_modules/draft-js/dist/Draft.css"
 
-import { uploadText } from "../api/elements.api"
+import { uploadText, editText } from "../api/elements.api"
 
 
-export const TextEditor = ({ changes, setChanges, open, setOpen, folder }) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty())
+export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
+
+  const initialState = open.textEdit.element ? EditorState.createWithContent(stateFromHTML(open.textEdit?.element.text)) : EditorState.createEmpty();
+  const [editorState, setEditorState] = useState(initialState)
 
   const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -24,9 +27,12 @@ export const TextEditor = ({ changes, setChanges, open, setOpen, folder }) => {
 
 
   const handleAdd = () => {
-    uploadText({ text: stateToHTML(editorState.getCurrentContent()), folder }).then(() => setChanges(!changes));
+    uploadText({ text: stateToHTML(editorState.getCurrentContent()), folder }).then(() => setOpen({ ...open, changes: !open.changes }))
   };
 
+  const handleEdit = () => {
+    editText({ text: stateToHTML(editorState.getCurrentContent()), id: open.textEdit.element._id }).then(() => setOpen({ ...open, changes: !open.changes }))
+  };
 
 
   return (
@@ -39,10 +45,10 @@ export const TextEditor = ({ changes, setChanges, open, setOpen, folder }) => {
         <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-two'))} >h2</button>
         <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-three'))} >h3</button>
         <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
-        <button onClick={handleAdd} >Add</button>
-        <button onClick={() => setOpen({ ...open, text: !open.text })} >X</button>
-
-
+        {!edit && <button onClick={handleAdd} >Add</button>}
+        {edit && <button onClick={handleEdit} >Edit</button>}
+        {!edit && <button onClick={() => setOpen({ ...open, text: !open.text })} >X</button>}
+        {edit && <button onClick={() => setOpen({ ...open, textEdit: { state: false, element: null } })} >X</button>}
       </div>
       <div className="editor">
         <Editor

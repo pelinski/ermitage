@@ -5,19 +5,23 @@ const _ = require("lodash");
 const Element = require("../models/Element");
 const Folder = require("../models/Folder");
 
-const { uploadCloudinaryImage, removeCloudinaryImage } = require("../middleware/cloudinary")
+const { uploadCloudinaryImage, uploadCloudinaryAudio, removeCloudinaryFile } = require("../middleware/cloudinary")
 
 
 // ELEMENTS 
-//GET CONTENT OF FOLDER
+//GET CONTENT OF FOLDER AND PRIVACY
 // TO DO: ADD PAGINATION
-router.get("/:folder", async (req, res, next) => {
+router.get("/:username/:folder", async (req, res, next) => {
   if (req.user) {
-    const { folder } = req.params;
-    const { elements } = await Folder.findOne({
-      $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }]
-    }).populate("elements");
-    res.status(200).json(elements)
+    const { folder, username } = req.params;
+    const { elements, isPrivate, _id } = await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` }).populate("elements");
+    if (isPrivate && username != req.user.username) {
+      res.status(401);
+    } else if (isPrivate && username == req.user.username) {
+      res.status(200).json({ elements, isPrivate, folderId: _id })
+    } else if (!isPrivate) {
+      res.status(200).json({ elements, isPrivate, folderId: _id })
+    }
   } else {
     res.status(401)
   }
@@ -46,6 +50,19 @@ router.post("/upload/:folder/text", async (req, res, next) => {
 
 })
 
+// EDIT TEXT
+router.post("/edit/text", async (req, res, next) => {
+  if (req.user) {
+    const { id, text } = req.body;
+    await Element.updateOne({ _id: id }, { text })
+    res.status(200).json({ message: "Element updated" })
+  } else {
+    res.status(401)
+  }
+
+})
+
+
 // UPLOAD IMAGE
 // TO DO: would be cool to add a caption but how do I send folder to the cloudinary middleware and keep the caption?
 router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), async (req, res) => {
@@ -60,11 +77,32 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
       user: req.user._id
     }, async (err, res) => await Folder.updateOne({ _id: folderForElement._id }, { $push: { elements: res._id } }))
 
-    return res.status(200).json({ message: "Uploaded completed" });
+    return res.status(200).json({ message: "Upload completed" });
   } else {
     req.status(401)
   }
 });
+
+
+// UPLOAD FILE
+router.post("/upload/:folder/audio", uploadCloudinaryAudio.single("audio"), async (req, res) => {
+  if (req.user) {
+    const { folder } = req.params;
+    const folderForElement = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
+    await Element.create({
+      type: "audio",
+      audio: req.file,
+      text: "",
+      folder: folderForElement._id,
+      user: req.user._id
+    }, async (err, res) => await Folder.updateOne({ _id: folderForElement._id }, { $push: { elements: res._id } }))
+
+    return res.status(200).json({ message: "Upload completed" });
+  } else {
+    req.status(401)
+  }
+});
+
 
 // IF ELEMENT IS FILE REMOVE FROM CLOUDINARY
 // this is a POST instead of a DELETE bc you cannot send a req.body with a DELETE
@@ -72,7 +110,7 @@ router.post("/upload/:folder/image", uploadCloudinaryImage.single("image"), asyn
 router.post("/cloudinary/delete", async (req, res, next) => {
   if (req.user) {
     const { public_id } = req.body;
-    removeCloudinaryImage({ public_id });
+    removeCloudinaryFile({ public_id });
     res.status(200).json({ message: "Element deleted" });
   } else {
     res.status(401)
@@ -84,7 +122,6 @@ router.post("/cloudinary/delete", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   if (req.user) {
     const { id } = req.params;
-    console.log(id)
     try {
       await Element.findOneAndDelete({ $and: [{ user: req.user._id }, { _id: id }] }, async (err, res) => {
         await Folder.updateOne({ $and: [{ user: req.user._id }, { _id: res.folder }] }, { $pull: { elements: res._id } });

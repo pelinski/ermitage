@@ -17,12 +17,16 @@ export const updateFolderLayout = async ({ folder, layout }) => {
   return res;
 }
 
-export const getFolderLayout = async ({ folder }) => {
-  const res = await foldersApi.get(`/${folder}/layout`);
+export const getFolderLayout = async ({ folder, folderUsername }) => {
+  const res = await foldersApi.get(`/${folderUsername}/${folder}/layout`);
   return res;
 }
 
 
+export const changeFolderPrivacy = async ({ folder, isPrivate }) => {
+  const res = await foldersApi.post(`/${folder}/privacy`, { isPrivate });
+  return res;
+}
 
 //ELEMENTS
 
@@ -32,6 +36,12 @@ export const uploadText = async ({ text, folder }) => {
   return res;
 };
 
+export const editText = async ({ id, text }) => {
+  const res = await elementsApi.post(`/edit/text`, { id, text });
+  return res;
+}
+
+
 export const uploadImage = async ({ image, folder }) => {
   const data = new FormData();
   data.append("image", image);
@@ -39,9 +49,17 @@ export const uploadImage = async ({ image, folder }) => {
   return res
 };
 
+export const uploadAudio = async ({ audio, folder }) => {
+  const data = new FormData();
+  data.append("audio", audio);
+  const res = await elementsApi.post(`/upload/${folder}/audio`, data);
+  return res
+};
+
+
 //must retrieve only from folder
-export const getText = async ({ folder }) => {
-  const res = await elementsApi.get(`/${folder}`);
+export const getElements = async ({ folder, folderUsername }) => {
+  const res = await elementsApi.get(`/${folderUsername}/${folder}`);
   return res;
 }
 
@@ -49,6 +67,9 @@ export const getText = async ({ folder }) => {
 export const removeElement = async ({ element }) => {
   if (element.type == "image") {
     await elementsApi.post(`/cloudinary/delete`, { public_id: element.image.public_id })
+  }
+  if (element.type == "audio") {
+    await elementsApi.post(`/cloudinary/delete`, { public_id: element.audio.public_id })
   }
   const res = await elementsApi.delete(`/${element._id}`);
   return res;

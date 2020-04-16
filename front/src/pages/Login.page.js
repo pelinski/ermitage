@@ -46,20 +46,17 @@ export const LoginPage = withRouter(({ history }) => {
 
 
     return (
-        <>
-            <h1>Эж</h1>
-            <form onSubmit={e => {
-                e.preventDefault();
-                handleSubmit(data);
-            }}>
-                <Field field="username" {...{ example, data, handleInputChange }} />
-                <Field field="password" type="password" {...{ example, data, handleInputChange }} />
-                {error}
-                <FormButton type="submit">
-                    Login
+
+        <form onSubmit={e => {
+            e.preventDefault();
+            handleSubmit(data);
+        }}>
+            <Field field="username" {...{ example, data, handleInputChange }} />
+            <Field field="password" type="password" {...{ example, data, handleInputChange }} />
+            {error}
+            <FormButton type="submit">
+                Login
                 </FormButton>
 
-            </form>
-
-        </>)
+        </form>)
 });
