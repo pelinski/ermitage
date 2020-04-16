@@ -11,7 +11,9 @@ const { removeCloudinaryFolder } = require("../middleware/cloudinary")
 //RETRIEVE FOLDERS FROM USER
 router.get("/folders", async (req, res, next) => {
   if (req.user) {
-    const { folders } = await User.findOne({ _id: req.user._id }).populate("folders");
+    const { folders } = await User.findOne({ _id: req.user._id }).populate({
+      path: 'folders', populate: { path: 'user', select: { '_id': 1, 'username': 1 } }
+    })
     res.status(200).json(folders)
   } else {
     res.status(401)
@@ -53,6 +55,7 @@ router.get("/layout", async (req, res, next) => {
   }
 })
 
+
 /*
 // TO DO. route to update folder name
 router.post("/update/folder/:folder", async (req, res, next) => {
@@ -78,7 +81,6 @@ router.post("/create/:folder", async (req, res, next) => {
   if (req.user) {
     const { folder } = req.params;
     try {
-
       // No duplicated folder names
       const existingFolder = await Folder.findOne({ $and: [{ user: req.user._id }, { folder }] })
       if (existingFolder !== null) {
@@ -95,33 +97,83 @@ router.post("/create/:folder", async (req, res, next) => {
   } else {
     res.status(401)
   }
-
 })
 
-
-// DELETE FOLDER and its elements FROM DB
-router.delete("/:folder", async (req, res, next) => {
+//ADD FOLDER FROM ANOTHER USER TO OWN DASHBOARD
+router.post(`/add/folder/:id`, async (req, res, next) => {
   if (req.user) {
-    const { folder } = req.params;
+    const { id } = req.params;
     try {
-      await Folder.findOneAndDelete({
-        $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }]
-      }, async (err, res) => {
-        await User.updateOne({ _id: req.user._id }, { $pull: { folders: res._id } })
-        await Element.deleteMany({ $and: [{ user: req.user._id }, { folder: res._id }] });
-        //delete also pics from cloudinary
-        removeCloudinaryFolder({ id: req.user._id, folder });
+      await Folder.findOne({ _id: id }, async (err, res) => {
 
+        if (res.isPrivate == false) { User.updateOne({ _id: req.user._id }, { $addToSet: { folders: res._id } }, async (err, res) => console.log(res)) }
       });
-      res.status(200).json({ message: `${folder} folder deleted` });
+      res.status(200).json({ message: `folder  added` });
     }
-    catch (err) {
+    catch {
       res.status(500).json({ message: "Something went wrong" })
     }
   } else {
     res.status(401)
   }
 })
+
+
+
+
+
+// CHANGE FOLDER PRIVACY 
+router.post(`/:folder/privacy`, async (req, res, next) => {
+  const { folder } = req.params;
+  if (req.user) {
+    const { isPrivate } = req.body;
+    try {
+      await Folder.updateOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] }, { isPrivate });
+      res.status(200).json({ message: `${folder} privacy updated` });
+    }
+    catch {
+      res.status(500).json({ message: "Something went wrong" })
+    }
+  } else {
+    res.status(401)
+  }
+})
+
+// DELETE FOLDER and its elements FROM DB
+// OR REMOVE FOLDER FROM DASHBOARD IF USER IS NOT OWNER
+router.delete("/:folderId", async (req, res, next) => {
+  if (req.user) {
+    const { folderId } = req.params;
+    const folder = await Folder.findOne({ _id: folderId }).exec();
+    console.log(folder);
+    try {
+      if (folder.user._id == req.user._id) {
+        await Folder.findOneAndDelete({
+          $and: [{ user: req.user._id }, { _id: folder._id }]
+        }, async (err, res) => {
+          await User.updateOne({ _id: req.user._id }, { $pull: { folders: res._id } })
+          await Element.deleteMany({ $and: [{ user: req.user._id }, { folder: res._id }] });
+          //delete also pics from cloudinary
+          removeCloudinaryFolder({ id: req.user._id, folder });
+
+        });
+      }
+      else {
+        await User.updateOne({ _id: req.user._id }, { $pull: { folders: folder._id } })
+      }
+      res.status(200).json({ message: `${folder} folder deleted` });
+    }
+    catch (err) {
+      console.error(err)
+      res.status(500).json({ message: "Something went wrong" })
+    }
+  } else {
+    res.status(401)
+  }
+})
+
+
+
 
 //UPDATE FOLDER LAYOUT
 router.post("/update/:folder/layout", async (req, res, next) => {
@@ -141,11 +193,11 @@ router.post("/update/:folder/layout", async (req, res, next) => {
 });
 
 //GET FOLDER LAYOUT
-router.get("/:folder/layout", async (req, res, next) => {
-  const { folder } = req.params;
+router.get("/:username/:folder/layout", async (req, res, next) => {
+  const { folder, username } = req.params;
   if (req.user) {
     try {
-      const { layout } = await Folder.findOne({ $and: [{ user: req.user._id }, { path: `/${req.user.username}/${folder.replace(/ /g, "_")}` }] });
+      const { layout } = await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` });
       res.status(200).json(layout);
     }
     catch {

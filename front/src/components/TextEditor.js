@@ -8,8 +8,9 @@ import "/node_modules/draft-js/dist/Draft.css"
 import { uploadText, editText } from "../api/elements.api"
 
 
-export const TextEditor = ({ changes, setChanges, open, setOpen, folder, edit = false }) => {
-  const initialState = open.textEdit.edit ? EditorState.createEmpty() : EditorState.createWithContent(stateFromHTML(open.textEdit.element.text));
+export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
+
+  const initialState = open.textEdit.element ? EditorState.createWithContent(stateFromHTML(open.textEdit?.element.text)) : EditorState.createEmpty();
   const [editorState, setEditorState] = useState(initialState)
 
   const handleKeyCommand = (command) => {
@@ -26,11 +27,11 @@ export const TextEditor = ({ changes, setChanges, open, setOpen, folder, edit = 
 
 
   const handleAdd = () => {
-    uploadText({ text: stateToHTML(editorState.getCurrentContent()), folder }).then(() => setChanges(!changes));
+    uploadText({ text: stateToHTML(editorState.getCurrentContent()), folder }).then(() => setOpen({ ...open, changes: !open.changes }))
   };
 
   const handleEdit = () => {
-    editText({ text: stateToHTML(editorState.getCurrentContent()), id: open.textEdit.element._id }).then(() => setChanges(!changes));
+    editText({ text: stateToHTML(editorState.getCurrentContent()), id: open.textEdit.element._id }).then(() => setOpen({ ...open, changes: !open.changes }))
   };
 
 

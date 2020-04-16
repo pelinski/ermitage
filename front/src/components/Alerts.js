@@ -1,6 +1,6 @@
 import React from "react";
 
-export const DeleteAlert = ({ alerts, setAlerts, handleRemove }) => {
+export const DeleteAlert = ({ open, setOpen, handleRemove }) => {
   return (
     <div className="delete-alert">
       <div>
@@ -11,10 +11,10 @@ export const DeleteAlert = ({ alerts, setAlerts, handleRemove }) => {
       </div>
       <div>
         <button onClick={() => {
-          handleRemove({ element: alerts.remove })
-          setAlerts({ ...alerts, showAlert: false, remove: "" });
+          handleRemove({ element: open.alerts.remove })
+          setOpen({ ...open, alerts: { showAlert: false, remove: "" } });
         }}>Yes</button>
-        <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
+        <button onClick={() => setOpen({ ...open, alerts: { showAlert: false, remove: "" } })}>Cancel</button>
       </div>
     </div>
   )

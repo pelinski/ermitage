@@ -4,12 +4,13 @@ const { ObjectId } = Schema.Types;
 
 const schema = new Schema(
   {
-    folder:String,
-    folderUrl:String,
-    layout: [{type:Object}],
+    folder: String,
+    folderUrl: String,
+    layout: [{ type: Object }],
     user: { type: ObjectId, ref: 'User' },
-    elements: [{type:ObjectId, ref:"Element"}],
-    path:String
+    elements: [{ type: ObjectId, ref: "Element" }],
+    path: String,
+    isPrivate: { type: Boolean, default: true }
   },
   {
     timestamps: true

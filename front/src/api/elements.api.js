@@ -17,12 +17,16 @@ export const updateFolderLayout = async ({ folder, layout }) => {
   return res;
 }
 
-export const getFolderLayout = async ({ folder }) => {
-  const res = await foldersApi.get(`/${folder}/layout`);
+export const getFolderLayout = async ({ folder, folderUsername }) => {
+  const res = await foldersApi.get(`/${folderUsername}/${folder}/layout`);
   return res;
 }
 
 
+export const changeFolderPrivacy = async ({ folder, isPrivate }) => {
+  const res = await foldersApi.post(`/${folder}/privacy`, { isPrivate });
+  return res;
+}
 
 //ELEMENTS
 
@@ -54,8 +58,8 @@ export const uploadAudio = async ({ audio, folder }) => {
 
 
 //must retrieve only from folder
-export const getElements = async ({ folder }) => {
-  const res = await elementsApi.get(`/${folder}`);
+export const getElements = async ({ folder, folderUsername }) => {
+  const res = await elementsApi.get(`/${folderUsername}/${folder}`);
   return res;
 }
 
