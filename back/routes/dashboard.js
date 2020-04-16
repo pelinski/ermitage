@@ -100,15 +100,15 @@ router.post("/create/:folder", async (req, res, next) => {
 })
 
 //ADD FOLDER FROM ANOTHER USER TO OWN DASHBOARD
-router.post(`/add/folder/:username/:folder`, async (req, res, next) => {
+router.post(`/add/folder/:id`, async (req, res, next) => {
   if (req.user) {
-    const { folder, username } = req.params;
+    const { id } = req.params;
     try {
-      await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` }, async (err, res) => {
+      await Folder.findOne({ _id: id }, async (err, res) => {
 
-        if (res.isPrivate == false) { User.updateOne({ _id: req.user._id }, { $push: { folders: res._id } }, async (err, res) => console.log(res)) }
+        if (res.isPrivate == false) { User.updateOne({ _id: req.user._id }, { $addToSet: { folders: res._id } }, async (err, res) => console.log(res)) }
       });
-      res.status(200).json({ message: `${folder} folder created` });
+      res.status(200).json({ message: `folder  added` });
     }
     catch {
       res.status(500).json({ message: "Something went wrong" })
@@ -117,6 +117,7 @@ router.post(`/add/folder/:username/:folder`, async (req, res, next) => {
     res.status(401)
   }
 })
+
 
 
 

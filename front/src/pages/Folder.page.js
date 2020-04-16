@@ -14,7 +14,7 @@ import { UploadImage, UploadAudio } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { getElements, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
-import { addFolderToDashboard, deleteFolder } from "../api/dashboard.api"
+import { addFolderToDashboard, deleteFolder, getFolders } from "../api/dashboard.api"
 import { useUser } from "../api/auth.api"
 import { DeleteButton, EditButton, ChangePrivacyButton } from "../components/Buttons";
 import { NotFound } from "./NotFound.page";
@@ -22,11 +22,13 @@ import { NotFound } from "./NotFound.page";
 const ReactGridLayout = WidthProvider(RGL);
 
 
-
 const Page = ({ folder, folderUsername }) => {
-  //TO DO: MERGE STATES 
+
   const user = useUser();
+
   const [elementsRefs] = useState(() => new MultiRef());
+
+  //changes and collapsibles
   const [open, setOpen] = useState({
     main: false,
     text: false,
@@ -40,10 +42,13 @@ const Page = ({ folder, folderUsername }) => {
     changes: true
   })
 
+  //static once loaded
   const [folderBoard, setFolderBoard] = useState({
     elements: [],
     layout: [],
     isPrivate: null,
+    folderId: "",
+    folder: { name: folder, user: folderUsername }
   });
 
 
@@ -53,7 +58,7 @@ const Page = ({ folder, folderUsername }) => {
 
   useEffect(() => {
     Promise.all([getElements({ folder, folderUsername }), getFolderLayout({ folder, folderUsername })]).then(([elementsRes, layoutRes]) => {
-      setFolderBoard({ ...folderBoard, elements: elementsRes.data.elements, layout: layoutRes.data, isPrivate: elementsRes.data.isPrivate });
+      setFolderBoard({ ...folderBoard, folderId: elementsRes.data.folderId, elements: elementsRes.data.elements, layout: layoutRes.data, isPrivate: elementsRes.data.isPrivate });
     })
   }, [open.changes]); //when folder is added or deleted*/
 
@@ -64,7 +69,7 @@ const Page = ({ folder, folderUsername }) => {
 
   if (user.username == folderUsername) {
     return (<>
-      <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate, user }} />
+      <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate, folderBoard }} />
       <AddItemDashboard {...{ open, setOpen, folder }} />
       {open.alerts.showAlert && <DeleteAlert {...{ open, setOpen, handleRemove }} />}
 
@@ -82,7 +87,7 @@ const Page = ({ folder, folderUsername }) => {
     </>)
   } else if (user.username != folderUsername && folderBoard.isPrivate == false) {
     return (<>
-      <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate, visitor: true, folderUsername }} />
+      <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate, visitor: true, folderUsername, user, folderBoard }} />
       <ReactGridLayout layout={folderBoard.layout} {...gridProps} isDraggable={false}>
         {folderBoard.elements.map((element, i) =>
           <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
@@ -112,18 +117,22 @@ const AddItemDashboard = ({ open, setOpen, folder }) =>
 
   </div>)
 
-const PageTitle = ({ folder, folderUsername, open, setOpen, isPrivate, visitor = false, user }) => (
-  < div className="page-title" >
-    {console.log(folder)}
-    <FolderIcon />
-    <h1>{folder}</h1>
-    {visitor && <p>by {folderUsername}</p>}
-    {visitor && !user?.folders.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folder, folderUsername })}>Add to your folders</button>}
-    {visitor && user?.folders.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folder })}>Remove folder from your dashboard</button>}
-    {!visitor && <AddItemCollapsible {...{ open, setOpen }} />}
-    {!visitor && <ChangePrivacyButton {...{ folder, isPrivate, open, setOpen }} />}
-  </div >
-)
+const PageTitle = ({ open, setOpen, visitor = false, folderBoard }) => {
+  const [userFolders, setUserFolders] = useState();
+  useEffect(() => { getFolders().then(res => setUserFolders(res.data.map(e => e._id))) }
+    , [open.changes]) // get updated folders from user: getting them from context does not work because context only loads when page refreshes
+  return (
+    < div className="page-title" >
+      <FolderIcon />
+      <h1>{folderBoard.folder.name}</h1>
+      {visitor && <p>by {folderBoard.folder.username}</p>}
+      {visitor && !userFolders?.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Add to your folders</button>}
+      {visitor && userFolders?.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Remove folder from your dashboard</button>}
+      {!visitor && <AddItemCollapsible {...{ open, setOpen }} />}
+      {!visitor && <ChangePrivacyButton {...{ folderBoard, open, setOpen }} />}
+    </div >
+  )
+}
 
 const ElementButtons = ({ element, open, setOpen, elementRef }) => (
   <div className="element-buttons" style={{ width: elementRef?.getBoundingClientRect().width - 2 || 500, overflowX: "hidden" }}>

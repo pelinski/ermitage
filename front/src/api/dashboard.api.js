@@ -34,7 +34,7 @@ export const getDashboardLayout = async () => {
   return res;
 }
 
-export const addFolderToDashboard = async ({ folderUsername, folder }) => {
-  const res = await api.post(`/add/folder/${folderUsername}/${folder}`);
+export const addFolderToDashboard = async ({ folderId }) => {
+  const res = await api.post(`/add/folder/${folderId}`);
   return res;
 }

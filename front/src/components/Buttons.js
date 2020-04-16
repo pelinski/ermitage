@@ -20,8 +20,8 @@ export const EditButton = ({ onClick }) => (
 )
 
 
-export const ChangePrivacyButton = ({ folder, isPrivate, open, setOpen }) => (
-  < button onClick={() => { changeFolderPrivacy({ folder, isPrivate: !isPrivate }).then(() => setOpen({ ...open, changes: !open.changes })) }} >
-    {isPrivate ? <LockIcon /> : <UnlockIcon />}
+export const ChangePrivacyButton = ({ folderBoard, open, setOpen }) => (
+  < button onClick={() => { changeFolderPrivacy({ folderBoard: folderBoard.folder.name, isPrivate: !folderBoard.folder.isPrivate }).then(() => setOpen({ ...open, changes: !open.changes })) }} >
+    {folderBoard.isPrivate ? <LockIcon /> : <UnlockIcon />}
   </button >
 )
