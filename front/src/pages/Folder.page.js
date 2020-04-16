@@ -6,19 +6,21 @@ import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { AddItemCollapsible } from "../components/Collapsible"
-import { FolderIcon, LockIcon, UnlockIcon } from "../components/Icons"
+import { FolderIcon } from "../components/Icons"
 import { TextElement, ImageElement, AudioElement } from "../components/Elements"
 import { TextEditor } from "../components/TextEditor"
 import { DeleteAlert } from "../components/Alerts"
 import { UploadImage, UploadAudio } from "../components/AddFiles"
 
 import { withProtected } from "../lib/protectRoute.hoc"
-import { getElements, removeElement, updateFolderLayout, getFolderLayout, changeFolderPrivacy } from "../api/elements.api"
+import { getElements, removeElement, updateFolderLayout, getFolderLayout } from "../api/elements.api"
 import { DeleteButton, EditButton, ChangePrivacyButton } from "../components/Buttons";
 
 const ReactGridLayout = WidthProvider(RGL);
 
 const Page = ({ folder }) => {
+  //TO DO: MERGE STATES 
+
   const [elementsRefs] = useState(() => new MultiRef());
   const [open, setOpen] = useState({
     main: false,
