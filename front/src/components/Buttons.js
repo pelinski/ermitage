@@ -8,8 +8,8 @@ export const LinkButton = ({ to, children }) => (<button className="auth-button"
 export const FormButton = ({ children, type = "" }) => (<button {...{ type }}>{children}</button>)
 export const Button = ({ to, children, className }) => (<button className={className || ""} ><Link {...{ to }}>{children}</Link></button>)
 
-export const DeleteButton = ({ setAlerts, alerts, element }) => (
-  <button className="delete-item-button" onClick={() => setAlerts({ ...alerts, showAlert: true, remove: element })}>
+export const DeleteButton = ({ setOpen, open, element }) => (
+  <button className="delete-item-button" onClick={() => setOpen({ ...open, alerts: { showAlert: true, remove: element } })}>
     <DeleteIcon />
   </button>)
 
@@ -20,9 +20,8 @@ export const EditButton = ({ onClick }) => (
 )
 
 
-export const ChangePrivacyButton = ({ folder, isPrivate, changes, setChanges }) => (
-  < button onClick={() => { changeFolderPrivacy({ folder, isPrivate: !isPrivate }).then(() => setChanges(!changes)) }} >
-
+export const ChangePrivacyButton = ({ folder, isPrivate, open, setOpen }) => (
+  < button onClick={() => { changeFolderPrivacy({ folder, isPrivate: !isPrivate }).then(() => setOpen({ ...open, changes: !open.changes })) }} >
     {isPrivate ? <LockIcon /> : <UnlockIcon />}
   </button >
 )

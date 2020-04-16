@@ -28,7 +28,7 @@ export const App = withAuthentication(() => (<>
         <Route path="/login" component={LoginPage} />
         <Route path="/aboutus" component={AboutusPage} />
         <Route path="/:user/dashboard" component={DashboardPage} />
-        <Route path="/:user/:folder" component={props => <FolderPage folder={props.match.params.folder} />} />
+        <Route path="/:user/:folder" component={props => <FolderPage folder={props.match.params.folder} folderUsername={props.match.params.user} />} />
       </Switch>
     </Layout>
   </Router>

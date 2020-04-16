@@ -13,6 +13,7 @@ import { Collapsible } from "../components/Collapsible"
 import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
+import { useUser } from "../api/auth.api";
 
 
 
@@ -54,6 +55,8 @@ const Page = () => {
     }).finally(() => setChanges(false));
   }, [changes]); //when folder is added or deleted
 
+
+  const user = useUser();
   // Grid
   const props = {
     grid: {
@@ -79,8 +82,13 @@ const Page = () => {
         </div>
         <div>
           <button onClick={() => {
-            handlePost({ fields: ["folder"], data: alerts.remove, apiFunction: deleteFolder, setError, setChanges });
-            setAlerts({ ...alerts, showAlert: false, remove: "" });
+
+            deleteFolder({ folder: alerts.remove }).then(() => {
+              setAlerts({ ...alerts, showAlert: false, remove: "" });
+              setChanges(!changes)
+            });
+            //handlePost({ fields: ["folder", "user"], data: alerts.remove, apiFunction: deleteFolder, setError, setChanges });
+
           }}>Yes</button>
           <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
         </div>
@@ -106,17 +114,15 @@ const Page = () => {
 
       <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => onLayoutChange(e)}>
 
-        {dashboard.folders.map((e, i) =>
-
+        {dashboard.folders.filter(e => !((e.user._id != user._id) && (e.isPrivate))).map((e, i) =>
           <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
             <Folder setChanges={setChanges} deleteFolder={() => {
               setAlerts({ ...alerts, showAlert: true, remove: e });
             }}>
               <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
+              {e.user._id != user._id && <p>by <em>{e.user.username}</em></p>}
             </Folder>
-          </Animated.div>)
-
-        }
+          </Animated.div>)}
       </ReactGridLayout>
 
       {alerts.showAlert && <DeleteAlert />}

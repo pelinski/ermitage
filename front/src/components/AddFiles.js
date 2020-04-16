@@ -4,11 +4,11 @@ import _ from "lodash";
 
 
 
-export const UploadImage = ({ changes, setChanges, open, setOpen, folder }) => {
+export const UploadImage = ({ open, setOpen, folder }) => {
   const [file, setFile] = useState();
   const handleSubmit = () => {
     const image = file.files[0];
-    uploadImage({ image, folder }).then(() => setChanges(!changes)).catch((e) => {
+    uploadImage({ image, folder }).then(() => setOpen({ ...open, changes: !open.changes })).catch((e) => {
       console.log("Error uploading file");
       console.log(e);
     });
@@ -25,11 +25,11 @@ export const UploadImage = ({ changes, setChanges, open, setOpen, folder }) => {
 };
 
 
-export const UploadAudio = ({ changes, setChanges, open, setOpen, folder }) => {
+export const UploadAudio = ({ open, setOpen, folder }) => {
   const [file, setFile] = useState();
   const handleSubmit = () => {
     const audio = file.files[0];
-    uploadAudio({ audio, folder }).then(() => setChanges(!changes)).catch((e) => {
+    uploadAudio({ audio, folder }).then(() => setOpen({ ...open, changes: !open.changes })).catch((e) => {
       console.log("Error uploading file");
       console.log(e);
     });

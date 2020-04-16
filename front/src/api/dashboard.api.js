@@ -19,7 +19,7 @@ export const createFolder = async ({ folder }) => {
   }
 }
 export const deleteFolder = async ({ folder }) => {
-  const res = await api.delete(`/${folder}`);
+  const res = await api.post(`/delete/folder`, {folder});
   return res;
 }
 
@@ -30,5 +30,10 @@ export const updateDashboardLayout = async ({ layout }) => {
 
 export const getDashboardLayout = async () => {
   const res = await api.get(`/layout`);
+  return res;
+}
+
+export const addFolderToDashboard = async ({ folderUsername, folder }) => {
+  const res = await api.post(`/add/folder/${folderUsername}/${folder}`);
   return res;
 }
