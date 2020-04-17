@@ -2,8 +2,9 @@ import React from "react";
 import { useUser, useUserIsLoading } from "../api/auth.api";
 //https://reacttraining.com/react-router/web/guides/quick-start
 import { Redirect } from "react-router-dom";
+import Spinner from "react-spinkit"
 
-const ProtectedPagePlaceholder = () => <div>PROTECTED PAGE</div>;
+const ProtectedPagePlaceholder = () => <Spinner name="triangle-skew-spin" color="black" />;
 
 // This is a HOC -> High Order Component
 export const withProtected = (
@@ -15,7 +16,7 @@ export const withProtected = (
 
   if (user) {
     // If we have a user, then render the component
-    return <Component {...{...props}}/>;
+    return <Component {...{ ...props }} />;
   } else {
     // If the user auth backend is loading (because there's no user yet) render the placeholder
     if (isUserLoading) return <ProtectedPagePlaceholder />;
