@@ -78,7 +78,7 @@ const Page = () => {
 
   return (
     <>
-      <ProfileBanner {...{ user }} />
+      <ProfileBanner {...{ user, changes, setChanges }} />
       <TitleWrapper>
         <h1>Folders</h1>
         <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
@@ -111,14 +111,11 @@ const Page = () => {
               }}>
                 {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
                 <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
-                {!isFolderFromUser && <p>by <em>{e.user.username}</em></p>}
+                {!isFolderFromUser && <p>by @<em>{e.user.username}</em></p>}
               </Folder>
             </Animated.div>
           )
-        })
-
-
-        }
+        })}
       </ReactGridLayout>
 
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
