@@ -73,7 +73,6 @@ const Page = () => {
 
 
 
-
   return (
     <>
       <TitleWrapper>
@@ -91,16 +90,34 @@ const Page = () => {
 
       <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => onLayoutChange(e)}>
 
-        {dashboard.folders.filter(e => !((e.user._id != user._id) && (e.isPrivate))).map((e, i) =>
-          <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
-            <Folder setChanges={setChanges} deleteFolder={() => {
-              setAlerts({ ...alerts, showAlert: true, remove: e });
-            }}>
-              {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
-              <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
-              {e.user._id != user._id && <p>by <em>{e.user.username}</em></p>}
-            </Folder>
-          </Animated.div>)}
+        {dashboard.folders.filter((e) => {
+          const isFolderFromUser = e.user.username == user.username;
+          const isFolderPrivate = e.isPrivate;
+          if (isFolderPrivate && !isFolderFromUser) {
+            return false
+          } else {
+            return true
+          }
+        }).map((e, i) => {
+          const isFolderFromUser = e.user.username == user.username;
+
+          return (
+            <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
+              <Folder setChanges={setChanges} deleteFolder={() => {
+                setAlerts({ ...alerts, showAlert: true, remove: e });
+              }}>
+                {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
+                <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
+                {!isFolderFromUser && <p>by <em>{e.user.username}</em></p>}
+              </Folder>
+            </Animated.div>
+
+
+          )
+        })
+
+
+        }
       </ReactGridLayout>
 
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
