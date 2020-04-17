@@ -32,7 +32,8 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
