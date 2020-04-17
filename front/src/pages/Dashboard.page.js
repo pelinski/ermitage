@@ -8,13 +8,16 @@ import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { FieldNoLabel } from "../components/Form";
+import { ProfileBanner } from "../components/ProfileBanner";
 import { Collapsible } from "../components/Collapsible"
+import { LockIcon, UnlockIcon } from "../components/Icons";
+
 
 import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
 import { useUser } from "../api/auth.api";
-import { LockIcon, UnlockIcon } from "../components/Icons";
+
 
 
 
@@ -75,6 +78,7 @@ const Page = () => {
 
   return (
     <>
+      <ProfileBanner {...{ user }} />
       <TitleWrapper>
         <h1>Folders</h1>
         <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
@@ -86,7 +90,7 @@ const Page = () => {
             {error}
           </form>
         </Collapsible>
-      </TitleWrapper>
+      </TitleWrapper >
 
       <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => onLayoutChange(e)}>
 
@@ -100,7 +104,6 @@ const Page = () => {
           }
         }).map((e, i) => {
           const isFolderFromUser = e.user.username == user.username;
-
           return (
             <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
               <Folder setChanges={setChanges} deleteFolder={() => {
@@ -111,8 +114,6 @@ const Page = () => {
                 {!isFolderFromUser && <p>by <em>{e.user.username}</em></p>}
               </Folder>
             </Animated.div>
-
-
           )
         })
 
@@ -147,3 +148,4 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
     </div>
   </div>
 )
+

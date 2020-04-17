@@ -125,7 +125,7 @@ const PageTitle = ({ open, setOpen, visitor = false, folderBoard }) => {
     < div className="page-title" >
       <FolderIcon />
       <h1>{folderBoard.folder.name}</h1>
-      {visitor && <p>by {folderBoard.folder.username}</p>}
+      {visitor && <p>by {folderBoard.folder.user}</p>}
       {visitor && !userFolders?.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Add to your folders</button>}
       {visitor && userFolders?.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Remove folder from your dashboard</button>}
       {!visitor && <AddItemCollapsible {...{ open, setOpen }} />}

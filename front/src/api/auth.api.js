@@ -74,6 +74,19 @@ export const whoami = async () => {
   return res;
 };
 
+// Profile
+export const getProfileInfo = async ({ username }) => {
+
+}
+
+export const updateProfileInfo = async ({ profilePic, bio }) => {
+
+}
+
+
+
+
+
 
 // Helpers
 export const colorSecurityPassword = ({ password }) => {

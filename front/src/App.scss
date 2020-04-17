@@ -144,6 +144,16 @@ input {
     border: $border;
 }
 
+.profileBanner {
+    display: flex;
+    width: 100%;
+    .profilePic {
+        border: $border;
+        width: 10vw;
+        height: 12vh;
+    }
+}
+
 .layout {
     height: 90% !important;
     .react-grid-placeholder {
