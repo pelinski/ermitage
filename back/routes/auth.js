@@ -135,8 +135,13 @@ router.get("/loggedin", (req, res) => {
 })
 
 // WHOAMI
-router.get("/whoami", (req, res, next) => {
-    if (req.user) return res.json(req.user);
+router.get("/whoami", async (req, res, next) => {
+    console.log("/whoami")
+    if (req.user) {
+        const { username, _id } = await User.findOne({ username: req.user.username });
+        return res.json({ username, _id });
+    }
+
     else return res.status(401).json({ status: "No user session present" });
 });
 
