@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const elementsApi = axios.create({
-  baseURL: "http://localhost:3000/elements",
+  baseURL: "https://ermitage-back.herokuapp.com/elements",
   withCredentials: true
 });
 
 const foldersApi = axios.create({
-  baseURL: "http://localhost:3000/dashboard",
+  baseURL: "https://ermitage-back.herokuapp.com/dashboard",
   withCredentials: true
 });
 
