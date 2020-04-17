@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://ermitage-back.herokuapp.com/dashboard",
+  baseURL: "http://localhost:3000/dashboard",
   withCredentials: true
 });
 

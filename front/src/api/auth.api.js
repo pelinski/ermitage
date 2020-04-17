@@ -30,7 +30,7 @@ export const useUserLogout = () => {
 };
 
 const api = axios.create({
-  baseURL: "https://ermitage-back.herokuapp.com",
+  baseURL: "http://localhost:3000",
   withCredentials: true
 });
 
