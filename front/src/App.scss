@@ -27,7 +27,9 @@ h6 {
     //font-family: 'Playfair Display', serif;
     font-family: "Prata", serif;
 }
-
+strong {
+    font-weight: bold;
+}
 header {
     margin: 10px $margin-content;
     height: 3 * $padding;
@@ -69,6 +71,7 @@ button {
     border: none;
     background-color: transparent;
 }
+
 .auth-button {
     width: 100px;
     padding: $button-padding;
@@ -142,6 +145,42 @@ button {
 
 input {
     border: $border;
+}
+
+.profileBanner {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-bottom: 2vw;
+
+    .row {
+        width: 100%;
+        display: flex;
+    }
+    .profilePic {
+        margin-right: 2vw;
+        border: $border;
+        width: 120px;
+        height: 100px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+            z-index: 1000;
+        }
+    }
+
+    .profileInfo {
+        width: 75%;
+    }
+
+    .profileEdit {
+        input {
+            display: none;
+        }
+    }
 }
 
 .layout {
