@@ -107,13 +107,7 @@ export const BioEditor = ({ profile, setProfile }) => {
 
   return (
     <div className="editorContainer" onClick={() => editor.current.focus()}>
-      {alert && <p>You reached the word limit</p>}
-      <div className="editorButtons">
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
-        <button onClick={handleAdd} >Add</button>
-      </div>
+
       <div className="editor">
         <Editor
           spellCheck={true}
@@ -125,7 +119,13 @@ export const BioEditor = ({ profile, setProfile }) => {
           editorState={editorState}
           onChange={editorState => setEditorState(editorState)}
         />
-        {editorState.getCurrentContent().getPlainText().length + "/" + characterLimit}
+        {editorState.getCurrentContent().getPlainText().length + "/" + characterLimit} {alert && <p>You reached the word limit</p>}
+      </div>
+      <div className="editorButtons">
+        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
+        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
+        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
+        <button onClick={handleAdd} >Add</button>
       </div>
     </div>
   )

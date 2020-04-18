@@ -151,6 +151,7 @@ input {
     display: flex;
     width: 100%;
     flex-direction: column;
+    margin-bottom: 2vw;
 
     .row {
         width: 100%;
@@ -170,7 +171,16 @@ input {
             z-index: 1000;
         }
     }
-    margin-bottom: 2vw;
+
+    .profileInfo {
+        width: 75%;
+    }
+
+    .profileEdit {
+        input {
+            display: none;
+        }
+    }
 }
 
 .layout {
