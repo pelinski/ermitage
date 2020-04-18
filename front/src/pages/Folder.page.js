@@ -88,7 +88,7 @@ const Page = ({ folder, folderUsername }) => {
   } else if (user.username != folderUsername && folderBoard.isPrivate == false) {
     return (<>
       <PageTitle {...{ open, setOpen, folder, isPrivate: folderBoard.isPrivate, visitor: true, folderUsername, user, folderBoard }} />
-      <ReactGridLayout layout={folderBoard.layout} {...gridProps} isDraggable={false}>
+      <ReactGridLayout layout={folderBoard.layout} {...gridProps} isDraggable={false} isResizable={false}>
         {folderBoard.elements.map((element, i) =>
           <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
             <div>

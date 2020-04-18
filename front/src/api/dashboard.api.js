@@ -6,8 +6,8 @@ const api = axios.create({
   withCredentials: true
 });
 
-export const getFolders = async () => {
-  const res = await api.get("/folders");
+export const getFolders = async ({ dashboardUsername }) => {
+  const res = await api.get(`/folders/${dashboardUsername}`);
   return res;
 }
 export const createFolder = async ({ folder }) => {
@@ -30,8 +30,8 @@ export const updateDashboardLayout = async ({ layout }) => {
   return res;
 }
 
-export const getDashboardLayout = async () => {
-  const res = await api.get(`/layout`);
+export const getDashboardLayout = async ({ dashboardUsername }) => {
+  const res = await api.get(`/layout/${dashboardUsername}`);
   return res;
 }
 

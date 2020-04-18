@@ -9,9 +9,10 @@ const { removeCloudinaryFolder } = require("../middleware/cloudinary")
 
 
 //RETRIEVE FOLDERS FROM USER
-router.get("/folders", async (req, res, next) => {
+router.get("/folders/:username", async (req, res, next) => {
   if (req.user) {
-    const { folders } = await User.findOne({ _id: req.user._id }).populate({
+    const { username } = req.params;
+    const { folders } = await User.findOne({ username }).populate({
       path: 'folders', populate: { path: 'user', select: { '_id': 1, 'username': 1 } }
     })
     res.status(200).json(folders)
@@ -41,10 +42,11 @@ router.post("/update/layout", async (req, res, next) => {
 
 
 //GET DASHBOARD LAYOUT
-router.get("/layout", async (req, res, next) => {
+router.get("/layout/:username", async (req, res, next) => {
   if (req.user) {
     try {
-      const { layout } = await User.findOne({ _id: req.user._id });
+      const { username } = req.params;
+      const { layout } = await User.findOne({ username });
       res.status(200).json(layout);
     }
     catch {
