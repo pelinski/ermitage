@@ -30,9 +30,11 @@ export const useUserLogout = () => {
 };
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/auth",
+  //baseURL: "http://localhost:3000/auth",
+  baseURL: `${process.env.BACK_URL}/auth`,
   withCredentials: true
 });
+
 
 export const doSignup = async ({ username, password, email }) => {
   console.log(`Registering user into database...`);
@@ -51,6 +53,7 @@ export const doSignup = async ({ username, password, email }) => {
 };
 
 export const doLogin = async ({ username, password }) => {
+  console.log(process.env.BACK_URL)
   console.log("Do Login");
   try {
     const res = await api.post("/login", {

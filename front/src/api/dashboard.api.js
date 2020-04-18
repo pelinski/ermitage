@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/dashboard",
+  //baseURL: "http://localhost:3000/dashboard",
+  baseURL: `${process.env.BACK_URL}/dashboard`,
   withCredentials: true
 });
 
