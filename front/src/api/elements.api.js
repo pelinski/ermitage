@@ -1,12 +1,14 @@
 import axios from "axios";
 
 const elementsApi = axios.create({
-  baseURL: "http://localhost:3000/elements",
+  //baseURL: "http://localhost:3000/elements",
+  baseURL: `${process.env.BACK_URL}/elements`,
   withCredentials: true
 });
 
 const foldersApi = axios.create({
-  baseURL: "http://localhost:3000/dashboard",
+  //baseURL: "http://localhost:3000/dashboard",
+  baseURL: `${process.env.BACK_URL}/dashboard`,
   withCredentials: true
 });
 
