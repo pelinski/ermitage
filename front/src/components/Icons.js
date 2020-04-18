@@ -13,6 +13,9 @@ import cameraIcon from "../public/camera.svg"
 import elementCloseIcon from "../public/element_close.svg"
 import profileIcon from "../public/profile.svg"
 
+import searchIcon from "../public/search.svg"
+import searchCloseIcon from "../public/search_close.svg"
+
 
 
 export const FolderIcon = () => <img draggable="false" src={folderIcon} alt="Folder icon" />;
@@ -53,3 +56,7 @@ export const LockIcon = () => <img draggable="false" src={lockIcon} alt="Lock ic
 export const UnlockIcon = () => <img draggable="false" src={unlockIcon} alt="Unlock icon" />;
 
 export const ProfileIcon = () => <img draggable="false" src={profileIcon} alt="Profile icon" />;
+
+export const SearchIcon = () => <img draggable="false" src={searchIcon} alt="Search icon" />;
+
+export const SearchCloseIcon = () => <img draggable="false" src={searchCloseIcon} alt="Search close icon" />;
