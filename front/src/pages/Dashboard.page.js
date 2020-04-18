@@ -34,7 +34,7 @@ justify-content:space-between;
 
 
 
-const Page = () => {
+const Page = ({ dashboardUsername }) => {
   //Hooks
   const [alerts, setAlerts] = useState({
     remove: "",
@@ -78,7 +78,7 @@ const Page = () => {
 
   return (
     <>
-      <ProfileBanner {...{ user, changes, setChanges }} />
+      <ProfileBanner {...{ dashboardUsername }} />
       <TitleWrapper>
         <h1>Folders</h1>
         <Collapsible trigger="Add folder"  {...{ open, setOpen }}>

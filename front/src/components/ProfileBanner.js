@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react"
 import { Image, Transformation } from 'cloudinary-react';
 import parse from 'html-react-parser';
 
-import { getProfileInfo, uploadProfilePicture } from "../api/auth.api"
+import { getProfileInfo, uploadProfilePicture, useUser } from "../api/auth.api"
 import { EditIcon, ProfileIcon, DeleteIcon } from "./Icons"
 import { BioEditor } from "../components/TextEditor"
 
-export const ProfileBanner = ({ user }) => {
-
+export const ProfileBanner = ({ dashboardUsername }) => {
+  const user = useUser();
+  const isUserDashboardOwner = user.username == dashboardUsername;
   const [profile, setProfile] = useState({
     open: false,
     changes: false,
@@ -18,25 +19,24 @@ export const ProfileBanner = ({ user }) => {
   });
 
   useEffect(() => {
-    getProfileInfo({ username: user.username }).then((res) => {
+    getProfileInfo({ username: dashboardUsername }).then((res) => {
       setProfile({ ...profile, profileInfo: { profilePicId: res.data.profilePicId, bio: res.data.bio } })
     }
     )
   }, [profile.changes])
-
   return (<>
     <div className="profileBanner">
       <div className="row">
         <ProfilePic {...{ profile }} />
         <div className="profileInfo">
-          <h1>@{user.username}</h1>
-          {!profile.open && parse(profile.profileInfo.bio) /*bioeditor should be here*/}
-          {profile.open && <BioEditor {...{ profile, setProfile }} />}
+          <h1>@{dashboardUsername}</h1>
+          {!profile.open && parse(profile.profileInfo.bio)}
+          {isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile }} />}
         </div>
-        <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.open ? <DeleteIcon /> : <EditIcon />}</button>
+        <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>
       </div>
       <div className="profileEdit">
-        {profile.open && <ChangeProfilePictureBtn {...{ profile, setProfile }} />}
+        {isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ profile, setProfile }} />}
       </div>
     </div>
   </>)
