@@ -36,9 +36,23 @@ const audioStorage = cloudinaryStorage({
   },
 });
 
+const profilePicStorage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: function (req, file, cb) {
+    cb(undefined, `profile`);
+  },
+  params: {
+    invalidate: true    //rewritten pic gets not cached
+  },
+  allowedFormats: ["jpg", "png"],
+  filename: function (req, file, cb) {
+    cb(undefined, `${req.user._id}`); //autodeletes old profile pic 
+  },
+});
 
 const uploadCloudinaryImage = multer({ storage: imageStorage });
 const uploadCloudinaryAudio = multer({ storage: audioStorage });
+const uploadCloudinaryProfilePic = multer({ storage: profilePicStorage });
 
 
 const removeCloudinaryFile = ({ public_id }) => {
@@ -54,6 +68,7 @@ const removeCloudinaryFolder = ({ id, folder }) => {
 module.exports = {
   uploadCloudinaryImage,
   uploadCloudinaryAudio,
+  uploadCloudinaryProfilePic,
   removeCloudinaryFile,
   removeCloudinaryFolder
 }

@@ -30,14 +30,14 @@ export const useUserLogout = () => {
 };
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3000/auth",
   withCredentials: true
 });
 
 export const doSignup = async ({ username, password, email }) => {
   console.log(`Registering user into database...`);
   try {
-    const res = await api.post("/auth/signup", {
+    const res = await api.post("/signup", {
       username,
       password,
       email
@@ -53,7 +53,7 @@ export const doSignup = async ({ username, password, email }) => {
 export const doLogin = async ({ username, password }) => {
   console.log("Do Login");
   try {
-    const res = await api.post("/auth/login", {
+    const res = await api.post("/login", {
       username,
       password
     });
@@ -65,14 +65,35 @@ export const doLogin = async ({ username, password }) => {
 };
 
 export const doLogout = async () => {
-  const res = await api.post("/auth/logout");
+  const res = await api.post("/logout");
   return res;
 };
 
 export const whoami = async () => {
-  const res = await api.get("/auth/whoami");
+  const res = await api.get("/whoami");
   return res;
 };
+
+// Profile
+export const getProfileInfo = async ({ username }) => {
+  const res = await api.get(`/profile/${username}`);
+  return res
+
+}
+
+export const uploadProfilePicture = async ({ profilePic }) => {
+  const data = new FormData();
+  data.append("profilepic", profilePic);
+  const res = await api.post(`/upload/profilepic`, data);
+  return res
+}
+
+export const updateProfileBio = async ({ bio }) => {
+  const res = await api.post("/update/bio", { bio });
+  return res
+}
+
+
 
 
 // Helpers

@@ -9,5 +9,6 @@ Camera by Alex Chamorro from the Noun Project
 Document Delete by Alex Chamorro from the Noun Project
 Unlock by Alex Chamorro from the Noun Project
 Lock by Alex Chamorro from the Noun Project
+profile by mikicon from the Noun Project
 Hermitage plane from https://commons.wikimedia.org/wiki/File:Buildings_of_the_State_Hermitage_Museum.svg
 */

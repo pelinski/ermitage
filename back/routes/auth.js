@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-//const { uploadCloud } = require("../lib/multerMiddleware");
 const { hashPassword } = require("../lib/hashing");
+const { uploadCloudinaryProfilePic } = require("../middleware/cloudinary");
 const User = require("../models/User");
 
 const errorMsg = { message: "Something went wrong" };
@@ -92,18 +92,20 @@ router.post("/logout", (req, res) => {
     }
 });
 
-/*
-router.post("/upload", uploadCloud.single("profilepic"),
+//UPLAOD PROFILE PIC
+router.post("/upload/profilepic", uploadCloudinaryProfilePic.single("profilepic"),
     async (req, res, next) => {
         const loggedUser = req.user;
-        loggedUser.image = req.file;
+        loggedUser.profilePic = req.file;
         await loggedUser.save();
         res.status(200).json({ message: "uploaded file" });
     }
-);*/
+);
+
 
 
 //UPDATE USER
+/*
 router.post("/update", async (req, res) => {
     try {
         const { username, email, password, displayName } = req.body;
@@ -117,6 +119,17 @@ router.post("/update", async (req, res) => {
     }
     catch {
         res.status(400).json(errorMsg)
+    }
+})*/
+
+//UPDATE BIO
+router.post("/update/bio", async (req, res) => {
+    if (req.user) {
+        const { bio } = req.body;
+        await User.updateOne({ _id: req.user._id }, { bio });
+        res.status(200).json({ message: "bio updated" });
+    } else {
+        res.status(401)
     }
 })
 
@@ -136,7 +149,6 @@ router.get("/loggedin", (req, res) => {
 
 // WHOAMI
 router.get("/whoami", async (req, res, next) => {
-    console.log("/whoami")
     if (req.user) {
         const { username, _id } = await User.findOne({ username: req.user.username });
         return res.json({ username, _id });
@@ -144,6 +156,18 @@ router.get("/whoami", async (req, res, next) => {
 
     else return res.status(401).json({ status: "No user session present" });
 });
+
+
+//GET PROFILE INFO
+router.get("/profile/:username", async (req, res) => {
+    if (req.user) {
+        const { username } = req.params;
+        const { bio, profilePic: { public_id: profilePicId } } = await User.findOne({ username });
+        return res.status(200).json({ bio, profilePicId });
+    } else {
+        res.status(401)
+    }
+})
 
 
 module.exports = router;
