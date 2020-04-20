@@ -6,9 +6,7 @@ import { Searchbar } from "./Searchbar";
 export const LoggedinNav = () => {
   const handleLogout = useUserLogout();
   const { username } = useUser();
-
   return (<>
-
     <nav>
       <span>
         <Searchbar />
@@ -24,18 +22,3 @@ export const LoggedinNav = () => {
   </>)
 }
 
-export const VisitorNav = () => {
-
-  return (<>
-
-    <nav>
-      <span>
-        <Link to="/aboutus">About us</Link>
-      </span>
-      <span>
-        <Link to="/login">Log in</Link>
-      </span>
-
-    </nav>
-  </>)
-}
