@@ -20,7 +20,7 @@ export const HomePage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setStart(false)
-      setFadeIn(() => ({ opacity: 1, marginTop: "0vh", from: { opacity: 0.5, marginTop: "60vh" }, duration: 1000 }))
+      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0.5, marginLeft: "100vw" }, duration: 800, config: { mass: 30, tension: 550, friction: 130 } }))
     }, 1000);
     return () => clearTimeout(timer);
   }, [useUserIsLoading]);
