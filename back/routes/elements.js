@@ -13,15 +13,14 @@ const { uploadCloudinaryImage, uploadCloudinaryAudio, removeCloudinaryFile } = r
 // TO DO: ADD PAGINATION
 router.get("/:username/:folder", async (req, res, next) => {
   if (req.user) {
-    console.log("get elements of folder")
     const { folder, username } = req.params;
-    const { elements, isPrivate, _id } = await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` }).populate("elements");
+    const { layout, elements, isPrivate, _id } = await Folder.findOne({ path: `/${username}/${folder.replace(/ /g, "_")}` }).populate("elements");
     if (isPrivate && username != req.user.username) {
       res.status(401);
     } else if (isPrivate && username == req.user.username) {
-      res.status(200).json({ elements, isPrivate, folderId: _id })
+      res.status(200).json({ elements, isPrivate, folderId: _id, layout })
     } else if (!isPrivate) {
-      res.status(200).json({ elements, isPrivate, folderId: _id })
+      res.status(200).json({ elements, isPrivate, folderId: _id, layout })
     }
   } else {
     res.status(401)

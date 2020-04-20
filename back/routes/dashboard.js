@@ -8,14 +8,16 @@ const Folder = require("../models/Folder");
 const { removeCloudinaryFolder } = require("../middleware/cloudinary")
 
 
-//RETRIEVE FOLDERS FROM USER
-router.get("/folders/:username", async (req, res, next) => {
+//RETRIEVE  INFO FROM USER
+router.get("/user/:username", async (req, res, next) => {
   if (req.user) {
     const { username } = req.params;
-    const { folders } = await User.findOne({ username }).populate({
+    const { folders, layout, bio, profilePic } = await User.findOne({ username }).populate({
       path: 'folders', populate: { path: 'user', select: { '_id': 1, 'username': 1 } }
-    })
-    res.status(200).json(folders)
+    }) || { folders: [], layout: [], bio: "", profilePic: {} };
+
+    res.status(200).json({ folders, layout, profileInfo: { bio, profilePicId: (profilePic && profilePic.public_id) || "" } })
+
   } else {
     res.status(401)
   }
@@ -39,44 +41,6 @@ router.post("/update/layout", async (req, res, next) => {
   }
 
 })
-
-
-//GET DASHBOARD LAYOUT
-router.get("/layout/:username", async (req, res, next) => {
-  if (req.user) {
-    try {
-      const { username } = req.params;
-      const { layout } = await User.findOne({ username });
-      res.status(200).json(layout);
-    }
-    catch {
-      res.status(500).json({ message: "Something went wrong" })
-    }
-  } else {
-    res.status(401)
-  }
-})
-
-
-/*
-// TO DO. route to update folder name
-router.post("/update/folder/:folder", async (req, res, next) => {
-  const { folder } = req.params;
-  const { layout } = req.body;
-  try {
-    const FolderToUpdate = await Folder.findOne({
-      folder,
-      user: req.user._id,
-    });
-    FolderToUpdate.updateOne({ folder, layout });
-    FolderToUpdate.save();
-    res.status(200).json({ message: `${folder} folder updated` });
-  }
-  catch {
-    res.status(500).json({ message: "Something went wrong" })
-  }
-
-})*/
 
 //CREATE FOLDER
 router.post("/create/:folder", async (req, res, next) => {
