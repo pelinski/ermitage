@@ -13,20 +13,20 @@ export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
     changes: false,
     profileInfo: dashboard.profileInfo,
     isUserDashboardOwner: user.username == dashboard.dashboardUsername,
-
+    doesUserExist: dashboard.doesUserExist
   });
 
-  useEffect(() => setProfile({ ...profile, profileInfo: dashboard.profileInfo }), [dashboard.profileInfo])
+  useEffect(() => setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist }), [dashboard.profileInfo])
 
   return (<>
-    <div className="profileBanner">
+    <div className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
       <div className="row">
         <ProfilePic {...{ profile }} />
         <div className="profileInfo">
-          <h1>@{dashboard.dashboardUsername}</h1>
+          <h1>@{profile.doesUserExist ? dashboard.dashboardUsername : "404"}</h1>
           <Bio {...{ profile, setProfile }} />
         </div>
-        <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>
+        {profile.doesUserExist && <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
       </div>
       <div className="profileEdit">
         {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
@@ -50,7 +50,7 @@ const ProfilePic = ({ profile }) => {
 
 const Bio = ({ profile, setProfile }) => (<>
 
-  {!profile.open && parse(profile.profileInfo.bio)}
+  {!profile.open && (profile.doesUserExist ? parse(profile.profileInfo.bio) : "Sorry, this user does not exist")}
   {profile.isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile }} />}
 </>)
 
@@ -63,7 +63,6 @@ const ChangeProfilePictureBtn = ({ changes, setChanges }) => {
   const handleSubmit = () => {
     const profilePic = file.files[0];
     uploadProfilePicture({ profilePic }).then(() => {
-      // setProfile({ ...profile, changes: !profile.changes });
       setChanges(!changes)
       setFeedback(!feedback)
     }).catch((e) => {
