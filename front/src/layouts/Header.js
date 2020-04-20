@@ -16,7 +16,6 @@ export const Header = () => {
             {user && <Link to={`/${user.username}/dashboard`} className="link"> <img src={logo} height="40px" /></Link>}
             {user && <LoggedinNav />}
 
-
         </header>
     )
 }

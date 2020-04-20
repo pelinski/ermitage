@@ -50,6 +50,23 @@ nav {
         padding: 4px $button-padding;
     }
 }
+#loading-background {
+    background-image: linear-gradient(
+        rgba(242, 242, 242, 1) 75%,
+        rgba(233, 85, 25, 0.2),
+        rgba(233, 85, 25, 0.4),
+        rgba(233, 85, 25, 1)
+    );
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        max-width: 90vw;
+        max-height: 40vh;
+    }
+}
 .content-box {
     margin: $margin-content;
     margin-top: 0;
@@ -89,91 +106,100 @@ button {
     }
 }
 
+.home-fade-in {
+    display: flex;
+    .logo {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0 1.3vw;
+    }
+}
 #home-page {
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
+}
 
-    .logo {
+.logo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    img {
+        max-width: 95%;
+        max-height: 40vh;
+        object-fit: none;
+    }
+}
+
+.sub-title-home {
+    height: 40vh;
+    display: flex;
+    margin-top: 2vh;
+    will-change: transform;
+    overflow: hidden;
+
+    .auth-col {
         display: flex;
-        width: 100%;
-        justify-content: center;
-        img {
-            max-width: 95%;
-            max-height: 40vh;
-            object-fit: none;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 40vw;
+        justify-content: space-evenly;
+        align-self: center;
+        align-content: space-around;
+        overflow: hidden;
+        min-height: 50%;
+        .auth-collapsible {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+        }
+
+        .buttons {
+            margin-top: 3vh;
+            display: flex;
+            justify-content: center;
+            p {
+                align-self: flex-end;
+            }
+            .home-button {
+                padding: 0 $button-padding;
+            }
+            .dashboard-button {
+                padding: 0 2px;
+            }
+        }
+        .logged-in {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h4 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 0.5vh;
+                p {
+                    margin-left: 3px;
+                    text-decoration: underline;
+                }
+            }
+        }
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            max-width: 60%;
         }
     }
 
-    .sub-title-home {
-        height: 40vh;
-        display: flex;
-        margin-top: 2vh;
-        will-change: transform;
-        overflow: hidden;
+    .map-col {
+        align-self: center;
+        width: 60vw;
 
-        .auth-col {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            width: 40vw;
-            justify-content: space-evenly;
-            align-self: center;
-            align-content: space-around;
-            overflow: hidden;
-            min-height: 50%;
-            .auth-collapsible {
-                display: flex;
-                flex-direction: column;
-                align-self: center;
-            }
-
-            .buttons {
-                margin-top: 3vh;
-                display: flex;
-                justify-content: center;
-                p {
-                    align-self: flex-end;
-                }
-                .home-button {
-                    padding: 0 $button-padding;
-                }
-                .dashboard-button {
-                    padding: 0 2px;
-                }
-            }
-            .logged-in {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                h4 {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin-bottom: 0.5vh;
-                    p {
-                        margin-left: 3px;
-                        text-decoration: underline;
-                    }
-                }
-            }
-            h2 {
-                font-size: 2rem;
-                text-align: center;
-                max-width: 60%;
-            }
-        }
-
-        .map-col {
-            align-self: center;
-            width: 60vw;
-
-            max-height: 35vh;
-            max-width: 50vw;
-            object-fit: scale-down;
-        }
+        max-height: 35vh;
+        max-width: 50vw;
+        object-fit: scale-down;
     }
 }
 
