@@ -8,6 +8,8 @@ import { FieldNoLabel } from "../components/Form";
 import { ProfileBanner } from "../components/ProfileBanner";
 import { Collapsible } from "../components/Collapsible"
 
+import notfound_plane from "../public/404-hermitage.svg"
+
 
 
 import { getDashboard, createFolder, deleteFolder } from "../api/dashboard.api";
@@ -47,6 +49,7 @@ const Page = ({ dashboardUsername }) => {
       <ProfileBanner {...{ dashboard, changes, setChanges }} />
       {dashboard.doesUserExist && < Folders {...{ changes, setChanges }} />}
       {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts }} />}
+      {!dashboard.doesUserExist && <img src={notfound_plane} />}
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
 
     </>
@@ -75,9 +78,6 @@ const Folders = ({ changes, setChanges }) => {
     </div>)
 }
 
-const Folders404 = () => (
-  <h1>You can</h1>
-)
 
 
 export const DashboardPage = withProtected(Page);
