@@ -17,10 +17,10 @@ export const CollapsibleAuth = () => {
   const [open, setOpen] = useState({ login: false, signup: false });
 
   return (
-    <div className="Collapsible">
+    <div className="Collapsible auth-collapsible">
       {!open.login && <button className="trigger" onClick={() => setOpen({ ...open, signup: !open.signup })}>{!open.signup && "Join now"}{open.signup && "x"}</button>}
-      {open.signup && <SignupPage />}
       {!open.signup && <button className="trigger" onClick={() => setOpen({ ...open, login: !open.login })}>{!open.login && "Log in"}{open.login && "x"}</button>}
+      {open.signup && <SignupPage />}
       {open.login && <LoginPage />}
     </div>)
 }

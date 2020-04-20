@@ -14,44 +14,45 @@ import { CollapsibleAuth } from "../components/Collapsible"
 
 export const HomePage = () => {
   const [propsParallax, set] = useSpring(() => ({ xy: [0, 0], config: { mass: 10, tension: 550, friction: 140 } }));
-  const props = useSpring({ opacity: 1, from: { opacity: 0 }, duration: 800 });
+  const propsFadeIn = useSpring({ opacity: 1, from: { opacity: 0 }, duration: 800 });
 
   return (
-    <Animated.div style={{ ...props, overflow: "hidden" }} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
-      <Logo {...{ propsParallax, trans: trans(80, 30) }} />
-      <SubtitleHome {...{ props, propsParallax, transAuth: trans(500, 100) }} />
+    <Animated.div id="home-page" style={{ ...propsFadeIn }} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
+      <Logo {...{ propsParallax }} />
+      <SubtitleHome {...{ propsParallax }} />
     </Animated.div>
   )
 };
 
 
-const Logo = ({ propsParallax, trans }) => (
-  <Animated.div style={{ transform: propsParallax.xy.interpolate(trans), padding: "0 2vw" }}>
+const Logo = ({ propsParallax }) => (
+  <Animated.div className="logo" style={{ transform: propsParallax.xy.interpolate(trans(80, 30)) }}>
     <img src={logo} />
   </Animated.div>)
 
 
 
-const SubtitleHome = ({ props, propsParallax, transAuth }) => {
+const SubtitleHome = ({ propsParallax }) => {
   const user = useUser();
   return (
     <div className="sub-title-home">
       <div className="text-col" style={{ overflow: "hidden" }}>
-        <h1>The place to collect what inspires you.</h1>
-        {!user && <AuthButtons {...{ propsParallax }} trans={transAuth} />}
+        <Animated.h2 style={{ transform: propsParallax.xy.interpolate(trans(-300, 100)) }}>
+          The place to collect what inspires you. </Animated.h2>
+        {!user && <AuthButtons {...{ propsParallax }} />}
         {user && <LoggedInButtons {...{ username: user.username }} />}
-      </ div>
-      <Plane {...{ props }} />
+      </div>
+      <Plane {...{ propsParallax }} />
     </div>)
 }
 
-const Plane = ({ props }) => (
-  <Animated.div style={props} className="map-col">
+const Plane = ({ propsParallax }) => (
+  <Animated.div style={{ transform: propsParallax.xy.interpolate(trans(-300, 300)) }} className="map-col">
     <img src={plane} />
   </Animated.div>)
 
-const AuthButtons = ({ propsParallax, trans }) => (
-  <Animated.div className="buttons" style={{ transform: propsParallax.xy.interpolate(trans) }}>
+const AuthButtons = ({ propsParallax }) => (
+  <Animated.div className="buttons" style={{ transform: propsParallax.xy.interpolate(trans(500, 100)) }}>
     <CollapsibleAuth />
   </Animated.div>)
 

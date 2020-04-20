@@ -3,7 +3,7 @@ $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
 $margin-bottom: 20px;
-$content-height: 84%;
+$content-height: 75%;
 
 * {
     margin: 0;
@@ -58,6 +58,7 @@ nav {
     height: $content-height;
     padding: $padding;
 }
+
 footer {
     display: flex;
     width: 100vw;
@@ -89,57 +90,87 @@ button {
     }
 }
 
-.sub-title-home {
+#home-page {
+    overflow: hidden;
     display: flex;
-    margin-top: 2vh;
-    will-change: transform;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
 
-    .text-col {
+    .logo {
         display: flex;
-        align-content: center;
-        flex-direction: column;
-        flex-wrap: wrap;
-        width: 40vw;
-        align-self: center;
-        .buttons {
-            margin-top: 3vh;
-            display: flex;
-            justify-content: center;
-            p {
-                align-self: flex-end;
-            }
-            .home-button {
-                padding: 0 $button-padding;
-            }
-            .dashboard-button {
-                padding: 0 2px;
-            }
-        }
-        .logged-in {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            h4 {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 0.5vh;
-                p {
-                    margin-left: 3px;
-                    text-decoration: underline;
-                }
-            }
-        }
-
-        h1 {
-            text-align: center;
-            width: 25vw;
+        width: 100%;
+        justify-content: center;
+        img {
+            max-width: 95%;
+            max-height: 40vh;
+            object-fit: none;
         }
     }
-    .map-col {
-        align-self: center;
-        margin: 0 5vw;
-        width: 60vw;
+
+    .sub-title-home {
+        height: 40vh;
+        display: flex;
+        margin-top: 2vh;
+        will-change: transform;
+        overflow: hidden;
+
+        .text-col {
+            display: flex;
+            align-content: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            width: 40vw;
+            align-self: center;
+            .buttons {
+                margin-top: 3vh;
+                display: flex;
+                justify-content: center;
+                p {
+                    align-self: flex-end;
+                }
+                .home-button {
+                    padding: 0 $button-padding;
+                }
+                .dashboard-button {
+                    padding: 0 2px;
+                }
+            }
+            .logged-in {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                h4 {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-bottom: 0.5vh;
+                    p {
+                        margin-left: 3px;
+                        text-decoration: underline;
+                    }
+                }
+            }
+            h2 {
+                text-align: center;
+                width: 25vw;
+            }
+        }
+
+        .auth-collapsible {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .map-col {
+            align-self: center;
+            width: 60vw;
+            img {
+                max-height: 35vh;
+                max-width: 50vw;
+                object-fit: scale-down;
+            }
+        }
     }
 }
 
