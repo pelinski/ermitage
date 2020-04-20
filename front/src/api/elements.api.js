@@ -17,13 +17,13 @@ const foldersApi = axios.create({
 export const updateFolderLayout = async ({ folder, layout }) => {
   const res = await foldersApi.post(`/update/${folder}/layout`, { layout });
   return res;
-}
 
-export const getFolderLayout = async ({ folder, folderUsername }) => {
-  const res = await foldersApi.get(`/${folderUsername}/${folder}/layout`);
+}
+//must retrieve only from folder
+export const getFolder = async ({ folder, folderUsername }) => {
+  const res = await elementsApi.get(`/${folderUsername}/${folder}`);
   return res;
 }
-
 
 export const changeFolderPrivacy = async ({ folder, isPrivate }) => {
   const res = await foldersApi.post(`/${folder}/privacy`, { isPrivate });
@@ -43,7 +43,6 @@ export const editText = async ({ id, text }) => {
   return res;
 }
 
-
 export const uploadImage = async ({ image, folder }) => {
   const data = new FormData();
   data.append("image", image);
@@ -59,11 +58,7 @@ export const uploadAudio = async ({ audio, folder }) => {
 };
 
 
-//must retrieve only from folder
-export const getElements = async ({ folder, folderUsername }) => {
-  const res = await elementsApi.get(`/${folderUsername}/${folder}`);
-  return res;
-}
+
 
 //if file, remove also from cloudinary
 export const removeElement = async ({ element }) => {

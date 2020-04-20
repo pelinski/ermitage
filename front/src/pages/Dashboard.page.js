@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { animated as Animated, useSpring } from "react-spring"
-import { Link } from "react-router-dom"
-import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components";
 
 import "/node_modules/react-grid-layout/css/styles.css"
@@ -10,27 +7,15 @@ import "/node_modules/react-resizable/css/styles.css"
 import { FieldNoLabel } from "../components/Form";
 import { ProfileBanner } from "../components/ProfileBanner";
 import { Collapsible } from "../components/Collapsible"
-import { LockIcon, UnlockIcon } from "../components/Icons";
 
 
-import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
+
+import { getDashboard, createFolder, deleteFolder } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
-import { useUser } from "../api/auth.api";
 
+import { DashboardGrid } from "../components/Grids";
 
-
-
-
-const ReactGridLayout = WidthProvider(RGL);
-const Folder = ({ children, deleteFolder }) => (<>
-  <button onClick={() => deleteFolder()} className="folderDetail"> x </button>
-  <div className="folderContent">{children}</div>
-</>)
-const TitleWrapper = styled.div`
-display:flex;
-justify-content:space-between;
-`
 
 
 
@@ -46,21 +31,24 @@ const Page = ({ dashboardUsername }) => {
   const [dashboard, setDashboard] = useState({
     folders: [],
     layout: [],
-    dashboardUsername
+    dashboardUsername,
+    profileInfo: {
+      profilePicId: "",
+      bio: ""
+    }
   });
   const [data, setData] = useState({
     folder: ""
   });
 
   useEffect(() => {
-    Promise.all([getFolders({ dashboardUsername }), getDashboardLayout({ dashboardUsername })]).then(([foldersRes, layoutRes]) => {
-      setDashboard({ ...dashboard, folders: foldersRes.data, layout: layoutRes.data })
-    });
-  }, [changes]); //when folder is added or deleted
+    getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) })
+  }, [changes, dashboardUsername]); //when folder is added or deleted
+
 
   return (
     <>
-      <ProfileBanner {...{ dashboardUsername }} />
+      <ProfileBanner {...{ dashboard, changes, setChanges }} />
       <TitleWrapper>
         <h1>Folders</h1>
         <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
@@ -73,8 +61,7 @@ const Page = ({ dashboardUsername }) => {
           </form>
         </Collapsible>
       </TitleWrapper >
-      <GridContainer {...{ dashboard, setDashboard, setChanges }} />
-
+      <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts }} />
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
 
     </>
@@ -103,44 +90,7 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
   </div>
 )
 
-const GridContainer = ({ dashboard, setDashboard, setChanges }) => {
-  const user = useUser();
-  const isUserDashboardOwner = user.username == dashboard.dashboardUsername;
-  const props = {
-    grid: {
-      cols: 8,
-      rowHeight: 30,
-    },
-    spring: useSpring({ opacity: 1, from: { opacity: 0 }, duration: 600 })
-  }
-  const onLayoutChange = (newLayout) => {
-    updateDashboardLayout({ layout: newLayout }).then(() => setDashboard({ ...dashboard, layout: newLayout }));
-  }
-
-  return (
-    <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => isUserDashboardOwner && onLayoutChange(e)} isDraggable={isUserDashboardOwner} isResizable={isUserDashboardOwner}>
-
-      {dashboard.folders.filter((e) => {
-        const isFolderFromUser = e.user.username == user.username;
-        const isFolderPrivate = e.isPrivate;
-        if (isFolderPrivate && !isFolderFromUser) {
-          return false
-        } else {
-          return true
-        }
-      }).map((e, i) => {
-        const isFolderFromUser = e.user.username == user.username;
-        return (
-          <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
-            <Folder setChanges={setChanges} deleteFolder={() => {
-              setAlerts({ ...alerts, showAlert: true, remove: e });
-            }}>
-              {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
-              <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
-              {isUserDashboardOwner && (!isFolderFromUser && <p>by @<em>{e.user.username}</em></p>)}
-            </Folder>
-          </Animated.div>
-        )
-      })}
-    </ReactGridLayout>)
-}
+const TitleWrapper = styled.div`
+display:flex;
+justify-content:space-between;
+`

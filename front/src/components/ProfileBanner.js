@@ -2,41 +2,34 @@ import React, { useState, useEffect, useRef } from "react"
 import { Image, Transformation } from 'cloudinary-react';
 import parse from 'html-react-parser';
 
-import { getProfileInfo, uploadProfilePicture, useUser } from "../api/auth.api"
+import { uploadProfilePicture, useUser } from "../api/auth.api"
 import { EditIcon, ProfileIcon, DeleteIcon } from "./Icons"
 import { BioEditor } from "../components/TextEditor"
 
-export const ProfileBanner = ({ dashboardUsername }) => {
+export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
   const user = useUser();
-  const isUserDashboardOwner = user.username == dashboardUsername;
   const [profile, setProfile] = useState({
     open: false,
     changes: false,
-    profileInfo: {
-      profilePicId: "",
-      bio: ""
-    }
+    profileInfo: dashboard.profileInfo,
+    isUserDashboardOwner: user.username == dashboard.dashboardUsername,
+
   });
 
-  useEffect(() => {
-    getProfileInfo({ username: dashboardUsername }).then((res) => {
-      setProfile({ ...profile, profileInfo: { profilePicId: res.data.profilePicId, bio: res.data.bio } })
-    }
-    )
-  }, [profile.changes])
+  useEffect(() => setProfile({ ...profile, profileInfo: dashboard.profileInfo }), [dashboard.profileInfo])
+
   return (<>
     <div className="profileBanner">
       <div className="row">
         <ProfilePic {...{ profile }} />
         <div className="profileInfo">
-          <h1>@{dashboardUsername}</h1>
-          {!profile.open && parse(profile.profileInfo.bio)}
-          {isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile }} />}
+          <h1>@{dashboard.dashboardUsername}</h1>
+          <Bio {...{ profile, setProfile }} />
         </div>
-        <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>
+        <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>
       </div>
       <div className="profileEdit">
-        {isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ profile, setProfile }} />}
+        {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
       </div>
     </div>
   </>)
@@ -55,8 +48,14 @@ const ProfilePic = ({ profile }) => {
   }
 }
 
+const Bio = ({ profile, setProfile }) => (<>
 
-const ChangeProfilePictureBtn = ({ profile, setProfile }) => {
+  {!profile.open && parse(profile.profileInfo.bio)}
+  {profile.isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile }} />}
+</>)
+
+
+const ChangeProfilePictureBtn = ({ changes, setChanges }) => {
   const [file, setFile] = useState();
   const [feedback, setFeedback] = useState(false);
 
@@ -64,7 +63,8 @@ const ChangeProfilePictureBtn = ({ profile, setProfile }) => {
   const handleSubmit = () => {
     const profilePic = file.files[0];
     uploadProfilePicture({ profilePic }).then(() => {
-      setProfile({ ...profile, changes: !profile.changes });
+      // setProfile({ ...profile, changes: !profile.changes });
+      setChanges(!changes)
       setFeedback(!feedback)
     }).catch((e) => {
       console.log("change profile pic");

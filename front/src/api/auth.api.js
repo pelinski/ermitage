@@ -78,11 +78,6 @@ export const whoami = async () => {
 };
 
 // Profile
-export const getProfileInfo = async ({ username }) => {
-  const res = await api.get(`/profile/${username}`);
-  return res
-
-}
 
 export const uploadProfilePicture = async ({ profilePic }) => {
   const data = new FormData();
@@ -96,7 +91,10 @@ export const updateProfileBio = async ({ bio }) => {
   return res
 }
 
-
+export const searchUser = async ({ query }) => {
+  const res = await api.get(`/search/${query}`);
+  return res
+}
 
 
 // Helpers
@@ -113,3 +111,4 @@ export const colorSecurityPassword = ({ password }) => {
   }
 
 }
+

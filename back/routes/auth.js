@@ -158,16 +158,16 @@ router.get("/whoami", async (req, res, next) => {
 });
 
 
-//GET PROFILE INFO
-router.get("/profile/:username", async (req, res) => {
+//SEARCH USER 
+router.get("/search/:search", async (req, res) => {
     if (req.user) {
-        const { username } = req.params;
-        const { bio, profilePic: { public_id: profilePicId } } = await User.findOne({ username });
-        return res.status(200).json({ bio, profilePicId });
+        const { search } = req.params;
+        const found = await User.find({ username: { $regex: "^" + search } }).find();
+        res.status(200).json({ result: found ? found.map(e => e.username) : [] })
+
     } else {
-        res.status(401)
+        req.status(401)
     }
 })
-
 
 module.exports = router;
