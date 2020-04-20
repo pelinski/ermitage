@@ -8,6 +8,8 @@ import { FieldNoLabel } from "../components/Form";
 import { ProfileBanner } from "../components/ProfileBanner";
 import { Collapsible } from "../components/Collapsible"
 
+import notfound_plane from "../public/404-hermitage.svg"
+
 
 
 import { getDashboard, createFolder, deleteFolder } from "../api/dashboard.api";
@@ -25,9 +27,7 @@ const Page = ({ dashboardUsername }) => {
     remove: "",
     showAlert: false
   })
-  const [error, setError] = useState("");
   const [changes, setChanges] = useState(true);
-  const [open, setOpen] = useState(false);
   const [dashboard, setDashboard] = useState({
     folders: [],
     layout: [],
@@ -35,38 +35,50 @@ const Page = ({ dashboardUsername }) => {
     profileInfo: {
       profilePicId: "",
       bio: ""
-    }
+    },
+    doesUserExist: false
   });
-  const [data, setData] = useState({
-    folder: ""
-  });
+
 
   useEffect(() => {
-    getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) })
+    getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) });
   }, [changes, dashboardUsername]); //when folder is added or deleted
-
 
   return (
     <>
       <ProfileBanner {...{ dashboard, changes, setChanges }} />
-      <TitleWrapper>
-        <h1>Folders</h1>
-        <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
-          <form onSubmit={e => {
-            e.preventDefault();
-            handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
-          }}>
-            <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
-            {error}
-          </form>
-        </Collapsible>
-      </TitleWrapper >
-      <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts }} />
+      {dashboard.doesUserExist && < Folders {...{ changes, setChanges }} />}
+      {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts }} />}
+      {!dashboard.doesUserExist && <img src={notfound_plane} />}
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
 
     </>
   )
 };
+
+const Folders = ({ changes, setChanges }) => {
+  const [data, setData] = useState({
+    folder: ""
+  });
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+
+  return (
+    <div className="folders-wrapper">
+      <h1>Folders</h1>
+      <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
+        <form onSubmit={e => {
+          e.preventDefault();
+          handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
+        }}>
+          <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
+          {error}
+        </form>
+      </Collapsible>
+    </div>)
+}
+
+
 
 export const DashboardPage = withProtected(Page);
 
@@ -90,7 +102,3 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
   </div>
 )
 
-const TitleWrapper = styled.div`
-display:flex;
-justify-content:space-between;
-`

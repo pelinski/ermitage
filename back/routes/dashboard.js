@@ -12,11 +12,10 @@ const { removeCloudinaryFolder } = require("../middleware/cloudinary")
 router.get("/user/:username", async (req, res, next) => {
   if (req.user) {
     const { username } = req.params;
-    const { folders, layout, bio, profilePic } = await User.findOne({ username }).populate({
+    const { folders, layout, bio, profilePic, doesUserExist = true } = user = await User.findOne({ username }).populate({
       path: 'folders', populate: { path: 'user', select: { '_id': 1, 'username': 1 } }
-    }) || { folders: [], layout: [], bio: "", profilePic: {} };
-
-    res.status(200).json({ folders, layout, profileInfo: { bio, profilePicId: (profilePic && profilePic.public_id) || "" } })
+    }) || { doesUserExist: false, folders: [], layout: [], bio: "", profilePic: {} };
+    res.status(200).json({ folders, layout, profileInfo: { bio, profilePicId: (profilePic && profilePic.public_id) || "" }, doesUserExist, dashboardUsername: username })
 
   } else {
     res.status(401)

@@ -182,7 +182,10 @@ input {
         }
     }
 }
-
+.folders-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
 .layout {
     height: 90% !important;
     .react-grid-placeholder {
