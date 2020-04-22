@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 import { useUserLogout, useUser } from "../api/auth.api"
 import { Searchbar } from "./Searchbar";
 
+import { ArchiveIcon, LogoutIcon } from "../components/Icons"
+
 export const LoggedinNav = () => {
   const handleLogout = useUserLogout();
   const { username } = useUser();
@@ -12,10 +14,10 @@ export const LoggedinNav = () => {
         <Searchbar />
       </span>
       <span>
-        <Link to={`/${username}/dashboard`} >Dashboard</Link>
+        <Link to={`/${username}/dashboard`} ><ArchiveIcon /></Link>
       </span>
       <span>
-        <Link to="/" onClick={handleLogout}>Logout</Link>
+        <Link to="/" onClick={handleLogout}><LogoutIcon /></Link>
       </span>
 
     </nav>
