@@ -8,7 +8,6 @@ import logo from "../public/home-logo.svg"
 import plane from "../public/hermitage-home.svg"
 import { Signup, Login } from "../components/Auth"
 import { LoggedinNav } from "../components/Nav"
-import { ArchiveIcon } from "../components/Icons"
 
 
 
