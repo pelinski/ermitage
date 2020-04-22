@@ -22,9 +22,9 @@ import { DashboardGrid } from "../components/Grids";
 
 
 const Page = ({ dashboardUsername }) => {
-  const spring = { mass: 20, tension: 560, friction: 200 };
+  const spring = { mass: 5, tension: 860, friction: 200 };
 
-  const [fadeIn, setFadeIn] = useSpring(() => ({ opacity: 0, marginLeft: "200vw", duration: 800 }));
+  const [fadeIn, setFadeIn] = useSpring(() => ({ opacity: 0, marginLeft: "200vw" }));
 
   //Hooks
   const [alerts, setAlerts] = useState({
@@ -45,7 +45,7 @@ const Page = ({ dashboardUsername }) => {
 
   useEffect(() => {
     getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) }).then(() =>
-      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "100vw" }, duration: 800, config: spring }))
+      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "60vw" }, duration: 800, config: spring }))
     )
   }, [changes, dashboardUsername]); //when folder is added or deleted
 
@@ -53,9 +53,9 @@ const Page = ({ dashboardUsername }) => {
     <>
       <ProfileBanner {...{ dashboard, changes, setChanges, fadeIn }} />
       {dashboard.doesUserExist && < Folders {...{ changes, setChanges, fadeIn }} />}
+      {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
       {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts, fadeIn }} />}
       {!dashboard.doesUserExist && <div className="not-found-plane"> <img src={notfound_plane} /></div>}
-      {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
 
     </>
   )

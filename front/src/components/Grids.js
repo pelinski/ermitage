@@ -8,7 +8,7 @@ import MultiRef from 'react-multi-ref';
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
-import { LockIcon, UnlockIcon } from "../components/Icons";
+import { LockIcon, UnlockIcon, DeleteIcon } from "../components/Icons";
 import { TextElement, ImageElement, AudioElement } from "../components/Elements"
 import { DeleteButton, EditButton } from "../components/Buttons";
 
@@ -54,7 +54,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }
                 setAlerts({ showAlert: true, remove: e });
               }}>
                 {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
-                <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
+                <Link style={{ display: "inline-block", width: "80%" }} to={e.path} draggable="false">{e.folder}</Link>
                 {isUserDashboardOwner && (!isFolderFromUser && <p>by @<em>{e.user.username}</em></p>)}
               </Folder>
             </div>
@@ -107,7 +107,11 @@ export const FolderGridVisitor = ({ folderBoard }) => {
 
 
 const Folder = ({ children, deleteFolder }) => (<>
-  <button onClick={() => deleteFolder()} className="folderDetail"> x </button>
+  <div className="folderDetailRow">
+    <div className="folderContraDetail"></div>
+    <div className="helper"></div>
+    <div className="folderDetail">  <button onClick={() => deleteFolder()} > <DeleteIcon /></button></div>
+  </div>
   <div className="folderContent">{children}</div>
 </>)
 

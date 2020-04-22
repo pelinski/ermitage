@@ -27,7 +27,7 @@ export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
           <h1>@{profile.doesUserExist ? dashboard.dashboardUsername : "404"}</h1>
           <Bio {...{ profile, setProfile }} />
         </div>
-        {profile.doesUserExist && <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
+        {profile.doesUserExist && <button className="edit-button" onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
       </div>
       <div className="profileEdit">
         {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
@@ -41,7 +41,7 @@ const ProfilePic = ({ profile }) => {
   if (profile.profileInfo.profilePicId != "") {
     return (<div className="profilePic" ref={ref}>
       < Image publicId={profile.profileInfo.profilePicId} cloudName='ddrvhqadf' draggable="false" >
-        <Transformation height={ref.current?.getBoundingClientRect().height || 100} width={ref.current?.getBoundingClientRect().width || 100} dpr="auto" crop="fill" />
+        <Transformation height={Math.round(ref.current?.getBoundingClientRect().height) || 100} width={Math.round(ref.current?.getBoundingClientRect().width) || 100} dpr="auto" crop="fill" />
       </Image >
     </div>)
   } else {
