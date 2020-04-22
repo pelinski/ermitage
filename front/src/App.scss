@@ -18,7 +18,7 @@ $nav-margin: 0 3px;
         border: $border;
         background: transparent;
         padding: 8px;
-        font-size: 12pt;
+        font-size: 9pt;
         font-family: "Playfair Display", serif;
     }
     h1,
@@ -32,6 +32,9 @@ $nav-margin: 0 3px;
     }
     strong {
         font-weight: bold;
+    }
+    u {
+        text-decoration: underline;
     }
     p {
         font-size: 12pt;
@@ -448,6 +451,18 @@ button {
         .Collapsible {
             display: flex;
             flex-direction: row-reverse;
+        }
+    }
+}
+
+.editorContainer {
+    .panel {
+        margin-top: 2px;
+        display: flex;
+        p {
+            font-size: 11pt;
+            align-self: baseline;
+            margin-left: 2vw;
         }
     }
 }

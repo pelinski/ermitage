@@ -19,7 +19,7 @@ import { updateDashboardLayout } from "../api/dashboard.api";
 
 const ReactGridLayout = WidthProvider(RGL);
 
-export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }) => {
+export const DashboardGrid = ({ dashboard, setDashboard, setAlerts }) => {
   const user = useUser();
   const isUserDashboardOwner = user.username == dashboard.dashboardUsername;
   const props = {
@@ -28,10 +28,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }
       rowHeight: 30,
     }
   }
-  //const [spring, setSpring] = useSpring(() => ({ opacity: 0 }))
   const onLayoutChange = (newLayout) => {
-    //setSpring(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "100vw" }, duration: 800, config: spring }))
-
     updateDashboardLayout({ layout: newLayout }).then(() => setDashboard({ ...dashboard, layout: newLayout }));
   }
   if (dashboard.layout != []) {
@@ -49,8 +46,8 @@ export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }
         }).map((e, i) => {
           const isFolderFromUser = e.user.username == user.username;
           return (
-            <div key={e._id} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i - 1, y: 0 }}>
-              <Folder setChanges={setChanges} deleteFolder={() => {
+            <div key={e._id} className="folder grid-element">
+              <Folder {...{ isUserDashboardOwner }} deleteFolder={() => {
                 setAlerts({ showAlert: true, remove: e });
               }}>
                 {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
@@ -106,11 +103,11 @@ export const FolderGridVisitor = ({ folderBoard }) => {
 }
 
 
-const Folder = ({ children, deleteFolder }) => (<>
+const Folder = ({ children, deleteFolder, isUserDashboardOwner }) => (<>
   <div className="folderDetailRow">
-    <div className="folderContraDetail"></div>
-    <div className="helper"></div>
-    <div className="folderDetail">  <button onClick={() => deleteFolder()} > <DeleteIcon /></button></div>
+    <div className="folderContraDetail" />
+    <div className="helper" />
+    <div className="folderDetail">  {isUserDashboardOwner && <button onClick={() => deleteFolder()} > <DeleteIcon /></button>}</div>
   </div>
   <div className="folderContent">{children}</div>
 </>)

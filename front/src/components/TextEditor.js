@@ -67,7 +67,7 @@ export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
 }
 
 
-export const BioEditor = ({ profile, setProfile }) => {
+export const BioEditor = ({ profile, setProfile, changes, setChanges }) => {
   const initialState = profile.profileInfo.bio != "" ? EditorState.createWithContent(stateFromHTML(profile.profileInfo.bio)) : EditorState.createEmpty();
   const [editorState, setEditorState] = useState(initialState)
   const [alert, setAlert] = useState(null);
@@ -98,7 +98,7 @@ export const BioEditor = ({ profile, setProfile }) => {
 
 
   const handleAdd = () => {
-    updateProfileBio({ bio: stateToHTML(editorState.getCurrentContent()) }).then(() => setProfile({ ...profile, changes: !profile.changes })).catch((e) => {
+    updateProfileBio({ bio: stateToHTML(editorState.getCurrentContent()) }).then(() => { setChanges(!changes); setProfile({ ...profile, changes: !profile.changes, open: false }); }).catch((e) => {
       console.log("Error uploading bio");
       console.log(e);
     });
@@ -119,7 +119,7 @@ export const BioEditor = ({ profile, setProfile }) => {
           editorState={editorState}
           onChange={editorState => setEditorState(editorState)}
         />
-        {editorState.getCurrentContent().getPlainText().length + "/" + characterLimit} {alert && <p>You reached the word limit</p>}
+        <div className="panel">{editorState.getCurrentContent().getPlainText().length + "/" + characterLimit} {alert && <p>You've reached the characters limit</p>}</div>
       </div>
       <div className="editorButtons">
         <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>

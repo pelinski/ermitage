@@ -17,7 +17,9 @@ export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
     doesUserExist: dashboard.doesUserExist
   });
 
-  useEffect(() => setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist }), [dashboard.profileInfo])
+  useEffect(() => {
+    setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist })
+  }, [dashboard.profileInfo])
 
   return (<>
     <Animated.div style={fadeIn} className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
@@ -25,7 +27,7 @@ export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
         <ProfilePic {...{ profile }} />
         <div className="profileInfo">
           <h1>@{profile.doesUserExist ? dashboard.dashboardUsername : "404"}</h1>
-          <Bio {...{ profile, setProfile }} />
+          <Bio {...{ profile, setProfile, changes, setChanges }} />
         </div>
         {profile.doesUserExist && <button className="edit-button" onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
       </div>
@@ -49,10 +51,10 @@ const ProfilePic = ({ profile }) => {
   }
 }
 
-const Bio = ({ profile, setProfile }) => (<>
+const Bio = ({ profile, setProfile, setChanges, changes }) => (<>
 
   {!profile.open && (profile.doesUserExist ? parse(profile.profileInfo.bio) : "Sorry, this user does not exist")}
-  {profile.isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile }} />}
+  {profile.isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile, changes, setChanges }} />}
 </>)
 
 

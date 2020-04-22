@@ -11,6 +11,7 @@ import { Collapsible } from "../components/Collapsible"
 import notfound_plane from "../public/404-hermitage.svg"
 
 
+import { useUser } from "../api/auth.api"
 
 import { getDashboard, createFolder, deleteFolder } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
@@ -44,6 +45,7 @@ const Page = ({ dashboardUsername }) => {
   });
 
   useEffect(() => {
+    console.log("effect dashboard")
     getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) }).then(() =>
       setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "60vw" }, duration: 800, config: spring }))
     )
@@ -52,7 +54,7 @@ const Page = ({ dashboardUsername }) => {
   return (
     <>
       <ProfileBanner {...{ dashboard, changes, setChanges, fadeIn }} />
-      {dashboard.doesUserExist && < Folders {...{ changes, setChanges, fadeIn }} />}
+      {dashboard.doesUserExist && < Folders {...{ changes, setChanges, fadeIn, dashboardUsername }} />}
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
       {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts, fadeIn }} />}
       {!dashboard.doesUserExist && <div className="not-found-plane"> <img src={notfound_plane} /></div>}
@@ -61,7 +63,9 @@ const Page = ({ dashboardUsername }) => {
   )
 };
 
-const Folders = ({ changes, setChanges }) => {
+const Folders = ({ changes, setChanges, dashboardUsername }) => {
+  const { username } = useUser();
+  const isUserDashboardOwner = username == dashboardUsername;
   const [data, setData] = useState({
     folder: ""
   });
@@ -71,7 +75,7 @@ const Folders = ({ changes, setChanges }) => {
   return (
     <div className="folders-wrapper">
       <h1>Folders</h1>
-      <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
+      {isUserDashboardOwner && <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
         <form onSubmit={e => {
           e.preventDefault();
           handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
@@ -79,7 +83,7 @@ const Folders = ({ changes, setChanges }) => {
           <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
           {error}
         </form>
-      </Collapsible>
+      </Collapsible>}
     </div>)
 }
 
@@ -91,7 +95,7 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
   <div className="delete-alert">
     <div>
       <p>
-        Are you sure you want to delete the folder {alerts.remove.folder}? <br />
+        Are you sure you want to delete folder {alerts.remove.folder}? <br />
     You will lose all elements inside it.
   </p>
     </div>
