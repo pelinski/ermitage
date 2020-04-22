@@ -1,9 +1,11 @@
-$border: 1.8px solid black;
+$border: 2.2px solid black;
 $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
 $margin-bottom: 20px;
 $content-height: 75%;
+
+$nav-margin: 0 3px;
 
 * {
     margin: 0;
@@ -11,6 +13,29 @@ $content-height: 75%;
     overflow: auto;
     text-decoration: none;
     color: black;
+
+    input {
+        border: $border;
+        background: transparent;
+        padding: 8px;
+        font-size: 12pt;
+        font-family: "Playfair Display", serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        //font-family: 'Playfair Display', serif;
+        font-family: "Prata", serif;
+    }
+    strong {
+        font-weight: bold;
+    }
+    p {
+        font-size: 12pt;
+    }
 }
 body {
     font-family: "Playfair Display", serif;
@@ -18,38 +43,46 @@ body {
     font-weight: 300;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    //font-family: 'Playfair Display', serif;
-    font-family: "Prata", serif;
-}
-strong {
-    font-weight: bold;
-}
 header {
-    margin: 10px $margin-content;
+    margin: 25px $margin-content;
     height: 3 * $padding;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    overflow: hidden;
+
     a {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
     }
 }
 
 nav {
     align-self: flex-end;
+    align-items: center;
     display: flex;
 
     span {
-        margin: 0 5px;
-        padding: 4px $button-padding;
+        display: flex;
+        align-items: baseline;
+        height: 5vh;
+        margin: $nav-margin;
+        padding: 0 4px;
+        overflow: hidden;
+        img {
+            min-height: 30px;
+            min-width: 30px;
+        }
+    }
+
+    .search-bar {
+        display: flex;
+        button {
+            margin-left: 10px;
+        }
     }
 }
+
 #loading-background {
     background-image: linear-gradient(
         rgba(242, 242, 242, 1) 75%,
@@ -137,6 +170,7 @@ button {
 .sub-title-home {
     height: 40vh;
     display: flex;
+    justify-content: space-evenly;
     margin-top: 2vh;
     will-change: transform;
     overflow: hidden;
@@ -145,66 +179,31 @@ button {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        width: 40vw;
+        width: 20vw;
         justify-content: space-evenly;
         align-self: center;
         align-content: space-around;
         overflow: hidden;
         min-height: 50%;
+
         .auth-collapsible {
             display: flex;
-            flex-direction: column;
             align-self: center;
         }
 
-        .buttons {
-            margin-top: 3vh;
-            display: flex;
-            justify-content: center;
-            p {
-                align-self: flex-end;
-            }
-            .home-button {
-                padding: 0 $button-padding;
-            }
-            .dashboard-button {
-                padding: 0 2px;
-            }
-        }
-        .logged-in {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            h4 {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 0.5vh;
-                p {
-                    margin-left: 3px;
-                    text-decoration: underline;
-                }
-            }
-        }
         h2 {
             font-size: 2rem;
             text-align: center;
-            max-width: 60%;
         }
     }
 
     .map-col {
         align-self: center;
         width: 60vw;
-
         max-height: 35vh;
         max-width: 50vw;
         object-fit: scale-down;
     }
-}
-
-input {
-    border: $border;
 }
 
 .profileBanner {

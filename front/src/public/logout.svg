@@ -1,7 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" style="enable-background:new 0 0 100 100" width="30px" xml:space="preserve">
-    <g>
-        <polygon points="65.4,73.2 86.6,52 65.4,30.8 62.6,33.6 79,50 30,50 30,54 79,54 62.6,70.4  "/>
-        <polygon points="11,91 89,91 89,76 85,76 85,87 15,87 15,17 85,17 85,28 89,28 89,13 11,13  "/>
-    </g>
-  
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 27 27.6" style="enable-background:new 0 0 27 27.6;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{stroke:#000000;stroke-width:0.4;stroke-miterlimit:1.2;}
+</style>
+<rect class="st0" width="10" height="9"/>
+<g>
+	<polygon class="st1" points="19.6,22 26,15.6 19.6,9.2 18.8,10.1 23.7,15 9,15 9,16.2 23.7,16.2 18.8,21.1 	"/>
+	<polygon class="st1" points="3.3,27.3 26.7,27.3 26.7,22.8 25.5,22.8 25.5,26.1 4.5,26.1 4.5,5.1 25.5,5.1 25.5,8.4 26.7,8.4 
+		26.7,3.9 3.3,3.9 	"/>
+</g>
 </svg>

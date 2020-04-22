@@ -20,18 +20,18 @@ export const Searchbar = withRouter(({ history }) => {
     }
   }, [query])
 
-  return (<>
+  return (
+    <div className="search-bar">
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        history.push(`/${query}/dashboard`)
+      }}>
+        {search.open && <Animated.input list="results" name="search" type="text" value={query} onChange={(e) => setQuery(e.target.value)} autoComplete="off" />}
+        <datalist id="results">
+          {search.result.length != 0 ? search.result.map((e, i) => <option value={e} key={i}>{e}</option>) : <option value="no">Sorry we could not find anyone</option>}
 
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      history.push(`/${query}/dashboard`)
-    }}>
-      {search.open && <Animated.input list="results" name="search" type="text" value={query} onChange={(e) => setQuery(e.target.value)} autoComplete="off" />}
-      <datalist id="results">
-        {search.result.length != 0 ? search.result.map((e, i) => <option value={e} key={i}>{e}</option>) : <option value="no">Sorry we could not find anyone</option>}
-
-      </datalist>
-    </form>
-    <Animated.button style={props} onClick={() => setSearch({ ...search, open: !search.open })}> {search.open ? <SearchCloseIcon /> : <SearchIcon />}</Animated.button>
-  </>)
+        </datalist>
+      </form>
+      <Animated.button style={props} onClick={() => setSearch({ ...search, open: !search.open })}> {search.open ? <SearchCloseIcon /> : <SearchIcon />}</Animated.button>
+    </div>)
 })
