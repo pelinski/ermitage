@@ -16,19 +16,19 @@ export const LoggedinNav = () => {
   const handleLogout = useUserLogout();
   const { username } = useUser();
   const isHome = useLocation().pathname == "/";
+  // for searchBar
+  const [isOpen, setIsOpen] = useState(false)
   if (isHome) {
     return (<nav class="home">
-
       <span >
         <Link to={`/${username}/dashboard`} style={{ paddingRight: "4px" }}><ArchiveIcon /></Link>   <p>Go to your dashboard</p>
       </span>
-
       <span >
-        <Searchbar />
-        <p>Search users</p>
+        <Searchbar {...{ setIsOpen }} />
+        {!isOpen && <p>Search users</p>}
       </span>
       <span >
-        <Link style={{ paddingRight: "5px" }} to="/" onClick={handleLogout}><LogoutIcon /></Link>
+        <Link style={{ paddingRight: "6px" }} to="/" onClick={handleLogout}><LogoutIcon /></Link>
         <p>Logout</p>
       </span>
     </nav >)
@@ -50,7 +50,7 @@ export const LoggedinNav = () => {
 }
 
 
-const Searchbar = withRouter(({ history }) => {
+const Searchbar = withRouter(({ history, setIsOpen }) => {
   const [search, setSearch] = useState({
     result: [],
     open: false
@@ -77,6 +77,6 @@ const Searchbar = withRouter(({ history }) => {
 
         </datalist>
       </form>
-      <Animated.button style={props} onClick={() => setSearch({ ...search, open: !search.open })}> {search.open ? <SearchCloseIcon /> : <SearchIcon />}</Animated.button>
+      <Animated.button style={props} onClick={() => { setSearch({ ...search, open: !search.open }); setIsOpen(!search.open) }}> {search.open ? <SearchCloseIcon /> : <SearchIcon />}</Animated.button>
     </div>)
 })

@@ -1,4 +1,4 @@
-$border: 2.5px solid black;
+$border: 2.4px solid black;
 $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
@@ -88,12 +88,20 @@ nav {
         align-items: flex-start;
         flex-direction: column;
         span {
-            align-items: center;
-            p {
-                margin-left: 1vw;
+            img {
+                align-self: stretch;
             }
+            p {
+                align-self: center;
+                margin-left: 1vw;
+                padding-bottom: 10px;
+            }
+            margin-top: 4px;
         }
         .search-bar {
+            input {
+                margin-left: 14px;
+            }
             flex-direction: row-reverse;
         }
     }
@@ -170,6 +178,43 @@ button {
     flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
+
+    .sub-title-home {
+        height: 40vh;
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 2vh;
+        will-change: transform;
+        overflow: hidden;
+
+        .auth-col {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            width: 17vw;
+            justify-content: space-evenly;
+            align-self: center;
+            align-content: space-around;
+            overflow: hidden;
+            min-height: 50%;
+
+            .auth-collapsible {
+                display: flex;
+                align-self: center;
+            }
+        }
+        h1 {
+            text-align: right;
+        }
+
+        .map-col {
+            align-self: center;
+            width: 60vw;
+            max-height: 35vh;
+            max-width: 50vw;
+            object-fit: scale-down;
+        }
+    }
 }
 
 .logo {
@@ -180,45 +225,6 @@ button {
         max-width: 95%;
         max-height: 40vh;
         object-fit: none;
-    }
-}
-
-.sub-title-home {
-    height: 40vh;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 2vh;
-    will-change: transform;
-    overflow: hidden;
-
-    .auth-col {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        width: 20vw;
-        justify-content: space-evenly;
-        align-self: center;
-        align-content: space-around;
-        overflow: hidden;
-        min-height: 50%;
-
-        .auth-collapsible {
-            display: flex;
-            align-self: center;
-        }
-
-        h2 {
-            font-size: 2rem;
-            text-align: center;
-        }
-    }
-
-    .map-col {
-        align-self: center;
-        width: 60vw;
-        max-height: 35vh;
-        max-width: 50vw;
-        object-fit: scale-down;
     }
 }
 
