@@ -12,41 +12,47 @@ import { Signup, Login } from "../components/Auth"
 
 
 export const HomePage = () => {
-  const [propsParallax, set] = useSpring(() => ({ xy: [0, 0], config: { mass: 30, tension: 550, friction: 130 } }));
-  const [propsFadeIn, setFadeIn] = useSpring(() => ({ opacity: 0 }));
-  const props = useSpring({ opacity: 1, marginTop: "1vh", from: { opacity: 0.5, marginTop: "20vh" }, duration: 800 });
-  const [start, setStart] = useState(true);
+
   const user = useUser();
+  const [start, setStart] = useState(true);
+  const startTrans = useSpring({ opacity: 1, marginTop: "2vh", from: { opacity: 0.5, marginTop: "20vh" }, duration: 800 });
+
+  const spring = { mass: 30, tension: 550, friction: 130 };
+  const [parallax] = useSpring(() => ({ xy: [0, 0], config: spring }));
+  const [fadeIn, setFadeIn] = useSpring(() => ({ opacity: 0 }));
+
+  // Start logo translation
   useEffect(() => {
     const timer = setTimeout(() => {
       setStart(false)
-      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0.5, marginLeft: "100vw" }, duration: 800, config: { mass: 30, tension: 550, friction: 130 } }))
+      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0.5, marginLeft: "100vw" }, duration: 800, config: spring }))
     }, 1000);
     return () => clearTimeout(timer);
   }, [useUserIsLoading]);
+
+
   if (start) {
     return (
-
       <div className="home-fade-in" >
         <div className="logo" >
-          <Animated.img style={props} src={logo} />
+          <Animated.img style={startTrans} src={logo} />
         </div >
       </div>
     )
   } else {
-    //style={{ transform: propsParallax.xy.interpolate(trans(80, 30)) }}
     return (
       <Animated.div id="home-page" onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
 
-        <Animated.div className="logo" >
+        <Animated.div className="logo" style={{ transform: parallax.xy.interpolate(trans(80, 30)) }}
+        >
           <img src={logo} />
         </Animated.div>
-        <Animated.div style={propsFadeIn} className="sub-title-home">
-          <Animated.div className="auth-col" style={{ transform: propsParallax.xy.interpolate(trans(500, 100)) }}>
-            {!user && <AuthButtons {...{ propsFadeIn, propsParallax }} />}
+        <Animated.div style={fadeIn} className="sub-title-home">
+          <Animated.div className="auth-col" style={{ transform: parallax.xy.interpolate(trans(500, 100)) }}>
+            {!user && <AuthButtons {...{ fadeIn, parallax }} />}
             {user && <LoggedInButtons {...{ username: user.username }} />}
           </Animated.div>
-          <Animated.img style={{ transform: propsParallax.xy.interpolate(trans(-300, 300)) }} className="map-col" src={plane} />
+          <Animated.img style={{ transform: parallax.xy.interpolate(trans(-300, 300)) }} className="map-col" src={plane} />
 
         </Animated.div >
       </Animated.div >
@@ -54,13 +60,13 @@ export const HomePage = () => {
   }
 };
 
-const AuthButtons = ({ propsFadeIn, propsParallax }) => {
+const AuthButtons = ({ fadeIn, parallax }) => {
   const [open, setOpen] = useState({ login: false, signup: false });
   const [props, setProps] = useSpring(() => ({ opacity: 0, duration: 800 }));
 
   return (<>
-    {(open.signup || open.login) && <Animated.h2 style={{ ...props, transform: propsParallax.xy.interpolate(trans(-300, 100)) }}>The place to collect what inspires you.</Animated.h2>}
-    {!(open.signup || open.login) && <Animated.h2 style={{ ...propsFadeIn, transform: propsParallax.xy.interpolate(trans(-300, 100)) }}>The place to collect what inspires you.</Animated.h2>}
+    {(open.signup || open.login) && <Animated.h2 style={{ ...props, transform: parallax.xy.interpolate(trans(-300, 100)) }}>The place to collect what inspires you.</Animated.h2>}
+    {!(open.signup || open.login) && <Animated.h2 style={{ ...fadeIn, transform: parallax.xy.interpolate(trans(-300, 100)) }}>The place to collect what inspires you.</Animated.h2>}
 
     <div className="Collapsible auth-collapsible">
 
