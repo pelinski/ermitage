@@ -9,6 +9,7 @@ import "/node_modules/draft-js/dist/Draft.css"
 
 import { uploadText, editText } from "../api/elements.api"
 import { updateProfileBio } from "../api/auth.api"
+import { OkIcon } from "./Icons";
 
 export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
 
@@ -119,14 +120,20 @@ export const BioEditor = ({ profile, setProfile, changes, setChanges }) => {
           editorState={editorState}
           onChange={editorState => setEditorState(editorState)}
         />
-        <div className="panel">{editorState.getCurrentContent().getPlainText().length + "/" + characterLimit} {alert && <p>You've reached the characters limit</p>}</div>
+        <div className="panel">
+          {editorState.getCurrentContent().getPlainText().length + "/" + characterLimit}
+          {alert && <p>You've reached the character limit</p>}
+          <div className="editorButtons">
+            <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
+            <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
+            <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
+
+          </div>       <button className="add-icon" onClick={handleAdd} ><OkIcon /></button>
+        </div>
+
+
       </div>
-      <div className="editorButtons">
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
-        <button onClick={handleAdd} >Add</button>
-      </div>
+
     </div>
   )
 }

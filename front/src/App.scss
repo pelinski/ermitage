@@ -252,7 +252,7 @@ button {
         border: $border;
         width: 120px;
         height: 100px;
-
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -273,6 +273,36 @@ button {
         input {
             display: none;
         }
+        .buttons {
+            margin-left: 2vw;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .editorContainer {
+        .panel {
+            margin-top: 2px;
+            display: flex;
+            p {
+                margin-top: 4px;
+                font-size: 11pt;
+                align-self: baseline;
+                margin-left: 2vw;
+            }
+            .editorButtons {
+                margin: 0 10px;
+                button {
+                    width: 15px;
+                }
+            }
+            .add-icon {
+                img {
+                    padding-top: 4px;
+                }
+                display: flex;
+                align-content: flex-end;
+            }
+        }
     }
 }
 
@@ -288,7 +318,12 @@ button {
 .folders-wrapper {
     display: flex;
     justify-content: space-between;
+    .add-folder-error {
+        font-size: 10pt;
+        text-align: end;
+    }
 }
+
 .layout {
     height: 80% !important;
     .react-grid-placeholder {
@@ -397,6 +432,16 @@ button {
     align-self: flex-end;
     text-align: right;
 
+    &.add-folder {
+        input {
+            margin-bottom: 0;
+            padding: 4px;
+        }
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
     .trigger {
         font-size: 14px;
         font-weight: 300;
@@ -451,18 +496,6 @@ button {
         .Collapsible {
             display: flex;
             flex-direction: row-reverse;
-        }
-    }
-}
-
-.editorContainer {
-    .panel {
-        margin-top: 2px;
-        display: flex;
-        p {
-            font-size: 11pt;
-            align-self: baseline;
-            margin-left: 2vw;
         }
     }
 }

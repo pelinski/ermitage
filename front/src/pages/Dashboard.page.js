@@ -6,7 +6,7 @@ import "/node_modules/react-resizable/css/styles.css"
 
 import { FieldNoLabel } from "../components/Form";
 import { ProfileBanner } from "../components/ProfileBanner";
-import { Collapsible } from "../components/Collapsible"
+import { AddFolderCollapsible } from "../components/Collapsible"
 
 import notfound_plane from "../public/404-hermitage.svg"
 
@@ -45,7 +45,6 @@ const Page = ({ dashboardUsername }) => {
   });
 
   useEffect(() => {
-    console.log("effect dashboard")
     getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) }).then(() =>
       setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "60vw" }, duration: 800, config: spring }))
     )
@@ -72,19 +71,24 @@ const Folders = ({ changes, setChanges, dashboardUsername }) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
-  return (
+  return (<>
     <div className="folders-wrapper">
       <h1>Folders</h1>
-      {isUserDashboardOwner && <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
-        <form onSubmit={e => {
-          e.preventDefault();
-          handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
-        }}>
-          <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
-          {error}
-        </form>
-      </Collapsible>}
-    </div>)
+      <div>
+        {isUserDashboardOwner && <AddFolderCollapsible  {...{ open, setOpen }}>
+          <form onSubmit={e => {
+            e.preventDefault();
+            handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
+          }}>
+            <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
+
+          </form>
+        </AddFolderCollapsible>}
+        {(error && open) && <p className="add-folder-error">{error}</p>}
+      </div>
+    </div>
+
+  </>)
 }
 
 

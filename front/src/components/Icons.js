@@ -16,6 +16,11 @@ import archiveIcon from "../public/archive.svg"
 import searchIcon from "../public/search.svg"
 import searchCloseIcon from "../public/search_close.svg"
 import logoutIcon from "../public/logout.svg"
+import uploadIcon from "../public/upload.svg"
+import picIcon from "../public/pic.svg"
+import okIcon from "../public/ok.svg"
+import folderAddIcon from "../public/folder_add.svg"
+import folderRemoveIcon from "../public/folder_remove.svg"
 
 
 
@@ -57,3 +62,8 @@ export const ProfileIcon = () => <Icon src={profileIcon} />;
 export const SearchIcon = () => <Icon style={{ width: "34px", paddingTop: 3 }} src={searchIcon} />;
 export const SearchCloseIcon = () => <Icon style={{ width: "34px", paddingTop: 3 }} src={searchCloseIcon} />;
 export const LogoutIcon = () => <Icon style={{ width: "34px" }} src={logoutIcon} />;
+export const UploadIcon = () => <Icon src={uploadIcon} />
+export const PicIcon = () => <Icon src={picIcon} />
+export const OkIcon = () => <Icon src={okIcon} />
+export const FolderAddIcon = () => <Icon src={folderAddIcon} />
+export const FolderRemoveIcon = () => <Icon src={folderRemoveIcon} />

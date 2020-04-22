@@ -46,7 +46,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setAlerts }) => {
         }).map((e, i) => {
           const isFolderFromUser = e.user.username == user.username;
           return (
-            <div key={e._id} className="folder grid-element">
+            <div key={e._id} className="folder grid-element" data-grid={{ w: 1, h: 3, x: 0, y: 0, minW: 1, minH: 3 }} >
               <Folder {...{ isUserDashboardOwner }} deleteFolder={() => {
                 setAlerts({ showAlert: true, remove: e });
               }}>

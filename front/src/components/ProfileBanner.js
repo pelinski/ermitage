@@ -4,7 +4,7 @@ import parse from 'html-react-parser';
 import { animated as Animated } from 'react-spring'
 
 import { uploadProfilePicture, useUser } from "../api/auth.api"
-import { EditIcon, ProfileIcon, DeleteIcon } from "./Icons"
+import { EditIcon, ProfileIcon, DeleteIcon, UploadIcon, PicIcon } from "./Icons"
 import { BioEditor } from "../components/TextEditor"
 
 export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
@@ -76,14 +76,14 @@ const ChangeProfilePictureBtn = ({ changes, setChanges }) => {
 
 
   return (
-    <>
-      <form onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
-        <label htmlFor="profilepic">Choose a file</label>
-        <input name="profilepic" id="profilepic" type="file" ref={(ref) => setFile(ref)} onChange={() => setFeedback(!feedback)} />
-        <button type="submit">Update</button>
-        {feedback && "vv"}
-      </form>
-    </>
+
+    <form className="buttons" onSubmit={(e) => { e.preventDefault(); setFeedback(false); handleSubmit() }}>
+      {!feedback && < label htmlFor="profilepic"><PicIcon /> </label>}
+      <input name="profilepic" id="profilepic" type="file" ref={(ref) => setFile(ref)} onChange={() => setFeedback(true)} />
+      {feedback && <button type="submit" ><UploadIcon /> </button>}
+      {feedback && <button type="button" onClick={() => setFeedback(false)}><DeleteIcon /></button>}
+    </form>
+
   )
 }
 
