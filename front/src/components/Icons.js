@@ -54,6 +54,6 @@ export const EditIcon = () => <Icon src={editIcon} />
 export const LockIcon = () => <Icon src={lockIcon} />
 export const UnlockIcon = () => <Icon src={unlockIcon} />;
 export const ProfileIcon = () => <Icon src={profileIcon} />;
-export const SearchIcon = () => <Icon style={{ width: "34px", paddingTop: 3, paddingRight: 1 }} src={searchIcon} />;
+export const SearchIcon = () => <Icon style={{ width: "34px", paddingTop: 3 }} src={searchIcon} />;
 export const SearchCloseIcon = () => <Icon style={{ width: "34px", paddingTop: 3 }} src={searchCloseIcon} />;
 export const LogoutIcon = () => <Icon style={{ width: "34px" }} src={logoutIcon} />;

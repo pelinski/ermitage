@@ -92,9 +92,9 @@ const AuthButtons = ({ fadeIn, parallax }) => {
 }
 
 const LoggedInPanel = ({ username }) => (
-  <>
+  <div className="logged-in-panel">
     <h1>Welcome back,  {username}</h1>
     <LoggedinNav />
-  </>)
+  </div>)
 
   ;

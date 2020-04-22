@@ -1,4 +1,4 @@
-$border: 2.2px solid black;
+$border: 2.5px solid black;
 $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
@@ -79,6 +79,19 @@ nav {
         display: flex;
         button {
             margin-left: 10px;
+        }
+    }
+
+    &.home {
+        padding-top: 2vh;
+        width: 100%;
+        align-items: flex-start;
+        flex-direction: column;
+        span {
+            align-items: center;
+            p {
+                margin-left: 1vw;
+            }
         }
     }
 }

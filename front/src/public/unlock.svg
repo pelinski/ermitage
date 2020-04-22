@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 30" version="1.1" width="30px" x="0px" y="0px"><title>Light/Unlock</title><desc>Created with Sketch.</desc><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill-rule="nonzero"><rect x="0" y="0" width="24" height="24"/><path d="M7,10 L7,7 C7,4.23857625 9.23857625,2 12,2 C14.7614237,2 17,4.23857625 17,7 L16,7 C16,4.790861 14.209139,3 12,3 C9.790861,3 8,4.790861 8,7 L8,10 L20,10 L20,22 L4,22 L4,10 L7,10 Z M7,11 L5,11 L5,21 L19,21 L19,11 L8,11 L7,11 Z" fill="#000000"/></g></g><text x="0" y="39" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by Alex Chamorro</text><text x="0" y="44" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 30" version="1.1" width="30px" x="0px" y="0px">
+
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g fill-rule="nonzero">
+            <rect x="0" y="0" width="24" height="24"/>
+            <path stroke="black" stroke-width="0.8px" d="M7,10 L7,7 C7,4.23857625 9.23857625,2 12,2 C14.7614237,2 17,4.23857625 17,7 L16,7 C16,4.790861 14.209139,3 12,3 C9.790861,3 8,4.790861 8,7 L8,10 L20,10 L20,22 L4,22 L4,10 L7,10 Z M7,11 L5,11 L5,21 L19,21 L19,11 L8,11 L7,11 Z" fill="#000000"/>
+        </g>
+    </g>
+
+</svg>
