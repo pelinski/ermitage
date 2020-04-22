@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { animated as Animated, useSpring } from "react-spring"
+//import { animated as Animated, useSpring } from "react-spring"
 import { Link } from "react-router-dom"
 import RGL, { WidthProvider } from "react-grid-layout";
 import MultiRef from 'react-multi-ref';
@@ -26,10 +26,12 @@ export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }
     grid: {
       cols: 8,
       rowHeight: 30,
-    },
-    spring: useSpring({ opacity: 1, from: { opacity: 0 }, duration: 600 })
+    }
   }
+  //const [spring, setSpring] = useSpring(() => ({ opacity: 0 }))
   const onLayoutChange = (newLayout) => {
+    //setSpring(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "100vw" }, duration: 800, config: spring }))
+
     updateDashboardLayout({ layout: newLayout }).then(() => setDashboard({ ...dashboard, layout: newLayout }));
   }
   if (dashboard.layout != []) {
@@ -47,7 +49,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }
         }).map((e, i) => {
           const isFolderFromUser = e.user.username == user.username;
           return (
-            <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i - 1, y: 0 }}>
+            <div key={e._id} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i - 1, y: 0 }}>
               <Folder setChanges={setChanges} deleteFolder={() => {
                 setAlerts({ showAlert: true, remove: e });
               }}>
@@ -55,7 +57,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setChanges, setAlerts }
                 <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
                 {isUserDashboardOwner && (!isFolderFromUser && <p>by @<em>{e.user.username}</em></p>)}
               </Folder>
-            </Animated.div>
+            </div>
           )
         })}
       </ReactGridLayout>)

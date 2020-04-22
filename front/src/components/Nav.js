@@ -19,7 +19,7 @@ export const LoggedinNav = () => {
   // for searchBar
   const [isOpen, setIsOpen] = useState(false)
   if (isHome) {
-    return (<nav class="home">
+    return (<nav className="home">
       <span >
         <Link to={`/${username}/dashboard`} style={{ paddingRight: "4px" }}><ArchiveIcon /></Link>   <p>Go to your dashboard</p>
       </span>

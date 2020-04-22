@@ -8,9 +8,8 @@ import { LoggedinNav } from "../components/Nav"
 export const Header = () => {
     const user = useUser();
     const isHome = useLocation().pathname == "/";
-    console.log(isHome);
     if (isHome) {
-        return (<header></header>)
+        return (<header className="is-home"></header>)
 
     } else {
 

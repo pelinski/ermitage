@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useSpring, animated as Animated } from 'react-spring'
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
@@ -22,6 +22,10 @@ import { DashboardGrid } from "../components/Grids";
 
 
 const Page = ({ dashboardUsername }) => {
+  const spring = { mass: 20, tension: 560, friction: 200 };
+
+  const [fadeIn, setFadeIn] = useSpring(() => ({ opacity: 0, marginLeft: "200vw", duration: 800 }));
+
   //Hooks
   const [alerts, setAlerts] = useState({
     remove: "",
@@ -36,20 +40,21 @@ const Page = ({ dashboardUsername }) => {
       profilePicId: "",
       bio: ""
     },
-    doesUserExist: false
+    doesUserExist: true
   });
 
-
   useEffect(() => {
-    getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) });
+    getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) }).then(() =>
+      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "100vw" }, duration: 800, config: spring }))
+    )
   }, [changes, dashboardUsername]); //when folder is added or deleted
 
   return (
     <>
-      <ProfileBanner {...{ dashboard, changes, setChanges }} />
-      {dashboard.doesUserExist && < Folders {...{ changes, setChanges }} />}
-      {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts }} />}
-      {!dashboard.doesUserExist && <img src={notfound_plane} />}
+      <ProfileBanner {...{ dashboard, changes, setChanges, fadeIn }} />
+      {dashboard.doesUserExist && < Folders {...{ changes, setChanges, fadeIn }} />}
+      {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts, fadeIn }} />}
+      {!dashboard.doesUserExist && <div className="not-found-plane"> <img src={notfound_plane} /></div>}
       {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
 
     </>

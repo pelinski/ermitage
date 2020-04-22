@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Image, Transformation } from 'cloudinary-react';
 import parse from 'html-react-parser';
+import { animated as Animated } from 'react-spring'
 
 import { uploadProfilePicture, useUser } from "../api/auth.api"
 import { EditIcon, ProfileIcon, DeleteIcon } from "./Icons"
 import { BioEditor } from "../components/TextEditor"
 
-export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
+export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
   const user = useUser();
   const [profile, setProfile] = useState({
     open: false,
@@ -19,7 +20,7 @@ export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
   useEffect(() => setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist }), [dashboard.profileInfo])
 
   return (<>
-    <div className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
+    <Animated.div style={fadeIn} className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
       <div className="row">
         <ProfilePic {...{ profile }} />
         <div className="profileInfo">
@@ -31,7 +32,7 @@ export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
       <div className="profileEdit">
         {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
       </div>
-    </div>
+    </Animated.div>
   </>)
 }
 
