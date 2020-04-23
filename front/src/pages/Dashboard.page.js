@@ -6,7 +6,7 @@ import "/node_modules/react-resizable/css/styles.css"
 
 import { FieldNoLabel } from "../components/Form";
 import { ProfileBanner } from "../components/ProfileBanner";
-import { AddFolderCollapsible } from "../components/Collapsible"
+
 
 import notfound_plane from "../public/404-hermitage.svg"
 
@@ -18,7 +18,7 @@ import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
 
 import { DashboardGrid } from "../components/Grids";
-import { OkIcon, DeleteIcon } from "../components/Icons";
+import { OkIcon, DeleteIcon, FolderRemoveIcon, FolderAddIcon } from "../components/Icons";
 
 
 
@@ -116,3 +116,10 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
   </div>
 )
 
+
+const AddFolderCollapsible = ({ children, open, setOpen }) => (
+  <div className="Collapsible add-folder">
+    {open && children}
+    {open && <button className="trigger" onClick={() => setOpen(!open)}><FolderRemoveIcon /> </button>}
+    {!open && <button className="trigger" onClick={() => setOpen(!open)}><FolderAddIcon /> </button>}
+  </div>)

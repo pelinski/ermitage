@@ -165,8 +165,25 @@ button {
 .page-title {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     img {
         padding-right: 10px;
+    }
+    h1 {
+        padding-right: 20px;
+    }
+    .col {
+        display: flex;
+        align-items: center;
+        .add-item {
+            .Collapsible {
+                input {
+                    display: none;
+                }
+                display: flex;
+                flex-direction: row-reverse;
+            }
+        }
     }
 }
 
@@ -213,7 +230,6 @@ button {
         }
         h1 {
             width: 70%;
-            text-align: right;
         }
 
         .map-col {
@@ -324,6 +340,10 @@ button {
 
 .layout {
     height: 80% !important;
+
+    .element {
+        overflow-x: hidden;
+    }
     .react-grid-placeholder {
         opacity: 0 !important;
     }
@@ -474,7 +494,11 @@ button {
 
 .menu {
     display: flex;
+    input {
+        display: none;
+    }
     .editorContainer {
+        width: 100% !important;
         border: $border;
         margin-bottom: $margin-bottom;
         width: 70vw;
@@ -482,22 +506,25 @@ button {
         min-height: 20vh;
         max-height: 60vh;
         .editorButtons {
+            img {
+                width: 30px;
+            }
+            display: flex;
+            justify-content: space-between;
             top: 0;
             position: -webkit-sticky;
             position: sticky;
-            border-bottom: $border;
-            padding: $button-padding;
+            //           border-bottom: $border;
+            padding-top: $button-padding;
             button {
                 width: 40px;
-                border: $border;
-                margin: 5px;
-                padding: $button-padding;
-                font-size: 30px;
+                font-size: 16pt;
             }
         }
         .editor {
             max-height: 60vh;
             padding: 10px;
+            padding-top: 0;
         }
     }
 

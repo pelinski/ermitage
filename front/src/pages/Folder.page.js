@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
-import { AddItemCollapsible } from "../components/Collapsible"
-import { FolderIcon } from "../components/Icons"
+import { AddItemCollapsible } from "../components/AddFiles"
+import { FolderIcon, OkIcon, DeleteIcon } from "../components/Icons"
 import { TextEditor } from "../components/TextEditor"
-import { DeleteAlert } from "../components/Alerts"
 import { UploadImage, UploadAudio } from "../components/AddFiles"
 import { FolderGridOwner, FolderGridVisitor } from "../components/Grids"
+import { ChangePrivacyButton } from "../components/Buttons";
 
 import { withProtected } from "../lib/protectRoute.hoc"
 import { getFolder, removeElement } from "../api/elements.api"
 import { addFolderToDashboard, deleteFolder, getDashboard } from "../api/dashboard.api"
 import { useUser } from "../api/auth.api"
-import { ChangePrivacyButton } from "../components/Buttons";
-import { NotFound } from "./NotFound.page";
 
 
 
-const Page = ({ folder, folderUsername }) => {
+const Page = withRouter(({ history, folder, folderUsername }) => {
 
   const user = useUser();
 
@@ -67,9 +66,10 @@ const Page = ({ folder, folderUsername }) => {
 
     </>)
   } else {
-    return (<NotFound />)
+    history.push("/")
+    return (<></>)
   }
-}
+})
 
 
 export const FolderPage = withProtected(Page);
@@ -81,8 +81,8 @@ const AddItemDashboard = ({ open, setOpen, folder }) =>
     {open.textEdit.state && <TextEditor {...{ open, setOpen, folder, edit: true }} />}
     {open.image && <UploadImage {...{ open, setOpen, folder }} />}
     {open.audio && <UploadAudio {...{ open, setOpen, folder }} />}
-
   </div>)
+
 
 const PageTitle = ({ open, setOpen, visitor = false, folderBoard }) => {
   const [userFolders, setUserFolders] = useState();
@@ -91,13 +91,35 @@ const PageTitle = ({ open, setOpen, visitor = false, folderBoard }) => {
     , [open.changes]) // get updated folders from user: getting them from context does not work because context only loads when page refreshes
   return (
     < div className="page-title" >
-      <FolderIcon />
-      <h1>{folderBoard.folder.name}</h1>
-      {visitor && <p>by {folderBoard.folder.user}</p>}
-      {visitor && !userFolders?.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Add to your folders</button>}
-      {visitor && userFolders?.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Remove folder from your dashboard</button>}
-      {!visitor && <AddItemCollapsible {...{ open, setOpen }} />}
-      {!visitor && <ChangePrivacyButton {...{ folderBoard, open, setOpen }} />}
+      <div className="col"><FolderIcon />
+        <h1>{folderBoard.folder.name}</h1>
+        {visitor && <p>by {folderBoard.folder.user}</p>}
+        {visitor && !userFolders?.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Add to your folders</button>}
+        {visitor && userFolders?.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Remove folder from your dashboard</button>}
+        {!visitor && <ChangePrivacyButton {...{ folderBoard, open, setOpen }} />}
+      </div>
+      <div className="col">
+        {!visitor && <AddItemCollapsible {...{ open, setOpen, folder: folderBoard.folder.name }} />}</div>
     </div >
+  )
+}
+
+const DeleteAlert = ({ open, setOpen, handleRemove }) => {
+  return (
+    <div className="delete-alert">
+      <div>
+        <p>
+          Are you sure you want to delete this element? <br />
+    You cannot undo this.
+  </p>
+      </div>
+      <div>
+        <button onClick={() => {
+          handleRemove({ element: open.alerts.remove })
+          setOpen({ ...open, alerts: { showAlert: false, remove: "" } });
+        }}><OkIcon /></button>
+        <button onClick={() => setOpen({ ...open, alerts: { showAlert: false, remove: "" } })}><DeleteIcon /></button>
+      </div>
+    </div>
   )
 }

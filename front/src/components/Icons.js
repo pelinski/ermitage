@@ -27,12 +27,12 @@ import folderRemoveIcon from "../public/folder_remove.svg"
 const Icon = ({ src, style }) => (< img style={style} draggable="false" src={src} alt={src} />)
 
 
-export const AudioIcon = ({ open, setOpen }) => {
+export const AudioIcon = ({ open }) => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 2000 })
   return (
-    <Animated.button style={props} onClick={() => setOpen({ ...open, audio: !open.audio })}>
+    <Animated.div style={props} >
       <Icon src={audioIcon} />
-    </Animated.button>)
+    </Animated.div>)
 };
 export const TextIcon = ({ open, setOpen }) => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 1500 })
@@ -42,12 +42,12 @@ export const TextIcon = ({ open, setOpen }) => {
     </Animated.button>)
 };
 
-export const CameraIcon = ({ open, setOpen }) => {
+export const CameraIcon = ({ open }) => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 1000 })
   return (
-    <Animated.button style={props} onClick={() => setOpen({ ...open, image: !open.image })}>
+    <Animated.div style={props} >
       <Icon src={cameraIcon} />
-    </Animated.button>)
+    </Animated.div >)
 };
 
 export const ArchiveIcon = () => <Icon style={{ paddingTop: 3 }} src={archiveIcon} />

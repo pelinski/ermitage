@@ -9,7 +9,7 @@ import "/node_modules/draft-js/dist/Draft.css"
 
 import { uploadText, editText } from "../api/elements.api"
 import { updateProfileBio } from "../api/auth.api"
-import { OkIcon } from "./Icons";
+import { OkIcon, DeleteIcon } from "./Icons";
 
 export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
 
@@ -41,17 +41,21 @@ export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
   return (
     <div className="editorContainer" onClick={() => editor.current.focus()}>
       <div className="editorButtons">
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))} >h1</button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-two'))} >h2</button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-three'))} >h3</button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
-        {!edit && <button onClick={handleAdd} >Add</button>}
-        {edit && <button onClick={handleEdit} >Edit</button>}
-        {!edit && <button onClick={() => setOpen({ ...open, text: !open.text })} >X</button>}
-        {edit && <button onClick={() => setOpen({ ...open, textEdit: { state: false, element: null } })} >X</button>}
+        <div>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))} >h1</button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-two'))} >h2</button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-three'))} >h3</button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
+        </div>
+        <div>
+          {!edit && <button onClick={handleAdd} ><OkIcon /></button>}
+          {edit && <button onClick={handleEdit} ><OkIcon /></button>}
+          {!edit && <button onClick={() => setOpen({ ...open, text: !open.text })} ><DeleteIcon /></button>}
+          {edit && <button onClick={() => setOpen({ ...open, textEdit: { state: false, element: null } })} ><DeleteIcon /></button>}
+        </div>
       </div>
       <div className="editor">
         <Editor

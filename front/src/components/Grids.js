@@ -75,7 +75,7 @@ export const FolderGridOwner = ({ folderBoard, setFolderBoard, open, setOpen }) 
   return (<ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
     {folderBoard.elements.map((element, i) =>
       <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
-        <div>
+        <div className="element">
           <ElementButtons {...{ element, open, setOpen, elementRef: elementsRefs.map.get(i) }} />
           <ElementContent {...{ element, elementRef: elementsRefs.map.get(i) }} />
         </div>
@@ -93,7 +93,7 @@ export const FolderGridVisitor = ({ folderBoard }) => {
   return (<ReactGridLayout layout={folderBoard.layout} {...gridProps} isDraggable={false} isResizable={false}>
     {folderBoard.elements.map((element, i) =>
       <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
-        <div>
+        <div className="element">
           <ElementContent {...{ element, elementRef: elementsRefs.map.get(i) }} />
         </div>
       </div>

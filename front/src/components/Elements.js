@@ -22,6 +22,4 @@ export const VideoElement = ({ video, size }) =>
   <ReactPlayer url={video.url} className="video-player" controls={true} width={size?.width - 4 || 500} height={size?.height - 4 || 500} />
 */
 
-
-
 //<Transformation overlay="text:arial_60:pic" gravity="north" y="0" />
