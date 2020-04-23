@@ -455,10 +455,21 @@ button {
 .delete-alert {
     display: flex;
     justify-content: space-between;
-    width: 40vw;
+
+    width: 30vw;
     padding: $button-padding;
     border: $border;
-    margin-bottom: $margin-bottom;
+    div {
+        display: flex;
+        button {
+            align-self: center;
+        }
+    }
+
+    img {
+        margin: 0 2px;
+        width: 30px;
+    }
 }
 
 .menu {

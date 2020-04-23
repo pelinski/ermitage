@@ -18,6 +18,7 @@ import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
 
 import { DashboardGrid } from "../components/Grids";
+import { OkIcon, DeleteIcon } from "../components/Icons";
 
 
 
@@ -109,8 +110,8 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
           setAlerts({ ...alerts, showAlert: false, remove: "" });
           setChanges(!changes)
         });
-      }}>Yes</button>
-      <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
+      }}><OkIcon /></button>
+      <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}><DeleteIcon /></button>
     </div>
   </div>
 )
