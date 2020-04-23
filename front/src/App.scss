@@ -223,12 +223,27 @@ button {
             overflow: hidden;
             min-height: 50%;
 
+            .field {
+                input {
+                    padding: 2px 10px;
+                }
+            }
+
             .auth-collapsible {
+                margin-top: 15px;
+                width: 70%;
                 display: flex;
+                flex-direction: column;
+                text-align: center;
                 align-self: center;
+                button {
+                    padding: 10px 0;
+                    font-size: 13pt;
+                }
             }
         }
-        h1 {
+        h2 {
+            text-align: center;
             width: 70%;
         }
 
@@ -265,6 +280,7 @@ button {
     }
 
     .profileInfo {
+        padding-left: 1%;
         width: 90%;
     }
     .edit-button {
@@ -279,7 +295,7 @@ button {
             margin-right: 2vw;
             border: $border;
             width: $profilePic-width;
-            height: 100px;
+            height: 140px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -339,7 +355,7 @@ button {
 }
 
 .layout {
-    height: 80% !important;
+    height: 100% !important;
 
     .element {
         overflow-x: hidden;
@@ -363,6 +379,13 @@ button {
             justify-content: flex-end;
             position: absolute;
             z-index: 1000;
+        }
+        &.visitor {
+            &.element-text {
+                .element {
+                    padding-top: 15px;
+                }
+            }
         }
     }
     .element-image {

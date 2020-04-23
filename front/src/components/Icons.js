@@ -37,7 +37,7 @@ export const AudioIcon = ({ open }) => {
 export const TextIcon = ({ open, setOpen }) => {
   const props = useSpring({ opacity: open.main ? 1 : 1, from: { opacity: 0 }, duration: 1500 })
   return (
-    <Animated.button style={props} onClick={() => setOpen({ ...open, text: !open.text })}>
+    <Animated.button style={props} onClick={() => setOpen({ ...open, text: !open.text, textEdit: { state: false, element: null } })}>
       <Icon src={textIcon} />
     </Animated.button>)
 };

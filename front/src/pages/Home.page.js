@@ -8,6 +8,7 @@ import logo from "../public/home-logo.svg"
 import plane from "../public/hermitage-home.svg"
 import { Signup, Login } from "../components/Auth"
 import { LoggedinNav } from "../components/Nav"
+import { DeleteIcon } from "../components/Icons"
 
 
 
@@ -65,20 +66,20 @@ const AuthButtons = ({ fadeIn, parallax }) => {
   const [props, setProps] = useSpring(() => ({ opacity: 0, duration: 800 }));
 
   return (<>
-    {(open.signup || open.login) && <Animated.h2 style={{ ...props, transform: parallax.xy.interpolate(trans(-300, 100)) }}>The place to collect what inspires you.</Animated.h2>}
-    {!(open.signup || open.login) && <Animated.h2 style={{ ...fadeIn, transform: parallax.xy.interpolate(trans(-300, 100)) }}>The place to collect what inspires you.</Animated.h2>}
+    {(open.signup || open.login) && <Animated.h2 style={{ ...props, transform: parallax.xy.interpolate(trans(-300, 100)) }}>The place to collect <br /> what inspires you.</Animated.h2>}
+    {!(open.signup || open.login) && <Animated.h2 style={{ ...fadeIn, transform: parallax.xy.interpolate(trans(-300, 100)) }}>The place to collect <br />what inspires you.</Animated.h2>}
 
     <div className="Collapsible auth-collapsible">
 
       {!open.login &&
         <button className="trigger" onClick={() => { setOpen({ ...open, signup: !open.signup }); setProps({ opacity: !open.signup ? 1 : 0, duration: 800 }) }}>
-          {open.signup ? "x" : "Join now"}
+          {open.signup ? <DeleteIcon /> : "Join now"}
         </button>}
       {open.signup || open.login ? "" : "and start your archive or if you already have an account, "}
 
       {!open.signup &&
         <button className="trigger" onClick={() => { setOpen({ ...open, login: !open.login }); setProps({ opacity: !open.login ? 1 : 0, duration: 800 }) }}>
-          {open.login ? "x" : "log in"}
+          {open.login ? <DeleteIcon /> : "log in"}
         </button>}
 
       <Animated.div style={props}>

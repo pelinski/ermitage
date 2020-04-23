@@ -8,6 +8,13 @@ width:100%;
 height:100vh;
 
 `
+
+const BackgroundDark = styled.div`
+background-image: linear-gradient(rgba(242,242,242,1) 75%,rgba(153,153,153,0.2),rgba(153,153,153,0.4),rgba(153,153,153,1));
+width:100%;
+height:100vh;
+
+`
 const Footer = styled.footer`
 display:flex;
 justify-content:center;
@@ -15,13 +22,13 @@ justify-content:center;
 
 
 export const Layout = ({ children }) => (
-  <Background>
+  <BackgroundDark>
     <Header />
     <div className="content-box">
       {children}
     </div>
     {useUserIsLoading && <Footer>&copy; Teresa Pelinski 2020</Footer>}
-  </Background>
+  </BackgroundDark>
 );
 
 

@@ -17,6 +17,8 @@ export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
     doesUserExist: dashboard.doesUserExist
   });
 
+
+
   useEffect(() => {
     setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist })
   }, [dashboard.profileInfo])
@@ -39,16 +41,21 @@ export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
 }
 
 const ProfilePic = ({ profile, changes, setChanges }) => {
+  console.log(profile.isUserDashboardOwner)
   const ref = useRef(null);
   if (profile.profileInfo.profilePicId != "") {
-    return (<div className="profilePic" ref={ref}>
-      {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
-      < Image publicId={profile.profileInfo.profilePicId} cloudName='ddrvhqadf' draggable="false" >
-        <Transformation height={Math.round(ref.current?.getBoundingClientRect().height) || 100} width={Math.round(ref.current?.getBoundingClientRect().width) || 100} dpr="auto" crop="fill" />
-      </Image >
-    </div>)
+    return (
+      <div className="profilePic" ref={ref}>
+        {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
+        < Image publicId={profile.profileInfo.profilePicId} cloudName='ddrvhqadf' draggable="false" >
+          <Transformation height={Math.round(ref.current?.getBoundingClientRect().height) || 100} width={Math.round(ref.current?.getBoundingClientRect().width) || 100} dpr="auto" crop="fill" />
+        </Image >
+      </div>)
   } else {
-    return <div className="profilePic" ref={ref}><ProfileIcon /></div>
+    return <div className="profilePic" ref={ref}>
+      {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
+      {!profile.open && <ProfileIcon />}
+    </div>
   }
 }
 

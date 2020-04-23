@@ -68,13 +68,13 @@ export const DashboardGrid = ({ dashboard, setDashboard, setAlerts }) => {
 
 export const FolderGridOwner = ({ folderBoard, setFolderBoard, open, setOpen }) => {
   const [elementsRefs] = useState(() => new MultiRef());
-  const gridProps = { cols: 8, rowHeight: 30, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
+  const gridProps = { cols: 30, rowHeight: 20, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
   const onLayoutChange = (newLayout) => { updateFolderLayout({ folder: folderBoard.folder.name, layout: newLayout }).then(() => setFolderBoard({ ...folderBoard, layout: newLayout })); }
 
 
   return (<ReactGridLayout onLayoutChange={onLayoutChange} layout={folderBoard.layout} {...gridProps}>
     {folderBoard.elements.map((element, i) =>
-      <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
+      <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 3, h: 3, x: 1, y: 0 }} >
         <div className="element">
           <ElementButtons {...{ element, open, setOpen, elementRef: elementsRefs.map.get(i) }} />
           <ElementContent {...{ element, elementRef: elementsRefs.map.get(i) }} />
@@ -88,11 +88,11 @@ export const FolderGridOwner = ({ folderBoard, setFolderBoard, open, setOpen }) 
 export const FolderGridVisitor = ({ folderBoard }) => {
   const [elementsRefs] = useState(() => new MultiRef());
 
-  const gridProps = { cols: 8, rowHeight: 30, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
+  const gridProps = { cols: 30, rowHeight: 30, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
 
   return (<ReactGridLayout layout={folderBoard.layout} {...gridProps} isDraggable={false} isResizable={false}>
     {folderBoard.elements.map((element, i) =>
-      <div className={`grid-element ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
+      <div className={`grid-element visitor ${element?.type && "element-" + element.type}`} ref={elementsRefs.ref(i)} key={element._id} data-grid={{ w: 1, h: 3, x: 1, y: 0 }} >
         <div className="element">
           <ElementContent {...{ element, elementRef: elementsRefs.map.get(i) }} />
         </div>
@@ -115,7 +115,7 @@ const Folder = ({ children, deleteFolder, isUserDashboardOwner }) => (<>
 
 const ElementButtons = ({ element, open, setOpen, elementRef }) => (
   <div className="element-buttons" style={{ width: elementRef?.getBoundingClientRect().width - 2 || 500, overflowX: "hidden" }}>
-    {element.type == "text" && <EditButton onClick={() => setOpen({ ...open, textEdit: { state: true, element } })} />}
+    {element.type == "text" && <EditButton onClick={() => setOpen({ ...open, text: false, textEdit: { state: true, element } })} />}
     <DeleteButton {...{ setOpen, open, element }} />
   </div>
 )

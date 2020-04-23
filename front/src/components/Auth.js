@@ -1,8 +1,15 @@
 import React, { useState } from "react"
 import { FormButton } from "../components/Buttons"
-import { Field } from "../components/Form"
+import { FieldNoLabel } from "../components/Form"
 import { withRouter } from "react-router-dom";
 import { doLogin, doSignup, useUserSetter, colorSecurityPassword } from "../api/auth.api"
+
+
+const example = {
+  username: "username",
+  password: "*******",
+  email: "your@email.com"
+}
 
 
 export const Login = withRouter(({ history }) => {
@@ -21,11 +28,7 @@ export const Login = withRouter(({ history }) => {
     setData({ ...data, [name]: value });
   };
 
-  const example = {
-    username: "kunderart",
-    password: "*******",
-    email: "kunder@art.com"
-  }
+
 
   const handleSubmit = () => {
     const user = { ...data };
@@ -51,8 +54,8 @@ export const Login = withRouter(({ history }) => {
       e.preventDefault();
       handleSubmit(data);
     }}>
-      <Field field="username" {...{ example, data, handleInputChange }} />
-      <Field field="password" type="password" {...{ example, data, handleInputChange }} />
+      <FieldNoLabel field="username" {...{ example, data, handleInputChange }} />
+      <FieldNoLabel field="password" type="password" {...{ example, data, handleInputChange }} />
       {error}
       <FormButton type="submit">
         Login
@@ -81,11 +84,6 @@ export const Signup = withRouter(({ history }) => {
   };
   const setUser = useUserSetter();
 
-  const example = {
-    username: "kunderart",
-    password: "*******",
-    email: "kunder@art.com"
-  }
 
   const handleSubmit = () => {
     const user = { ...data };
@@ -112,9 +110,9 @@ export const Signup = withRouter(({ history }) => {
       e.preventDefault();
       handleSubmit(data);
     }}>
-      <Field field="username" {...{ example, data, handleInputChange }} />
-      <Field field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
-      <Field field="email" type="email" {...{ example, data, handleInputChange }} />
+      <FieldNoLabel field="username" {...{ example, data, handleInputChange }} />
+      <FieldNoLabel field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
+      <FieldNoLabel field="email" type="email" {...{ example, data, handleInputChange }} />
       {error}
       <FormButton type="submit" >
         Sign up

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { AddItemCollapsible } from "../components/AddFiles"
-import { FolderIcon, OkIcon, DeleteIcon } from "../components/Icons"
+import { FolderIcon, OkIcon, DeleteIcon, FolderAddIcon, FolderRemoveIcon } from "../components/Icons"
 import { TextEditor } from "../components/TextEditor"
 import { UploadImage, UploadAudio } from "../components/AddFiles"
 import { FolderGridOwner, FolderGridVisitor } from "../components/Grids"
@@ -66,7 +66,7 @@ const Page = withRouter(({ history, folder, folderUsername }) => {
 
     </>)
   } else {
-    history.push("/")
+
     return (<></>)
   }
 })
@@ -92,13 +92,14 @@ const PageTitle = ({ open, setOpen, visitor = false, folderBoard }) => {
   return (
     < div className="page-title" >
       <div className="col"><FolderIcon />
-        <h1>{folderBoard.folder.name}</h1>
-        {visitor && <p>by {folderBoard.folder.user}</p>}
-        {visitor && !userFolders?.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Add to your folders</button>}
-        {visitor && userFolders?.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}>Remove folder from your dashboard</button>}
+        <h1>{folderBoard.folder.name.replace(/_/g, " ")}</h1>
+        {visitor && <p>by <Link to={`/${folderBoard.folder.user}/dashboard`}>@{folderBoard.folder.user}</Link></p>}
         {!visitor && <ChangePrivacyButton {...{ folderBoard, open, setOpen }} />}
       </div>
       <div className="col">
+        {visitor && !userFolders?.includes(folderBoard.folderId) && <button onClick={() => addFolderToDashboard({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}><FolderAddIcon /></button>}
+        {visitor && userFolders?.includes(folderBoard.folderId) && <button onClick={() => deleteFolder({ folderId: folderBoard.folderId }).then(() => setOpen({ ...open, changes: !open.changes }))}><FolderRemoveIcon /></button>}
+
         {!visitor && <AddItemCollapsible {...{ open, setOpen, folder: folderBoard.folder.name }} />}</div>
     </div >
   )
