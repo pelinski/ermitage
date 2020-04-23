@@ -4,7 +4,7 @@ $margin-content: 50px;
 $button-padding: 10px;
 $margin-bottom: 20px;
 $content-height: 75%;
-
+$profilePic-width: 120px;
 $nav-margin: 0 3px;
 
 * {
@@ -241,25 +241,11 @@ button {
     display: flex;
     width: 100%;
     flex-direction: column;
-    margin-bottom: 2vw;
+    margin-bottom: 30px;
 
     .row {
         width: 100%;
         display: flex;
-    }
-    .profilePic {
-        margin-right: 2vw;
-        border: $border;
-        width: 120px;
-        height: 100px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        button {
-            z-index: 1000;
-        }
     }
 
     .profileInfo {
@@ -269,12 +255,24 @@ button {
         align-self: flex-start;
     }
 
-    .profileEdit {
+    .profilePic-wrapper {
         input {
             display: none;
         }
+        .profilePic {
+            margin-right: 2vw;
+            border: $border;
+            width: $profilePic-width;
+            height: 100px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .buttons {
-            margin-left: 2vw;
+            position: absolute;
+            width: $profilePic-width;
+            justify-content: center;
             display: flex;
             align-items: center;
         }

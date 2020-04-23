@@ -24,24 +24,25 @@ export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
   return (<>
     <Animated.div style={fadeIn} className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
       <div className="row">
-        <ProfilePic {...{ profile }} />
+        <div className="profilePic-wrapper">
+          <ProfilePic {...{ profile, changes, setChanges }} />
+        </div>
         <div className="profileInfo">
           <h1>@{profile.doesUserExist ? dashboard.dashboardUsername : "404"}</h1>
           <Bio {...{ profile, setProfile, changes, setChanges }} />
         </div>
         {profile.doesUserExist && <button className="edit-button" onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
       </div>
-      <div className="profileEdit">
-        {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
-      </div>
+
     </Animated.div>
   </>)
 }
 
-const ProfilePic = ({ profile }) => {
+const ProfilePic = ({ profile, changes, setChanges }) => {
   const ref = useRef(null);
   if (profile.profileInfo.profilePicId != "") {
     return (<div className="profilePic" ref={ref}>
+      {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
       < Image publicId={profile.profileInfo.profilePicId} cloudName='ddrvhqadf' draggable="false" >
         <Transformation height={Math.round(ref.current?.getBoundingClientRect().height) || 100} width={Math.round(ref.current?.getBoundingClientRect().width) || 100} dpr="auto" crop="fill" />
       </Image >
