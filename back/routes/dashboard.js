@@ -109,10 +109,9 @@ router.post(`/:folder/privacy`, async (req, res, next) => {
 router.delete("/:folderId", async (req, res, next) => {
   if (req.user) {
     const { folderId } = req.params;
-    const folder = await Folder.findOne({ _id: folderId }).exec();
-    console.log(folder);
+    const folder = await Folder.findOne({ _id: folderId }).populate("user").exec();
     try {
-      if (folder.user._id == req.user._id) {
+      if (folder.user.username == req.user.username) {
         await Folder.findOneAndDelete({
           $and: [{ user: req.user._id }, { _id: folder._id }]
         }, async (err, res) => {
@@ -124,6 +123,8 @@ router.delete("/:folderId", async (req, res, next) => {
         });
       }
       else {
+        console.log("else"
+        )
         await User.updateOne({ _id: req.user._id }, { $pull: { folders: folder._id } })
       }
       res.status(200).json({ message: `${folder} folder deleted` });
