@@ -6,8 +6,8 @@ const api = axios.create({
   withCredentials: true
 });
 
-export const getFolders = async () => {
-  const res = await api.get("/folders");
+export const getDashboard = async ({ username }) => {
+  const res = await api.get(`/user/${username}`);
   return res;
 }
 export const createFolder = async ({ folder }) => {
@@ -27,11 +27,6 @@ export const deleteFolder = async ({ folderId }) => {
 
 export const updateDashboardLayout = async ({ layout }) => {
   const res = await api.post(`/update/layout`, { layout });
-  return res;
-}
-
-export const getDashboardLayout = async () => {
-  const res = await api.get(`/layout`);
   return res;
 }
 

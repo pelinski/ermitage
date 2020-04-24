@@ -9,6 +9,7 @@ import "/node_modules/draft-js/dist/Draft.css"
 
 import { uploadText, editText } from "../api/elements.api"
 import { updateProfileBio } from "../api/auth.api"
+import { OkIcon, DeleteIcon } from "./Icons";
 
 export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
 
@@ -40,17 +41,21 @@ export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
   return (
     <div className="editorContainer" onClick={() => editor.current.focus()}>
       <div className="editorButtons">
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))} >h1</button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-two'))} >h2</button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-three'))} >h3</button>
-        <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
-        {!edit && <button onClick={handleAdd} >Add</button>}
-        {edit && <button onClick={handleEdit} >Edit</button>}
-        {!edit && <button onClick={() => setOpen({ ...open, text: !open.text })} >X</button>}
-        {edit && <button onClick={() => setOpen({ ...open, textEdit: { state: false, element: null } })} >X</button>}
+        <div>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))} >h1</button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-two'))} >h2</button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-three'))} >h3</button>
+          <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-four'))} >h4</button>
+        </div>
+        <div>
+          {!edit && <button onClick={handleAdd} ><OkIcon /></button>}
+          {edit && <button onClick={handleEdit} ><OkIcon /></button>}
+          {!edit && <button onClick={() => setOpen({ ...open, text: !open.text })} ><DeleteIcon /></button>}
+          {edit && <button onClick={() => setOpen({ ...open, textEdit: { state: false, element: null } })} ><DeleteIcon /></button>}
+        </div>
       </div>
       <div className="editor">
         <Editor
@@ -67,7 +72,7 @@ export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
 }
 
 
-export const BioEditor = ({ profile, setProfile }) => {
+export const BioEditor = ({ profile, setProfile, changes, setChanges }) => {
   const initialState = profile.profileInfo.bio != "" ? EditorState.createWithContent(stateFromHTML(profile.profileInfo.bio)) : EditorState.createEmpty();
   const [editorState, setEditorState] = useState(initialState)
   const [alert, setAlert] = useState(null);
@@ -98,7 +103,7 @@ export const BioEditor = ({ profile, setProfile }) => {
 
 
   const handleAdd = () => {
-    updateProfileBio({ bio: stateToHTML(editorState.getCurrentContent()) }).then(() => setProfile({ ...profile, changes: !profile.changes })).catch((e) => {
+    updateProfileBio({ bio: stateToHTML(editorState.getCurrentContent()) }).then(() => { setChanges(!changes); setProfile({ ...profile, changes: !profile.changes, open: false }); }).catch((e) => {
       console.log("Error uploading bio");
       console.log(e);
     });
@@ -119,14 +124,20 @@ export const BioEditor = ({ profile, setProfile }) => {
           editorState={editorState}
           onChange={editorState => setEditorState(editorState)}
         />
-        {editorState.getCurrentContent().getPlainText().length + "/" + characterLimit} {alert && <p>You reached the word limit</p>}
+        <div className="panel">
+          {editorState.getCurrentContent().getPlainText().length + "/" + characterLimit}
+          {alert && <p>You've reached the character limit</p>}
+          <div className="editorButtons">
+            <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
+            <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
+            <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
+
+          </div>       <button className="add-icon" onClick={handleAdd} ><OkIcon /></button>
+        </div>
+
+
       </div>
-      <div className="editorButtons">
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
-        <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
-        <button onClick={handleAdd} >Add</button>
-      </div>
+
     </div>
   )
 }

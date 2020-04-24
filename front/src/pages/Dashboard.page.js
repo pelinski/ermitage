@@ -1,128 +1,98 @@
 import React, { useState, useEffect } from "react";
-import { animated as Animated, useSpring } from "react-spring"
-import { Link } from "react-router-dom"
-import RGL, { WidthProvider } from "react-grid-layout";
-import styled from "styled-components";
+import { useSpring, animated as Animated } from 'react-spring'
 
 import "/node_modules/react-grid-layout/css/styles.css"
 import "/node_modules/react-resizable/css/styles.css"
 
 import { FieldNoLabel } from "../components/Form";
 import { ProfileBanner } from "../components/ProfileBanner";
-import { Collapsible } from "../components/Collapsible"
-import { LockIcon, UnlockIcon } from "../components/Icons";
 
 
-import { getFolders, createFolder, deleteFolder, updateDashboardLayout, getDashboardLayout } from "../api/dashboard.api";
+import notfound_plane from "../public/404-hermitage.svg"
+
+
+import { useUser } from "../api/auth.api"
+
+import { getDashboard, createFolder, deleteFolder } from "../api/dashboard.api";
 import { withProtected } from "../lib/protectRoute.hoc"
 import { handleInputChange, handlePost } from "../lib/formHelpers";
-import { useUser } from "../api/auth.api";
+
+import { DashboardGrid } from "../components/Grids";
+import { OkIcon, DeleteIcon, FolderRemoveIcon, FolderAddIcon } from "../components/Icons";
 
 
 
 
+const Page = ({ dashboardUsername }) => {
+  const spring = { mass: 5, tension: 860, friction: 200 };
 
-const ReactGridLayout = WidthProvider(RGL);
-const Folder = ({ children, deleteFolder }) => (<>
-  <button onClick={() => deleteFolder()} className="folderDetail"> x </button>
-  <div className="folderContent">{children}</div>
-</>)
-const TitleWrapper = styled.div`
-display:flex;
-justify-content:space-between;
-`
+  const [fadeIn, setFadeIn] = useSpring(() => ({ opacity: 0, marginLeft: "200vw" }));
 
-
-
-const Page = () => {
   //Hooks
   const [alerts, setAlerts] = useState({
     remove: "",
     showAlert: false
   })
-  const [error, setError] = useState("");
   const [changes, setChanges] = useState(true);
-  const [open, setOpen] = useState(false);
   const [dashboard, setDashboard] = useState({
     folders: [],
-    layout: []
+    layout: [],
+    dashboardUsername,
+    profileInfo: {
+      profilePicId: "",
+      bio: ""
+    },
+    doesUserExist: true
   });
-  const [data, setData] = useState({
-    folder: ""
-  });
-
-
 
   useEffect(() => {
-    Promise.all([getFolders(), getDashboardLayout()]).then(([foldersRes, layoutRes]) => {
-      setDashboard({ ...dashboard, folders: foldersRes.data, layout: layoutRes.data })
-    });
-  }, [changes]); //when folder is added or deleted
-
-
-  const user = useUser();
-  // Grid
-  const props = {
-    grid: {
-      cols: 8,
-      rowHeight: 30,
-    },
-    spring: useSpring({ opacity: 1, from: { opacity: 0 }, duration: 600 })
-  }
-
-  const onLayoutChange = (newLayout) => {
-    updateDashboardLayout({ layout: newLayout }).then(() => setDashboard({ ...dashboard, layout: newLayout }));
-  }
-
-
+    getDashboard({ username: dashboardUsername }).then(res => { setDashboard({ ...dashboard, ...res.data }) }).then(() =>
+      setFadeIn(() => ({ opacity: 1, marginLeft: "0vh", from: { opacity: 0, marginLeft: "60vw" }, duration: 800, config: spring }))
+    )
+  }, [changes, dashboardUsername]); //when folder is added or deleted
 
   return (
     <>
-      <ProfileBanner {...{ user, changes, setChanges }} />
-      <TitleWrapper>
-        <h1>Folders</h1>
-        <Collapsible trigger="Add folder"  {...{ open, setOpen }}>
+      <ProfileBanner {...{ dashboard, changes, setChanges, fadeIn }} />
+      {dashboard.doesUserExist && < Folders {...{ changes, setChanges, fadeIn, dashboardUsername }} />}
+      {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
+      {dashboard.doesUserExist && <DashboardGrid {...{ dashboard, setDashboard, setChanges, setAlerts, fadeIn }} />}
+      {!dashboard.doesUserExist && <div className="not-found-plane"> <img src={notfound_plane} /></div>}
+
+    </>
+  )
+};
+
+const Folders = ({ changes, setChanges, dashboardUsername }) => {
+  const { username } = useUser();
+  const isUserDashboardOwner = username == dashboardUsername;
+  const [data, setData] = useState({
+    folder: ""
+  });
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+
+  return (<>
+    <div className="folders-wrapper">
+      <div></div>
+      <div>
+        {isUserDashboardOwner && <AddFolderCollapsible  {...{ open, setOpen }}>
           <form onSubmit={e => {
             e.preventDefault();
             handlePost({ fields: ["folder"], data, apiFunction: createFolder, setError, setChanges, changes });
           }}>
             <FieldNoLabel field="folder" {...{ example: { folder: "Folder name" }, data }} handleInputChange={(e) => handleInputChange(e, data, setData)} className="add-folder-input" />
-            {error}
+
           </form>
-        </Collapsible>
-      </TitleWrapper >
+        </AddFolderCollapsible>}
+        {(error && open) && <p className="add-folder-error">{error}</p>}
+      </div>
+    </div>
 
-      <ReactGridLayout className="layout" layout={dashboard.layout} {...props.grid} onLayoutChange={(e) => onLayoutChange(e)}>
+  </>)
+}
 
-        {dashboard.folders.filter((e) => {
-          const isFolderFromUser = e.user.username == user.username;
-          const isFolderPrivate = e.isPrivate;
-          if (isFolderPrivate && !isFolderFromUser) {
-            return false
-          } else {
-            return true
-          }
-        }).map((e, i) => {
-          const isFolderFromUser = e.user.username == user.username;
-          return (
-            <Animated.div key={e._id} style={props.spring} className="folder grid-element" data-grid={{ w: 1, h: 3, x: i, y: 0 }}>
-              <Folder setChanges={setChanges} deleteFolder={() => {
-                setAlerts({ ...alerts, showAlert: true, remove: e });
-              }}>
-                {e.isPrivate ? <LockIcon /> : <UnlockIcon />}
-                <Link style={{ display: "inline-block", width: "80%" }} to={e.path}>{e.folder}</Link>
-                {!isFolderFromUser && <p>by @<em>{e.user.username}</em></p>}
-              </Folder>
-            </Animated.div>
-          )
-        })}
-      </ReactGridLayout>
 
-      {alerts.showAlert && <DeleteAlert {...{ alerts, setAlerts, changes, setChanges }} />}
-
-    </>
-  )
-};
 
 export const DashboardPage = withProtected(Page);
 
@@ -130,7 +100,7 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
   <div className="delete-alert">
     <div>
       <p>
-        Are you sure you want to delete the folder {alerts.remove.folder}? <br />
+        Are you sure you want to delete folder {alerts.remove.folder}? <br />
     You will lose all elements inside it.
   </p>
     </div>
@@ -140,9 +110,16 @@ const DeleteAlert = ({ alerts, setAlerts, changes, setChanges }) => (
           setAlerts({ ...alerts, showAlert: false, remove: "" });
           setChanges(!changes)
         });
-      }}>Yes</button>
-      <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}>Cancel</button>
+      }}><OkIcon /></button>
+      <button onClick={() => setAlerts({ ...alerts, showAlert: false, remove: "" })}><DeleteIcon /></button>
     </div>
   </div>
 )
 
+
+const AddFolderCollapsible = ({ children, open, setOpen }) => (
+  <div className="Collapsible add-folder">
+    {open && children}
+    {open && <button className="trigger" onClick={() => setOpen(!open)}><FolderRemoveIcon /> </button>}
+    {!open && <button className="trigger" onClick={() => setOpen(!open)}><FolderAddIcon /> </button>}
+  </div>)
