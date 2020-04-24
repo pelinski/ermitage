@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html'
-import { Editor, EditorState, RichUtils } from 'draft-js';
-
-
+import { Editor, EditorState, RichUtils } from 'draft-js'
 
 import "/node_modules/draft-js/dist/Draft.css"
 
@@ -28,7 +26,6 @@ export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
   useEffect(() => { editor.current.focus() }, [editorState]);
 
 
-
   const handleAdd = () => {
     uploadText({ text: stateToHTML(editorState.getCurrentContent()), folder }).then(() => setOpen({ ...open, changes: !open.changes }))
   };
@@ -42,7 +39,7 @@ export const TextEditor = ({ open, setOpen, folder, edit = false }) => {
     <div className="editorContainer" onClick={() => editor.current.focus()}>
       <div className="editorButtons">
         <div>
-          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} >U</button>
+          <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'))} ><u>U</u></button>
           <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))}  ><b>B</b></button>
           <button onClick={() => setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))} ><em>I</em></button>
           <button onClick={() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))} >h1</button>
