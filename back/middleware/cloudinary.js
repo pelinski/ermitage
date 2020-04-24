@@ -18,7 +18,7 @@ const imageStorage = cloudinaryStorage({
   folder: function (req, file, cb) {
     cb(undefined, `elements/${req.user._id}/${req.params.folder}`);
   },
-  allowedFormats: ["jpg", "png"],
+  allowedFormats: ["jpg", "png", "gif"],
   filename: function (req, file, cb) {
     cb(undefined, `${_.random(0, 1000)}${file.originalname}`);
   },
@@ -44,7 +44,7 @@ const profilePicStorage = cloudinaryStorage({
   params: {
     invalidate: true    //rewritten pic gets not cached
   },
-  allowedFormats: ["jpg", "png"],
+  allowedFormats: ["jpg", "png", "jpeg"],
   filename: function (req, file, cb) {
     cb(undefined, `${req.user._id}`); //autodeletes old profile pic 
   },

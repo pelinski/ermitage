@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Image, Transformation } from 'cloudinary-react';
 import parse from 'html-react-parser';
+import { animated as Animated } from 'react-spring'
 
 import { uploadProfilePicture, useUser } from "../api/auth.api"
-import { EditIcon, ProfileIcon, DeleteIcon } from "./Icons"
+import { EditIcon, ProfileIcon, DeleteIcon, UploadIcon, PicIcon } from "./Icons"
 import { BioEditor } from "../components/TextEditor"
 
-export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
+export const ProfileBanner = ({ dashboard, changes, setChanges, fadeIn }) => {
   const user = useUser();
   const [profile, setProfile] = useState({
     open: false,
@@ -16,42 +17,52 @@ export const ProfileBanner = ({ dashboard, changes, setChanges }) => {
     doesUserExist: dashboard.doesUserExist
   });
 
-  useEffect(() => setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist }), [dashboard.profileInfo])
+
+
+  useEffect(() => {
+    setProfile({ ...profile, profileInfo: dashboard.profileInfo, doesUserExist: dashboard.doesUserExist })
+  }, [dashboard.profileInfo])
 
   return (<>
-    <div className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
+    <Animated.div style={fadeIn} className={`profileBanner ${!profile.doesUserExist && "not-found"}`}>
       <div className="row">
-        <ProfilePic {...{ profile }} />
+        <div className="profilePic-wrapper">
+          <ProfilePic {...{ profile, changes, setChanges }} />
+        </div>
         <div className="profileInfo">
           <h1>@{profile.doesUserExist ? dashboard.dashboardUsername : "404"}</h1>
-          <Bio {...{ profile, setProfile }} />
+          <Bio {...{ profile, setProfile, changes, setChanges }} />
         </div>
-        {profile.doesUserExist && <button onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
+        {profile.doesUserExist && <button className="edit-button" onClick={() => setProfile({ ...profile, open: !profile.open })}>{profile.isUserDashboardOwner && (profile.open ? <DeleteIcon /> : <EditIcon />)}</button>}
       </div>
-      <div className="profileEdit">
-        {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
-      </div>
-    </div>
+
+    </Animated.div>
   </>)
 }
 
-const ProfilePic = ({ profile }) => {
+const ProfilePic = ({ profile, changes, setChanges }) => {
+  console.log(profile.isUserDashboardOwner)
   const ref = useRef(null);
   if (profile.profileInfo.profilePicId != "") {
-    return (<div className="profilePic" ref={ref}>
-      < Image publicId={profile.profileInfo.profilePicId} cloudName='ddrvhqadf' draggable="false" >
-        <Transformation height={ref.current?.getBoundingClientRect().height || 100} width={ref.current?.getBoundingClientRect().width || 100} dpr="auto" crop="fill" />
-      </Image >
-    </div>)
+    return (
+      <div className="profilePic" ref={ref}>
+        {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
+        < Image publicId={profile.profileInfo.profilePicId} cloudName='ddrvhqadf' draggable="false" >
+          <Transformation height={Math.round(ref.current?.getBoundingClientRect().height) || 100} width={Math.round(ref.current?.getBoundingClientRect().width) || 100} dpr="auto" crop="fill" />
+        </Image >
+      </div>)
   } else {
-    return <div className="profilePic" ref={ref}><ProfileIcon /></div>
+    return <div className="profilePic" ref={ref}>
+      {profile.isUserDashboardOwner && profile.open && <ChangeProfilePictureBtn {...{ changes, setChanges }} />}
+      {!profile.open && <ProfileIcon />}
+    </div>
   }
 }
 
-const Bio = ({ profile, setProfile }) => (<>
+const Bio = ({ profile, setProfile, setChanges, changes }) => (<>
 
   {!profile.open && (profile.doesUserExist ? parse(profile.profileInfo.bio) : "Sorry, this user does not exist")}
-  {profile.isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile }} />}
+  {profile.isUserDashboardOwner && profile.open && <BioEditor {...{ profile, setProfile, changes, setChanges }} />}
 </>)
 
 
@@ -73,14 +84,14 @@ const ChangeProfilePictureBtn = ({ changes, setChanges }) => {
 
 
   return (
-    <>
-      <form onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
-        <label htmlFor="profilepic">Choose a file</label>
-        <input name="profilepic" id="profilepic" type="file" ref={(ref) => setFile(ref)} onChange={() => setFeedback(!feedback)} />
-        <button type="submit">Update</button>
-        {feedback && "vv"}
-      </form>
-    </>
+
+    <form className="buttons" onSubmit={(e) => { e.preventDefault(); setFeedback(false); handleSubmit() }}>
+      {!feedback && < label htmlFor="profilepic"><PicIcon /> </label>}
+      <input name="profilepic" id="profilepic" type="file" ref={(ref) => setFile(ref)} onChange={() => setFeedback(true)} />
+      {feedback && <button type="submit" ><UploadIcon /> </button>}
+      {feedback && <button type="button" onClick={() => setFeedback(false)}><DeleteIcon /></button>}
+    </form>
+
   )
 }
 

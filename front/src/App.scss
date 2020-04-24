@@ -1,9 +1,11 @@
-$border: 1.8px solid black;
+$border: 1.5px solid black;
 $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
 $margin-bottom: 20px;
-$content-height: 84%;
+$content-height: 80%;
+$profilePic-width: 120px;
+$nav-margin: 0 3px;
 
 * {
     margin: 0;
@@ -11,6 +13,32 @@ $content-height: 84%;
     overflow: auto;
     text-decoration: none;
     color: black;
+
+    input {
+        border: $border;
+        background: transparent;
+        padding: 8px;
+        font-size: 9pt;
+        font-family: "Playfair Display", serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        //font-family: 'Playfair Display', serif;
+        font-family: "Prata", serif;
+    }
+    strong {
+        font-weight: bold;
+    }
+    u {
+        text-decoration: underline;
+    }
+    p {
+        font-size: 12pt;
+    }
 }
 body {
     font-family: "Playfair Display", serif;
@@ -18,46 +46,100 @@ body {
     font-weight: 300;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    //font-family: 'Playfair Display', serif;
-    font-family: "Prata", serif;
-}
-strong {
-    font-weight: bold;
-}
 header {
-    margin: 10px $margin-content;
+    margin: 25px $margin-content;
     height: 3 * $padding;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    overflow: hidden;
+
     a {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
+    }
+    &.is-home {
+        height: 18px;
     }
 }
 
 nav {
     align-self: flex-end;
+    align-items: center;
     display: flex;
 
     span {
-        border-bottom: $border;
-        margin: 0 5px;
-        padding: 4px $button-padding;
+        display: flex;
+        align-items: baseline;
+        height: 5vh;
+        margin: $nav-margin;
+        padding: 0 4px;
+        overflow: hidden;
+        img {
+            min-height: 30px;
+            min-width: 30px;
+        }
+    }
+
+    .search-bar {
+        display: flex;
+        button {
+            margin-left: 10px;
+        }
+    }
+
+    &.home {
+        padding-top: 2vh;
+        width: 100%;
+        align-items: flex-start;
+        flex-direction: column;
+        span {
+            img {
+                align-self: stretch;
+            }
+            p {
+                align-self: center;
+                margin-left: 1vw;
+                padding-bottom: 10px;
+            }
+            margin-top: 4px;
+        }
+        .search-bar {
+            input {
+                margin-left: 14px;
+            }
+            flex-direction: row-reverse;
+        }
+    }
+}
+
+#loading-background {
+    background-image: linear-gradient(
+        rgba(242, 242, 242, 1) 75%,
+        rgba(233, 85, 25, 0.2),
+        rgba(233, 85, 25, 0.4),
+        rgba(233, 85, 25, 1)
+    );
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        max-width: 90vw;
+        max-height: 40vh;
     }
 }
 .content-box {
+    overflow: hidden;
     margin: $margin-content;
     margin-top: 0;
     margin-bottom: 20px;
     height: $content-height;
     padding: $padding;
+    padding-top: 0;
 }
+
 footer {
     display: flex;
     width: 100vw;
@@ -84,110 +166,201 @@ button {
 .page-title {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     img {
         padding-right: 10px;
     }
-}
-
-.sub-title-home {
-    display: flex;
-    margin-top: 2vh;
-    will-change: transform;
-
-    .text-col {
+    h1 {
+        padding-right: 20px;
+    }
+    .col {
         display: flex;
-        align-content: center;
-        flex-direction: column;
-        flex-wrap: wrap;
-        width: 40vw;
-        align-self: center;
-        .buttons {
-            margin-top: 3vh;
-            display: flex;
-            justify-content: center;
-            p {
-                align-self: flex-end;
-            }
-            .home-button {
-                padding: 0 $button-padding;
-            }
-            .dashboard-button {
-                padding: 0 2px;
+        align-items: center;
+        .add-item {
+            .Collapsible {
+                input {
+                    display: none;
+                }
+                display: flex;
+                flex-direction: row-reverse;
             }
         }
-        .logged-in {
+    }
+}
+
+.home-fade-in {
+    display: flex;
+    .logo {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0 1.3vw;
+    }
+}
+#home-page {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+
+    .sub-title-home {
+        margin-right: 2vw;
+        height: 40vh;
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 2vh;
+        will-change: transform;
+        overflow: hidden;
+
+        .auth-col {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            h4 {
+            flex-wrap: wrap;
+            min-width: 30vw;
+            justify-content: space-evenly;
+            align-self: center;
+            align-content: space-around;
+            overflow: hidden;
+            min-height: 50%;
+
+            .field {
+                input {
+                    padding: 2px 10px;
+                }
+            }
+
+            .auth-collapsible {
+                margin-top: 15px;
+                width: 70%;
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 0.5vh;
-                p {
-                    margin-left: 3px;
-                    text-decoration: underline;
+                flex-direction: column;
+                text-align: center;
+                align-self: center;
+                button {
+                    padding: 10px 0;
+                    font-size: 13pt;
                 }
             }
         }
-
-        h1 {
+        h2 {
             text-align: center;
-            width: 25vw;
+            width: 70%;
         }
-    }
-    .map-col {
-        align-self: center;
-        margin: 0 5vw;
-        width: 60vw;
+
+        .map-col {
+            align-self: center;
+            width: 60vw;
+            max-height: 35vh;
+            max-width: 50vw;
+            object-fit: scale-down;
+        }
     }
 }
 
-input {
-    border: $border;
+.logo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    img {
+        max-width: 95%;
+        max-height: 40vh;
+        object-fit: none;
+    }
 }
 
 .profileBanner {
     display: flex;
     width: 100%;
     flex-direction: column;
-    margin-bottom: 2vw;
+    margin-bottom: 30px;
 
     .row {
         width: 100%;
         display: flex;
     }
-    .profilePic {
-        margin-right: 2vw;
-        border: $border;
-        width: 120px;
-        height: 100px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        button {
-            z-index: 1000;
-        }
-    }
 
     .profileInfo {
-        width: 75%;
+        padding-left: 1%;
+        width: 90%;
+    }
+    .edit-button {
+        align-self: flex-start;
     }
 
-    .profileEdit {
+    .profilePic-wrapper {
         input {
             display: none;
         }
+        .profilePic {
+            margin-right: 2vw;
+            border: $border;
+            width: $profilePic-width;
+            height: 140px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .buttons {
+            position: absolute;
+            width: $profilePic-width;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .editorContainer {
+        .panel {
+            margin-top: 2px;
+            display: flex;
+            p {
+                margin-top: 4px;
+                font-size: 11pt;
+                align-self: baseline;
+                margin-left: 2vw;
+            }
+            .editorButtons {
+                margin: 0 10px;
+                button {
+                    width: 15px;
+                }
+            }
+            .add-icon {
+                img {
+                    padding-top: 4px;
+                }
+                display: flex;
+                align-content: flex-end;
+            }
+        }
+    }
+}
+
+.not-found-plane {
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        max-height: 90%;
     }
 }
 .folders-wrapper {
     display: flex;
     justify-content: space-between;
+    .add-folder-error {
+        font-size: 10pt;
+        text-align: end;
+    }
 }
+
 .layout {
-    height: 90% !important;
+    height: 95% !important;
+
+    .element {
+        overflow-x: hidden;
+    }
     .react-grid-placeholder {
         opacity: 0 !important;
     }
@@ -199,14 +372,20 @@ input {
         }
     }
     .grid-element {
-        border: $border;
+        //border: $border;
         overflow-wrap: break-word;
+        &:hover {
+            .element-buttons {
+                display: flex !important;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                position: absolute;
+                z-index: 1000;
+            }
+        }
         .element-buttons {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            position: absolute;
-            z-index: 1000;
+            display: none !important;
         }
     }
     .element-image {
@@ -216,8 +395,7 @@ input {
     .element-text {
         display: flex;
         .text-content {
-            margin-top: -10px;
-            padding: 0 20px 10px 20px;
+            padding: 2px;
         }
         .element-buttons {
             top: 0;
@@ -226,7 +404,9 @@ input {
         }
     }
     .element-audio {
+        overflow: hidden;
         .audio-content {
+            overflow-x: hidden;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -246,25 +426,65 @@ input {
 }
 
 .folder {
-    margin: 5px;
     border: $border;
-    height: 100px;
+    overflow: hidden;
+    margin: 5px;
+    height: 100%;
     width: 100px;
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
 
-    .folderDetail {
-        text-align: right;
-        padding-right: 4px;
+    flex-direction: column;
+    .folderDetailRow {
+        top: 0;
         align-self: flex-end;
-        width: 65%;
-        height: 20px;
-        border-bottom: $border;
-        border-left: $border;
-        margin-bottom: 10px;
+        overflow: hidden;
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        height: 40px;
+
+        .folderContraDetail {
+            width: 35%;
+        }
+        .helper {
+            width: 4px;
+        }
+        .folderDetail {
+            transform: skew(20deg);
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 4px;
+            width: 65%;
+            border-top: 0;
+            border-bottom: $border;
+            border-left: $border;
+            border-right: 0 !important;
+            margin-bottom: 10px;
+            img {
+                display: none;
+                transform: skew(-20deg);
+                height: 30px;
+            }
+            &:hover {
+                img {
+                    display: flex;
+                }
+            }
+        }
     }
 
     .folderContent {
+        width: 85%;
+        display: flex;
+        flex-wrap: wrap;
+        height: 60%;
+        align-items: center;
+        justify-content: center;
+        img {
+            margin-left: 4px;
+        }
+        padding: 0 10px;
+        border-top: 0;
         text-align: center;
     }
 }
@@ -272,6 +492,16 @@ input {
 .Collapsible {
     align-self: flex-end;
     text-align: right;
+
+    &.add-folder {
+        input {
+            margin-bottom: 0;
+            padding: 4px;
+        }
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
 
     .trigger {
         font-size: 14px;
@@ -288,15 +518,30 @@ input {
 .delete-alert {
     display: flex;
     justify-content: space-between;
-    width: 40vw;
+
+    width: 30vw;
     padding: $button-padding;
     border: $border;
-    margin-bottom: $margin-bottom;
+    div {
+        display: flex;
+        button {
+            align-self: center;
+        }
+    }
+
+    img {
+        margin: 0 2px;
+        width: 30px;
+    }
 }
 
 .menu {
     display: flex;
+    input {
+        display: none;
+    }
     .editorContainer {
+        width: 100% !important;
         border: $border;
         margin-bottom: $margin-bottom;
         width: 70vw;
@@ -304,22 +549,25 @@ input {
         min-height: 20vh;
         max-height: 60vh;
         .editorButtons {
+            img {
+                width: 30px;
+            }
+            display: flex;
+            justify-content: space-between;
             top: 0;
             position: -webkit-sticky;
             position: sticky;
-            border-bottom: $border;
-            padding: $button-padding;
+            //           border-bottom: $border;
+            padding-top: $button-padding;
             button {
                 width: 40px;
-                border: $border;
-                margin: 5px;
-                padding: $button-padding;
-                font-size: 30px;
+                font-size: 16pt;
             }
         }
         .editor {
             max-height: 60vh;
             padding: 10px;
+            padding-top: 0;
         }
     }
 
