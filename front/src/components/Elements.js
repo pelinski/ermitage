@@ -8,7 +8,7 @@ import { Image, Transformation } from 'cloudinary-react';
 export const TextElement = ({ text }) => <div className="text-content">{parse(text)}</div>
 export const ImageElement = ({ image, size }) => (
   < Image publicId={`${image.public_id}.${image.format}`} cloudName='ddrvhqadf' draggable="false" >
-    <Transformation height={size?.height || 500} width={size?.width || 500} dpr="auto" crop="fill" />
+    <Transformation height={Math.round(size?.height) || 500} width={Math.round(size?.width) || 500} dpr="auto" crop="fill" />
   </Image >)
 
 export const AudioElement = ({ audio, size }) => (

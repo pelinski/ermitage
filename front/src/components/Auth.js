@@ -56,7 +56,7 @@ export const Login = withRouter(({ history }) => {
     }}>
       <FieldNoLabel field="username" {...{ example, data, handleInputChange }} />
       <FieldNoLabel field="password" type="password" {...{ example, data, handleInputChange }} />
-      {error}
+      <p>{error}</p>
       <FormButton type="submit">
         <u>log in</u>
       </FormButton>
@@ -113,7 +113,7 @@ export const Signup = withRouter(({ history }) => {
       <FieldNoLabel field="username" {...{ example, data, handleInputChange }} />
       <FieldNoLabel field="password" type="password" {...{ example, data, handleInputChange }} color={colorSecurityPassword(data)} />
       <FieldNoLabel field="email" type="email" {...{ example, data, handleInputChange }} />
-      {error}
+      <p>{error}</p>
       <FormButton type="submit" >
         <u>join now</u>
       </FormButton>

@@ -74,7 +74,7 @@ const Folders = ({ changes, setChanges, dashboardUsername }) => {
 
   return (<>
     <div className="folders-wrapper">
-      <h1>Folders</h1>
+      <div></div>
       <div>
         {isUserDashboardOwner && <AddFolderCollapsible  {...{ open, setOpen }}>
           <form onSubmit={e => {

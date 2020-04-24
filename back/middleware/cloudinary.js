@@ -44,7 +44,7 @@ const profilePicStorage = cloudinaryStorage({
   params: {
     invalidate: true    //rewritten pic gets not cached
   },
-  allowedFormats: ["jpg", "png"],
+  allowedFormats: ["jpg", "png", "jpeg"],
   filename: function (req, file, cb) {
     cb(undefined, `${req.user._id}`); //autodeletes old profile pic 
   },

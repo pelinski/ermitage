@@ -63,7 +63,6 @@ const Page = withRouter(({ history, folder, folderUsername }) => {
     return (<>
       <PageTitle {...{ open, setOpen, folder: folderBoard.folder.name, isPrivate: folderBoard.isPrivate, visitor: true, folderUsername, user, folderBoard }} />
       <FolderGridVisitor {...{ folderBoard }} />
-
     </>)
   } else {
 
