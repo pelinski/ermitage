@@ -25,7 +25,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setAlerts }) => {
   const props = {
     grid: {
       cols: 8,
-      rowHeight: 30,
+      rowHeight: 10,
     }
   }
   const onLayoutChange = (newLayout) => {
@@ -68,7 +68,7 @@ export const DashboardGrid = ({ dashboard, setDashboard, setAlerts }) => {
 
 export const FolderGridOwner = ({ folderBoard, setFolderBoard, open, setOpen }) => {
   const [elementsRefs] = useState(() => new MultiRef());
-  const gridProps = { cols: 30, rowHeight: 20, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
+  const gridProps = { cols: 30, rowHeight: 10, className: "layout", useCSSTransforms: true, margin: [10, 10], containerPadding: [10, 10] }
   const onLayoutChange = (newLayout) => { updateFolderLayout({ folder: folderBoard.folder.name, layout: newLayout }).then(() => setFolderBoard({ ...folderBoard, layout: newLayout })); }
 
 

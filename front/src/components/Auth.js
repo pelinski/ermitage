@@ -58,8 +58,8 @@ export const Login = withRouter(({ history }) => {
       <FieldNoLabel field="password" type="password" {...{ example, data, handleInputChange }} />
       {error}
       <FormButton type="submit">
-        Login
-                </FormButton>
+        <u>log in</u>
+      </FormButton>
 
     </form>)
 });
@@ -115,8 +115,8 @@ export const Signup = withRouter(({ history }) => {
       <FieldNoLabel field="email" type="email" {...{ example, data, handleInputChange }} />
       {error}
       <FormButton type="submit" >
-        Sign up
-         </FormButton>
+        <u>join now</u>
+      </FormButton>
 
     </form>
   )

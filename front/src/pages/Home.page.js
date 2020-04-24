@@ -73,13 +73,13 @@ const AuthButtons = ({ fadeIn, parallax }) => {
 
       {!open.login &&
         <button className="trigger" onClick={() => { setOpen({ ...open, signup: !open.signup }); setProps({ opacity: !open.signup ? 1 : 0, duration: 800 }) }}>
-          {open.signup ? <DeleteIcon /> : "Join now"}
+          {open.signup ? <DeleteIcon /> : <u>Join now</u>}
         </button>}
       {open.signup || open.login ? "" : "and start your archive or if you already have an account, "}
 
       {!open.signup &&
         <button className="trigger" onClick={() => { setOpen({ ...open, login: !open.login }); setProps({ opacity: !open.login ? 1 : 0, duration: 800 }) }}>
-          {open.login ? <DeleteIcon /> : "log in"}
+          {open.login ? <DeleteIcon /> : <u>log in</u>}
         </button>}
 
       <Animated.div style={props}>

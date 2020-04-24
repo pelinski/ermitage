@@ -3,7 +3,7 @@ $padding: 20px;
 $margin-content: 50px;
 $button-padding: 10px;
 $margin-bottom: 20px;
-$content-height: 75%;
+$content-height: 80%;
 $profilePic-width: 120px;
 $nav-margin: 0 3px;
 
@@ -355,7 +355,7 @@ button {
 }
 
 .layout {
-    height: 100% !important;
+    height: 95% !important;
 
     .element {
         overflow-x: hidden;
@@ -371,14 +371,20 @@ button {
         }
     }
     .grid-element {
-        border: $border;
+        //border: $border;
         overflow-wrap: break-word;
+        &:hover {
+            .element-buttons {
+                display: flex !important;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                position: absolute;
+                z-index: 1000;
+            }
+        }
         .element-buttons {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            position: absolute;
-            z-index: 1000;
+            display: none !important;
         }
         &.visitor {
             &.element-text {
@@ -396,7 +402,7 @@ button {
         display: flex;
         .text-content {
             margin-top: -10px;
-            padding: 0 20px 10px 20px;
+            padding: 10px 20px 10px 20px;
         }
         .element-buttons {
             top: 0;
@@ -405,7 +411,9 @@ button {
         }
     }
     .element-audio {
+        overflow: hidden;
         .audio-content {
+            overflow-x: hidden;
             height: 100%;
             display: flex;
             flex-direction: column;
