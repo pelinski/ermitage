@@ -123,14 +123,11 @@ router.delete("/:folderId", async (req, res, next) => {
         });
       }
       else {
-        console.log("else"
-        )
         await User.updateOne({ _id: req.user._id }, { $pull: { folders: folder._id } })
       }
       res.status(200).json({ message: `${folder} folder deleted` });
     }
     catch (err) {
-      console.error(err)
       res.status(500).json({ message: "Something went wrong" })
     }
   } else {

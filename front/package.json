@@ -34,7 +34,7 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "serve dist",
+    "start": "serve",
     "build": "parcel build index.html",
     "dev": "parcel index.html"
   },
