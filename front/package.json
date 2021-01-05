@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/core": "^7.0.0-0",
     "@babel/runtime": "^7.9.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cloudinary-core": "^2.8.2",
     "cloudinary-react": "^1.4.0",
     "draft-js": "^0.11.5",
