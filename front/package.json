@@ -17,7 +17,7 @@
     "draft-js-export-html": "^1.4.1",
     "draft-js-import-html": "^1.4.1",
     "html-react-parser": "^0.10.3",
-    "lodash": ">=4.0",
+    "lodash": ">=4.17",
     "parcel": "^1.12.4",
     "react": ">=16",
     "react-dom": ">=16",
